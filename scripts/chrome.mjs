@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122m";
+export const ASSET = "20261122n";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -21,7 +21,7 @@ export function header(active = "") {
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) min(260px, calc(100vw - 84px)), (max-width: 1100px) 260px, 276px" decoding="async"></picture></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) min(236px, calc(100vw - 84px)), (max-width: 1100px) 236px, 248px" decoding="async"></picture></a>
     <div class="nav-links">
       ${links}
     </div>
