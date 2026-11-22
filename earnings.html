@@ -7,8 +7,8 @@
 <meta name="description" content="Compare a commission split with keeping 100% of your service revenue at Oh La La. Suite rent is separate.">
 <link rel="canonical" href="https://ohlalasalonstudio.com/earnings">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
 </head>
 <body>
 <nav>
@@ -27,33 +27,40 @@
     <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/find-a-pro">Find a Pro</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
-<main class="page">
-  <div class="wrap">
-    <h1>Stop splitting. Start keeping.</h1>
-    <p>Move the slider. See how much more of your service revenue you keep when the salon takes no cut.</p>
-    <div class="calc" style="margin-top:20px">
-      <label for="split">Your current commission split (what the salon keeps)</label>
-      <input type="range" id="split" min="30" max="60" step="5" value="45">
-      <div class="val" id="splitV">The salon keeps 45%</div>
-      <div class="out-row"><span>You keep today</span><b id="nowV">55%</b></div>
-      <div class="out-row"><span>You keep at Oh La La</span><b id="olaV">100%</b></div>
-      <div class="out-big"><small>More of your service revenue stays yours</small><b id="diffV">+45 points</b></div>
-      <p style="margin-top:14px;font-size:16px">Suite rent is separate. Call or book a tour for current pricing. This comparison is before taxes, product costs, and other expenses.</p>
+<main>
+<section class="math-band" data-math>
+  <p class="math-eye">The Oh La La math</p>
+  <h2>Stop splitting. <span class="script">Start keeping.</span></h2>
+  <p class="math-sub">Drag the sliders. See what going independent could mean for you every month.</p>
+  <div class="math-card">
+    <div class="math-controls">
+      <label for="revEarn">Your weekly service revenue</label>
+      <input id="revEarn" data-rev type="range" min="500" max="10000" step="100" value="2500" aria-valuemin="500" aria-valuemax="10000" aria-valuenow="2500" aria-valuetext="2,500 dollars per week">
+      <p class="math-val" data-rev-label>$2,500 / week</p>
+      <label for="splitEarn">Your current commission split (what the salon keeps)</label>
+      <input id="splitEarn" data-split type="range" min="20" max="70" step="1" value="45" aria-valuemin="20" aria-valuemax="70" aria-valuenow="45" aria-valuetext="The salon keeps 45 percent">
+      <p class="math-val" data-split-label>45%</p>
+      <label for="suiteEarn">Your Oh La La suite</label>
+      <select id="suiteEarn" data-suite>
+        <option value="s" selected>Small studio (100 sq ft)</option>
+        <option value="m">Medium studio (140 sq ft)</option>
+        <option value="l">Large studio (200 sq ft)</option>
+      </select>
     </div>
-    <p style="margin-top:20px"><a class="btn btn-gold" href="/#tour">Claim your free launch package</a></p>
+    <div class="math-results">
+      <div class="math-row"><span>You keep today (commission)</span><b data-today>$0 / mo</b></div>
+      <div class="math-row"><span>You'd keep at Oh La La</span><b data-oll>$0 / mo</b></div>
+      <div class="math-more" data-more>
+        <span>More in your pocket every month</span>
+        <b data-diff>+$0</b>
+      </div>
+    </div>
   </div>
+  <p class="math-note">Estimates only, before taxes, product costs, and other business expenses. Talk to our team for a personalized breakdown.</p>
+  <a class="btn btn-gold" href="/#tour">Book a tour</a>
+</section>
 </main>
 <div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-gold" href="tel:+18434209965">Call</a></div>
-<script>
-const split=document.getElementById('split');
-function calc(){
-  const salon=+split.value, keep=100-salon;
-  document.getElementById('splitV').textContent='The salon keeps '+salon+'%';
-  document.getElementById('nowV').textContent=keep+'%';
-  document.getElementById('olaV').textContent='100%';
-  document.getElementById('diffV').textContent='+'+salon+' points';
-}
-split.addEventListener('input',calc);calc();
-</script>
+<script src="/earnings-calc.js"></script>
 </body>
 </html>

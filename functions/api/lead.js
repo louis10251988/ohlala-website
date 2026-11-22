@@ -183,3 +183,8 @@ export async function onRequestPost(context) {
 
   return json({ ok: true });
 }
+
+export async function onRequest(context) {
+  if (context.request.method === "POST") return onRequestPost(context);
+  return json({ ok: false, error: "Method not allowed. Use POST." }, 405);
+}

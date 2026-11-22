@@ -42,7 +42,7 @@
 }
 </script>
 </head>
-<body>
+<body class="finder">
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
@@ -68,23 +68,20 @@
     <a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
-<main id="main" class="dir">
-  <div class="wrap">
-    <p class="eyebrow">Summerville, SC</p>
-    <h1>Find a pro</h1>
-    <p>Independent stylists, barbers, nail techs, tattoo artists, coaches, and bodyworkers keep their own suites here. Search and book them directly.</p>
-    <p class="sample-note">Sample profiles — real Oh La La pros coming soon.</p>
-    <form id="filters" role="search">
-      <label class="fg" for="q">Search<input id="q" name="q" type="search" placeholder="Name, business, or service" autocomplete="off"></label>
-      <div class="filter-row">
-        <label class="fg" for="category">Category
-          <select id="category" name="category"><option value="">All Services</option></select>
-        </label>
-        <label class="fg" for="location">Location
-          <select id="location" name="location"><option value="">All locations</option></select>
-        </label>
-      </div>
-      <div id="geoExtra" class="filter-row" hidden>
+<header class="dir-hero">
+  <h1>Find an Oh La La Pro</h1>
+  <form id="filters" role="search">
+    <div class="dir-controls">
+      <input id="q" name="q" type="search" placeholder="Name, business, or service" aria-label="Search by name, business, or service" autocomplete="off">
+      <select id="category" name="category" aria-label="Category"><option value="">All Services</option></select>
+      <button class="btn btn-gold" type="submit">Filter</button>
+      <button class="more-btn" id="moreBtn" type="button" aria-expanded="false" aria-controls="morePop">More filters</button>
+    </div>
+    <div id="morePop" class="more-pop">
+      <label class="fg" for="location">Location
+        <select id="location" name="location"><option value="">All locations</option></select>
+      </label>
+      <div id="geoExtra" hidden>
         <label class="fg" for="zip">ZIP<input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code"></label>
         <label class="fg" for="radius">Distance
           <select id="radius" name="radius">
@@ -94,51 +91,43 @@
           </select>
         </label>
       </div>
-      <details class="more-filters" id="moreFilters">
-        <summary>More filters</summary>
-        <div class="more-body">
-          <label class="chip"><input id="accepting" name="accepting" type="checkbox"> Accepting new clients</label>
-          <fieldset class="chip-set">
-            <legend>Languages</legend>
-            <label class="chip"><input type="checkbox" name="lang" value="English"> English</label>
-            <label class="chip"><input type="checkbox" name="lang" value="Chinese"> Chinese</label>
-            <label class="chip"><input type="checkbox" name="lang" value="Spanish"> Spanish</label>
-          </fieldset>
-          <fieldset class="chip-set">
-            <legend>Payment</legend>
-            <label class="chip"><input type="checkbox" name="pay" value="Card"> Card</label>
-            <label class="chip"><input type="checkbox" name="pay" value="Buy Now Pay Later"> Buy Now Pay Later</label>
-          </fieldset>
-        </div>
-      </details>
+      <label class="chip"><input id="accepting" name="accepting" type="checkbox"> Accepting new clients</label>
+      <fieldset class="chip-set">
+        <legend>Languages</legend>
+        <label class="chip"><input type="checkbox" name="lang" value="English"> English</label>
+        <label class="chip"><input type="checkbox" name="lang" value="Chinese"> Chinese</label>
+        <label class="chip"><input type="checkbox" name="lang" value="Spanish"> Spanish</label>
+      </fieldset>
+      <fieldset class="chip-set">
+        <legend>Payment</legend>
+        <label class="chip"><input type="checkbox" name="pay" value="Card"> Card</label>
+        <label class="chip"><input type="checkbox" name="pay" value="Buy Now Pay Later"> Buy Now Pay Later</label>
+      </fieldset>
       <button class="btn btn-outline" id="resetFilters" type="button" hidden>Reset</button>
-    </form>
-    <div class="view-toggle">
-      <button class="btn btn-outline" id="showList" type="button" aria-pressed="true">List</button>
-      <button class="btn btn-outline" id="showMap" type="button" aria-pressed="false">Map</button>
     </div>
+  </form>
+</header>
+<div class="view-toggle">
+  <button class="btn btn-outline" id="showList" type="button" aria-pressed="true">List</button>
+  <button class="btn btn-outline" id="showMap" type="button" aria-pressed="false">Map</button>
+</div>
+<div class="finder-split" id="main">
+  <div id="listPane">
+    <p class="list-help">Pros with a private suite at our Summerville studio.</p>
+    <p class="sample-line">Sample profiles shown — real pros coming soon.</p>
     <p class="result-count" id="resultCount">Loading pros…</p>
-    <div class="split">
-      <div id="listPane">
-        <div class="pro-list" id="proList"></div>
-        <div id="emptyState" hidden>
-          <p>No pros match that filter yet.</p>
-          <p><button class="btn btn-outline" type="button" onclick="document.getElementById('resetFilters').click()">Reset filters</button></p>
-          <p>Call <a href="tel:+18434209965">(843) 420-9965</a> or <a href="/#launch-package">claim your free launch package</a> if you want a suite.</p>
-        </div>
-      </div>
-      <div id="mapPane">
-        <div id="map" class="map-pane" aria-label="Map of Oh La La Salon and Studios"></div>
-      </div>
+    <div id="proList"></div>
+    <div id="emptyState" hidden>
+      <p>No pros match that filter yet.</p>
+      <p><button class="btn btn-outline" type="button" onclick="document.getElementById('resetFilters').click()">Reset filters</button></p>
+      <p>Call <a href="tel:+18434209965">(843) 420-9965</a> or <a href="/#launch-package">claim your free launch package</a> if you want a suite.</p>
     </div>
+    <p class="join-foot"><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
   </div>
-</main>
-<footer>
-  <div class="wrap">
-    <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
-    <p><a href="/">Home</a> · <a href="/services">Book a service</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
+  <div id="mapPane">
+    <div id="map" class="map-pane" aria-label="Map of Oh La La Salon and Studios"></div>
   </div>
-</footer>
+</div>
 <div class="msticky">
   <a class="btn btn-outline" href="/#tour">Tour</a>
   <a class="btn btn-gold" href="tel:+18434209965">Call</a>

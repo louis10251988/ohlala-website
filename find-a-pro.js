@@ -35,7 +35,6 @@
     count: document.getElementById("resultCount"),
     list: document.getElementById("proList"),
     empty: document.getElementById("emptyState"),
-    more: document.getElementById("moreFilters"),
     geo: document.getElementById("geoExtra"),
     map: document.getElementById("map"),
   };
@@ -143,31 +142,24 @@
     return true;
   }
 
-  function bookActions(pro) {
-    if (pro.bookingUrl) {
-      return '<a class="btn btn-gold" href="' + esc(pro.bookingUrl) + '" target="_blank" rel="noopener">Book now</a>';
-    }
-    const phone = pro.phone || STUDIO_PHONE;
-    return '<div class="call-text"><span>Call or text</span><a class="btn btn-outline" href="' + telHref(phone) + '">Call</a><a class="btn btn-outline" href="' + smsHref(phone) + '">Text</a></div>';
-  }
+  const phoneIcon = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h3l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-2z"/></svg>';
+  const pinIcon = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 
   function card(pro, loc) {
-    const pills = (pro.categories || []).slice(0, 3).map((slug) => '<span class="pill">' + esc(catBySlug[slug] ? catBySlug[slug].short : slug) + "</span>").join("");
-    const extra = (pro.categories || []).length > 3 ? '<span class="pill">+' + ((pro.categories || []).length - 3) + " more</span>" : "";
+    const pills = (pro.categories || []).map((slug) => '<span class="pill">' + esc(catBySlug[slug] ? catBySlug[slug].short : slug) + "</span>").join("");
     const photo = pro.photo
-      ? '<img src="' + esc(pro.photo) + '" alt="" width="240" height="320">'
-      : '<div class="mono" aria-hidden="true">' + esc(initials(pro.name)) + "</div>";
-    const badge = pro.isSample ? '<span class="sample-badge">Sample</span>' : "";
-    const phone = pro.phone || "";
-    const phoneLink = phone ? '<a href="' + telHref(phone) + '">' + esc(phone) + "</a>" : "";
-    return '<article class="pro-card">' +
-      '<a class="pro-photo" href="/pros/' + esc(pro.slug) + '">' + photo + badge + "</a>" +
-      '<div class="pro-body"><h2><a href="/pros/' + esc(pro.slug) + '">' + esc(pro.name) + "</a> <span class=\"suite\">" + esc(pro.suite) + "</span></h2>" +
-      "<p>" + esc(pro.businessName) + (loc ? " · " + esc(loc.city) + ", " + esc(loc.state) : "") + "</p>" +
-      '<p class="pills">' + pills + extra + "</p>" +
-      '<div class="pro-actions">' + phoneLink +
-      '<a class="btn btn-outline" href="/pros/' + esc(pro.slug) + '">View profile</a>' +
-      bookActions(pro) + "</div></div></article>";
+      ? '<img class="avatar" src="' + esc(pro.photo) + '" alt="" width="64" height="64">'
+      : '<span class="mono avatar" aria-hidden="true">' + esc(initials(pro.name)) + "</span>";
+    const sample = pro.isSample ? '<span class="sample-tag">Sample</span>' : "";
+    const city = loc ? esc(loc.city) + ", " + esc(loc.state) : "";
+    const address = "4498 Ladson Rd, " + esc(pro.suite) + ", Summerville, SC 29485";
+    const phone = pro.phone || (loc && loc.phone) || STUDIO_PHONE;
+    return '<a class="finder-card" href="/pros/' + esc(pro.slug) + '">' + photo +
+      "<span><strong>" + esc(pro.name) + "</strong>" + sample +
+      '<span class="biz">' + esc(pro.businessName) + (city ? " · " + city : "") + "</span>" +
+      '<span class="meta">' + phoneIcon + esc(phone) + "</span>" +
+      '<span class="meta">' + pinIcon + address + "</span>" +
+      '<span class="pills">' + pills + "</span></span></a>";
   }
 
   function render() {
@@ -223,7 +215,19 @@
   });
   els.reset.addEventListener("click", () => setState({ q: "", category: "", location: "", accepting: false, languages: [], payments: [] }));
 
-  if (window.matchMedia("(max-width: 767px)").matches) els.more.open = false;
+  const moreBtn = document.getElementById("moreBtn");
+  const morePop = document.getElementById("morePop");
+  moreBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const open = morePop.classList.toggle("open");
+    moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.addEventListener("click", (event) => {
+    if (!morePop.contains(event.target) && event.target !== moreBtn) {
+      morePop.classList.remove("open");
+      moreBtn.setAttribute("aria-expanded", "false");
+    }
+  });
 
   Promise.all([
     fetch("/data/pros.json").then((res) => res.json()),

@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="images/real/suite-1.webp" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
 <link rel="icon" href="images/logo.webp" type="image/webp">
 <script type="application/ld+json">
 {
@@ -128,6 +128,38 @@
       <a class="btn btn-gold offer-cta" href="#tour">Claim it — book your tour</a>
     </div>
   </div>
+</section>
+
+<section class="math-band" data-math>
+  <p class="math-eye">The Oh La La math</p>
+  <h2>Stop splitting. <span class="script">Start keeping.</span></h2>
+  <p class="math-sub">Drag the sliders. See what going independent could mean for you every month.</p>
+  <div class="math-card">
+    <div class="math-controls">
+      <label for="revHome">Your weekly service revenue</label>
+      <input id="revHome" data-rev type="range" min="500" max="10000" step="100" value="2500" aria-valuemin="500" aria-valuemax="10000" aria-valuenow="2500" aria-valuetext="2,500 dollars per week">
+      <p class="math-val" data-rev-label>$2,500 / week</p>
+      <label for="splitHome">Your current commission split (what the salon keeps)</label>
+      <input id="splitHome" data-split type="range" min="20" max="70" step="1" value="45" aria-valuemin="20" aria-valuemax="70" aria-valuenow="45" aria-valuetext="The salon keeps 45 percent">
+      <p class="math-val" data-split-label>45%</p>
+      <label for="suiteHome">Your Oh La La suite</label>
+      <select id="suiteHome" data-suite>
+        <option value="s" selected>Small studio (100 sq ft)</option>
+        <option value="m">Medium studio (140 sq ft)</option>
+        <option value="l">Large studio (200 sq ft)</option>
+      </select>
+    </div>
+    <div class="math-results">
+      <div class="math-row"><span>You keep today (commission)</span><b data-today>$0 / mo</b></div>
+      <div class="math-row"><span>You'd keep at Oh La La</span><b data-oll>$0 / mo</b></div>
+      <div class="math-more" data-more>
+        <span>More in your pocket every month</span>
+        <b data-diff>+$0</b>
+      </div>
+    </div>
+  </div>
+  <p class="math-note">Estimates only, before taxes, product costs, and other business expenses. Talk to our team for a personalized breakdown.</p>
+  <a class="btn btn-gold" href="#tour">Book a tour</a>
 </section>
 
 <section id="gallery">
@@ -249,6 +281,7 @@
   <a class="btn btn-gold" href="tel:+18434209965">Call</a>
 </div>
 
+<script src="/earnings-calc.js"></script>
 <script>
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
 document.getElementById('tourForm').addEventListener('submit',async e=>{
