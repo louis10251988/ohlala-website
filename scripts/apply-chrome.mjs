@@ -21,6 +21,7 @@ function activeFor(path) {
   if (rel === "suites.html") return "suites";
   if (rel === "earnings.html") return "earnings";
   if (rel === "faq.html") return "faq";
+  if (rel === "why-us.html") return "why";
   return "";
 }
 
