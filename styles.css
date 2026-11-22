@@ -18,9 +18,9 @@ h1,h2,h3{font-family:var(--serif);color:var(--burgundy);line-height:1.2;font-wei
 .skip:focus{left:8px}
 
 nav{position:sticky;top:0;z-index:100;background:#FDFAF8;border-bottom:1px solid rgba(93,26,58,.1)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1120px;margin:0 auto;padding:0 16px;gap:12px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1120px;margin:0 auto;padding:0 16px;gap:12px}
 .nav-logo{display:flex;align-items:center;min-height:44px;flex:0 0 auto}
-.nav-logo img{height:34px;width:auto;max-width:none}
+.nav-logo img{height:38px;width:auto;max-width:none}
 .nav-links{display:none;gap:8px}
 .nav-links a,.mobile-menu a,footer a{text-decoration:none}
 .nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:16px;font-weight:600;text-decoration:none}
@@ -47,24 +47,17 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited{display:inline-flex;align-items:ce
 .pill-cta:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
 .hero-ctas .pill-cta{width:100%}
 
-.hero{padding:12px 0 72px;min-height:calc(100dvh - 56px)}
-.hero-grid{display:flex;flex-direction:column;gap:14px}
-.hero-copy{display:contents}
-.hero-copy > div{order:1}
-.hero-photo{order:2}
-.hero-note{order:3}
-.eyebrow{font-size:16px;font-weight:700;letter-spacing:.04em;color:var(--burgundy);margin-bottom:6px}
-.hero h1{font-size:30px;text-wrap:balance}
-.hero .lead{margin:8px 0 6px;font-size:16px;max-width:36rem}
-.hero-pack{margin:0 0 12px;font-family:var(--serif);font-size:22px;line-height:1.25;color:var(--burgundy)}
-.hero-pack b{color:var(--burgundy)}
-.hero-ctas{display:grid;gap:8px}
-.hero-note{margin:0;font-size:16px;color:var(--burgundy)}
-.hero-photo{border-radius:20px;overflow:hidden;aspect-ratio:16/10;max-height:156px;background:#3D0F26}
-@media(max-height:700px){
-  .hero-photo{max-height:120px}
-  .hero-note{display:none}
-}
+.hero{padding:24px 0 32px}
+.hero-grid{display:flex;flex-direction:column;gap:24px}
+.hero-copy{display:block}
+.eyebrow{font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy);margin:0 0 8px}
+.hero h1{font-size:32px;line-height:1.15;text-wrap:balance;margin:0 0 8px}
+.hero .lead{margin:0 0 16px;font-size:16px;line-height:1.5;max-width:36rem}
+.hero-offer{display:inline-block;margin:0 0 16px;padding:12px 16px;background:var(--blush);color:var(--burgundy);border-radius:16px;font-size:16px;line-height:1.4;max-width:36rem}
+.hero-offer b{font-weight:700}
+.hero-ctas{display:grid;gap:8px;margin:0 0 16px}
+.hero-note{margin:0;font-size:16px;color:var(--muted)}
+.hero-photo{border-radius:20px;overflow:hidden;aspect-ratio:1/1;max-height:220px;background:var(--blush)}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
 
 section{padding:48px 0}
@@ -72,10 +65,12 @@ section{padding:48px 0}
 .sec-head h2{font-size:28px;text-wrap:balance}
 .sec-head p{margin-top:8px;font-size:16px}
 
-.benefits{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.benefit{background:#fff;border:1px solid rgba(122,48,64,.18);border-radius:16px;padding:16px}
-.benefit h2{font-size:18px;margin-bottom:6px}
-.benefit p{font-size:16px}
+.benefit-sec{padding:32px 0 48px}
+.sec-title{font-size:28px;margin:0 0 16px}
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.benefit{background:#fff;border:1px solid rgba(93,26,58,.16);border-radius:16px;padding:24px;height:100%;display:flex;flex-direction:column}
+.benefit h2{font-size:18px;margin:0 0 8px}
+.benefit p{font-size:16px;margin:0}
 
 .offer-card,.form-card,.loc-card{background:#fff;border:1px solid rgba(122,48,64,.18);border-radius:20px;padding:20px}
 .offer-card h2{font-size:24px;margin-bottom:8px}
@@ -149,25 +144,22 @@ footer p{max-width:36rem}
 @media(min-width:800px){
   html{scroll-padding-top:88px}
   #launch-package{scroll-margin-top:88px}
-  .nav-in{height:76px;padding:0 24px}
-  .nav-logo img{height:50px}
+  .nav-in{height:80px;padding:0 24px}
+  .nav-logo img{height:52px}
   .foot-logo{height:68px}
   .offer-cta{width:auto}
   .burger,.mobile-menu{display:none!important}
   .nav-links,.nav-cta{display:flex}
-  .hero{min-height:0;padding:48px 0 56px}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-  .hero-copy{display:block;order:0}
-  .hero-photo{order:0}
-  .hero-note{order:0;margin-top:16px}
-  .hero h1{font-size:48px}
-  .hero-pack{font-size:28px}
+  .hero{padding:40px 0 32px}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .hero h1{font-size:44px}
+  .hero-photo{aspect-ratio:4/5;max-height:440px;width:min(100%,352px);justify-self:end}
   .hero-ctas{display:flex;flex-wrap:wrap}
   .hero-ctas .pill-cta{width:auto}
   .nav-cta .pill-cta{padding:0 16px;letter-spacing:.1em}
   br.m-only{display:none}
-  .hero-photo{aspect-ratio:4/5;max-height:none}
   section{padding:72px 0}
+  .benefit-sec{padding:32px 0 64px}
   .benefits{grid-template-columns:repeat(4,1fr)}
   .stack li{flex-direction:row;justify-content:space-between;align-items:center}
   .stack-total{flex-direction:row;justify-content:space-between;align-items:baseline}
@@ -181,9 +173,12 @@ footer p{max-width:36rem}
 }
 @media(min-width:800px) and (max-width:1100px){
   .reel{grid-template-columns:repeat(3,1fr)}
-  .nav-in{height:68px}
-  .nav-logo img{height:42px}
+  .nav-in{height:72px}
+  .nav-logo img{height:48px}
   .nav-cta .btn-outline{display:none}
+  .hero{padding:24px 0}
+  .hero h1{font-size:40px}
+  .hero-photo{max-height:360px}
 }
 
 .dir{padding:20px 0 48px}
@@ -306,7 +301,7 @@ body.multi-loc .loc-card{display:none}
 
 body.store-page{height:auto;overflow:auto;min-height:100dvh}
 body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
-.store-app{display:flex;flex-direction:column;height:calc(100dvh - 56px);min-height:0}
+.store-app{display:flex;flex-direction:column;height:calc(100dvh - 64px);min-height:0}
 .store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1;padding:0}
 .store-tools{position:sticky;top:0;z-index:3;background:var(--cream);padding:12px 12px 8px}
 .store-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 12px 0}
@@ -386,7 +381,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .maplibregl-ctrl-logo,.maplibregl-ctrl-attrib{display:none !important}
 .maplibregl-map{font:inherit}
 @media(min-width:800px){
-  .store-app{flex-direction:row;height:calc(100dvh - 76px)}
+  .store-app{flex-direction:row;height:calc(100dvh - 80px)}
   .store-panel{width:380px;flex:0 0 380px;height:100%}
   .store-tools{padding:0 16px 10px}
   .store-toggle{display:none}
@@ -394,7 +389,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
   .store-app.is-map .store-panel{display:flex}
 }
 @media(min-width:800px) and (max-width:1100px){
-  .store-app{height:calc(100dvh - 68px)}
+  .store-app{height:calc(100dvh - 72px)}
 }
 
 .studio-hero{background:#3D0F26;color:#FDFAF8;display:grid;gap:20px;padding:28px 20px 32px}
