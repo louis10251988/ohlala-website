@@ -44,12 +44,20 @@ const LOCATIONS = new Set([
   "Future locations — keep me posted",
 ]);
 
-const SUITES = new Set([
-  "Not sure yet — show me around",
-  "Small",
-  "Medium",
-  "Large",
-]);
+// Map any suite label to an unpriced Notion option. The database also has
+// priced option names; those are never written.
+function suiteOption(value) {
+  const v = clip(value, 120);
+  if (!v) return "";
+  if (v === "Not sure yet — show me around" || /^not sure\b/i.test(v)) {
+    return "Not sure yet — show me around";
+  }
+  const size = v.split(/[\s—(]/, 1)[0].toLowerCase();
+  if (size === "small") return "Small";
+  if (size === "medium") return "Medium";
+  if (size === "large") return "Large";
+  return "";
+}
 
 function clip(value, max) {
   return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
@@ -137,7 +145,8 @@ export async function onRequestPost(context) {
   if (emailOk) properties.Email = { email: em };
   if (PROFESSIONS.has(pr)) properties.Profession = { select: { name: pr } };
   if (LOCATIONS.has(lo)) properties["Preferred location"] = { select: { name: lo } };
-  if (SUITES.has(st)) properties["Suite interested in"] = { select: { name: st } };
+  const suite = suiteOption(st);
+  if (suite) properties["Suite interested in"] = { select: { name: suite } };
   if (ms) properties.Notes = richText(ms);
 
   let notionRes;

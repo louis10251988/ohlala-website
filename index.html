@@ -102,9 +102,10 @@ h1,h2,h3{font-family:var(--serif);color:var(--burgundy);line-height:1.15;font-we
 
 /* nav */
 nav{position:sticky;top:0;z-index:100;background:rgba(253,250,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(93,26,58,.08)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:76px;max-width:1280px;margin:0 auto;padding:0 24px}
-.nav-logo img{height:44px;width:auto}
-.nav-links{display:flex;gap:30px;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:112px;max-width:1280px;margin:0 auto;padding:0 24px;gap:18px}
+.nav-logo{flex:0 1 auto;max-width:min(280px,calc(100% - 64px));display:flex;align-items:center;line-height:0}
+.nav-logo img{display:block;height:auto;width:auto;max-height:88px;max-width:100%}
+.nav-links{display:flex;gap:22px;font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;flex-wrap:nowrap}
 .nav-links a{position:relative;padding:4px 0}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--rosegold);transition:width .25s}
 .nav-links a:hover::after{width:100%}
@@ -262,11 +263,15 @@ section{padding:88px 0}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .fg{display:flex;flex-direction:column;gap:7px}
 .fg.full{grid-column:1/-1}
-.fg label{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--burgundy)}
-.fg input,.fg select,.fg textarea{padding:14px 16px;border:1px solid rgba(93,26,58,.2);border-radius:12px;font-family:var(--sans);font-size:.95rem;background:var(--cream);color:var(--ink)}
-.fg input:focus,.fg select:focus,.fg textarea:focus{outline:2px solid var(--rg1);border-color:transparent}
+.fg > label,.loc-label{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--burgundy)}
+.fg input:not([type="radio"]),.fg select,.fg textarea{padding:14px 16px;border:1px solid rgba(93,26,58,.2);border-radius:12px;font-family:var(--sans);font-size:.95rem;background:var(--cream);color:var(--ink)}
+.fg input:not([type="radio"]):focus,.fg select:focus,.fg textarea:focus{outline:2px solid var(--rg1);border-color:transparent}
 .form-ok{display:none;text-align:center;padding:30px 0 10px}
 .form-ok .big{font-family:var(--script);font-size:2.6rem;background:var(--rosegold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.loc-choices{display:flex;flex-direction:column;gap:8px}
+.loc-choice{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid rgba(93,26,58,.2);border-radius:12px;background:var(--cream);color:var(--ink);font-size:.95rem;line-height:1.45;cursor:pointer}
+.loc-choice input{accent-color:#5D1A3A;width:1.05rem;height:1.05rem;margin-top:3px;flex:0 0 auto}
+.loc-choice:focus-within{outline:2px solid var(--rg1);outline-offset:2px}
 .form-err{display:none;grid-column:1/-1;background:#fdecef;color:#6e1b2c;border:1px solid rgba(93,26,58,.18);border-radius:12px;padding:14px 16px;font-size:.9rem;line-height:1.5}
 .form-err a{color:var(--burgundy);font-weight:700;text-decoration:underline}
 .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
@@ -297,7 +302,16 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   .rise{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
+@media (max-width:1180px){
+  .nav-in{height:100px}
+  .nav-logo img{max-height:76px}
+  .nav-links{gap:14px;letter-spacing:.08em}
+  .nav-cta .btn{padding:10px 14px}
+}
 @media (max-width:1020px){
+  .nav-in{height:96px;padding:0 16px}
+  .nav-logo{max-width:calc(100% - 56px)}
+  .nav-logo img{max-height:72px}
   .pillars{grid-template-columns:repeat(2,1fr)}
   .tiers,.quotes,.locs{grid-template-columns:1fr 1fr}
   .svc{grid-template-columns:repeat(3,1fr)}
@@ -319,6 +333,8 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   section{padding:60px 0}
   .hero{padding:40px 0 56px}
   .announce{font-size:.66rem;letter-spacing:.1em;padding:8px 12px}
+  .nav-in{height:88px}
+  .nav-logo img{max-height:64px}
   .steps-band{padding:34px 0}
   .hero-grid,.split,.calc{grid-template-columns:1fr;gap:38px}
   .hero-stats{flex-wrap:wrap;margin-top:40px}
@@ -326,7 +342,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   .tiers,.quotes,.locs{grid-template-columns:1fr}
   .svc{grid-template-columns:repeat(2,1fr)}
   .form-grid{grid-template-columns:1fr}
-  .fg input,.fg select,.fg textarea,.calc select{font-size:16px}
+  .fg input:not([type="radio"]),.fg select,.fg textarea,.calc select{font-size:16px}
   .foot-grid{grid-template-columns:1fr 1fr}
   .msticky{display:flex}
   body{padding-bottom:66px}
@@ -344,7 +360,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   #tourForm{position:relative}
   #tourForm.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   #tourForm .fg{min-width:0;}
-  #tourForm .fg input,#tourForm .fg select,#tourForm .fg textarea{width:100%;min-width:0;box-sizing:border-box;}
+  #tourForm .fg input:not([type="radio"]),#tourForm .fg select,#tourForm .fg textarea{width:100%;min-width:0;box-sizing:border-box;}
   #tourForm .btn[type="submit"],#tourForm button[type="submit"]{grid-column:1/-1;justify-self:start;}
   @media(max-width:720px){#tourForm.form-grid{grid-template-columns:1fr;}}
   </style>
@@ -589,26 +605,23 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
     <div class="sec-head reveal">
       <span class="eyebrow" style="color:#E2A892">The Oh La La Math</span>
       <h2>Stop splitting. <span class="script" style="color:transparent">Start keeping.</span></h2>
-      <p>Drag the sliders. See what going independent could mean for you every month.</p>
+      <p>Move the slider. See how much more of your service revenue you keep when the salon takes no cut.</p>
     </div>
     <div class="calc reveal">
       <div>
-        <label for="rev">Your weekly service revenue</label>
-        <input type="range" id="rev" min="1000" max="6000" step="100" value="2500">
-        <div class="val" id="revV">$2,500 / week</div>
         <label for="split">Your current commission split (what the salon keeps)</label>
         <input type="range" id="split" min="30" max="60" step="5" value="45">
-        <div class="val" id="splitV">45%</div>
+        <div class="val" id="splitV">The salon keeps 45%</div>
       </div>
       <div class="calc-out">
-        <div class="out-row"><span>You keep today (commission)</span><b id="nowV">$5,958 / mo</b></div>
-        <div class="out-row"><span>You'd keep at Oh La La, before suite rent</span><b id="olaV">$10,825 / mo</b></div>
+        <div class="out-row"><span>You keep today</span><b id="nowV">55%</b></div>
+        <div class="out-row"><span>You keep at Oh La La</span><b id="olaV">100%</b></div>
         <div class="out-big">
-          <small>More of your service revenue, before suite rent</small>
-          <b id="diffV">+$4,867</b>
+          <small>More of your service revenue stays yours</small>
+          <b id="diffV">+45 points</b>
         </div>
       </div>
-      <p class="calc-note">Estimates only, before taxes, product costs, and suite rent. Call or book a tour for current pricing.</p>
+      <p class="calc-note">Suite rent is separate. Call or book a tour for current pricing. This comparison is before taxes, product costs, and other expenses.</p>
     </div>
   </div>
 </section>
@@ -741,11 +754,14 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
         <div class="fg"><label for="pr">Your profession</label>
           <select id="pr" name="pr"><option>Hairstylist</option><option>Barber</option><option>Nail tech</option><option>Esthetician</option><option>Lash tech</option><option>Brow tech</option><option>Hair extensions specialist</option><option>Massage therapist</option><option>Med spa professional</option><option>Permanent makeup artist</option><option>Tattoo artist</option><option>Waxing specialist</option><option>Other</option></select>
         </div>
-        <div class="fg"><label for="lo">Preferred location</label>
-          <select id="lo" name="lo"><option>Summerville — Ladson Oakbrook (open now)</option><option>Future locations — keep me posted</option></select>
+        <div class="fg full"><span class="loc-label" id="lo-label">Preferred location</span>
+          <div class="loc-choices" role="radiogroup" aria-labelledby="lo-label">
+            <label class="loc-choice"><input type="radio" name="lo" value="Summerville — Ladson Oakbrook (open now)" checked><span>Summerville — Ladson Oakbrook (open now)</span></label>
+            <label class="loc-choice"><input type="radio" name="lo" value="Future locations — keep me posted"><span>Future locations — keep me posted</span></label>
+          </div>
         </div>
         <div class="fg full"><label for="st">Suite you're interested in</label>
-          <select id="st" name="st"><option value="Not sure yet — show me around">Not sure yet — show me around</option><option value="Small">Small Studio — 100 sq ft</option><option value="Medium">Medium Studio — 140 sq ft</option><option value="Large">Large Studio — 200 sq ft</option></select>
+          <select id="st" name="st"><option value="Not sure yet — show me around">Not sure yet — show me around</option><option value="Small">Small Studio (100 sq ft)</option><option value="Medium">Medium Studio (140 sq ft)</option><option value="Large">Large Studio (200 sq ft)</option></select>
         </div>
         <div class="fg full"><label for="ms">Anything we should know? (optional)</label><textarea id="ms" name="ms" rows="3"></textarea></div>
         <div class="fg hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" value=""></div>
@@ -818,19 +834,15 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
 
 <script>
 // Earnings calculator
-const rev=document.getElementById('rev'),split=document.getElementById('split');
-const fmt=n=>'$'+Math.round(n).toLocaleString();
+const split=document.getElementById('split');
 function calc(){
-  const w=+rev.value,s=+split.value/100;
-  document.getElementById('revV').textContent=fmt(w)+' / week';
-  document.getElementById('splitV').textContent=split.value+'%';
-  const now=w*(1-s)*4.33, ola=w*4.33;
-  document.getElementById('nowV').textContent=fmt(now)+' / mo';
-  document.getElementById('olaV').textContent=fmt(ola)+' / mo';
-  const d=ola-now;
-  document.getElementById('diffV').textContent=(d>=0?'+':'−')+fmt(Math.abs(d));
+  const salon=+split.value, keep=100-salon;
+  document.getElementById('splitV').textContent='The salon keeps '+salon+'%';
+  document.getElementById('nowV').textContent=keep+'%';
+  document.getElementById('olaV').textContent='100%';
+  document.getElementById('diffV').textContent='+'+salon+' points';
 }
-[rev,split].forEach(el=>el.addEventListener('input',calc));calc();
+split.addEventListener('input',calc);calc();
 
 // Tier buttons pre-select the suite in the tour form
 document.querySelectorAll('[data-suite]').forEach(btn=>{
