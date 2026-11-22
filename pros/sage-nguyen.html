@@ -37,27 +37,26 @@
     <a href="/find-a-pro">Find a Pro</a><a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
-<main id="main" class="dir">
+<main id="main" class="pro-page">
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/find-a-pro">Find a Pro</a> / Sage Nguyen</p>
-    <p class="sample-note">Sample profile — real Oh La La pros coming soon.</p>
-    <div class="pro-layout">
-      <div class="pro-photo"><div class="mono" aria-hidden="true">SN</div><span class="sample-badge">Sample</span></div>
-      <div class="pro-hero-card">
-        <h1>Sage Nguyen <span class="suite">Suite 104</span></h1>
-        <h2>Lumen Lash &amp; Skin · Oh La La Salon &amp; Studios (Summerville, SC)</h2>
-        <p><a href="tel:+18435550104">(843) 555-0104</a></p>
+    <p class="sample-line">Sample profile — real Oh La La pros coming soon.</p>
+    <div class="pro-hero">
+      <div class="pro-photo"><div class="mono" aria-hidden="true">SN</div></div>
+      <div>
+        <h1>Sage Nguyen</h1>
+        <p class="pro-kicker">Suite 104 · Lashes &amp; Brows</p>
+        <p>Lumen Lash &amp; Skin</p>
         <p>4498 Ladson Rd, Suite 104, Summerville, SC 29485</p>
         <p><a href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener">Directions</a></p>
-        <p class="pills"><span class="pill">Lashes, Brows &amp; Hair Removal</span><span class="pill">Skin Care</span></p>
-        <div class="pro-actions"><a class="btn btn-gold" href="https://example.com/book/sage-nguyen" target="_blank" rel="noopener">Book with Sage</a></div>
+        <div class="pro-actions" id="book">
+          <a class="btn btn-primary" href="https://example.com/book/sage-nguyen" target="_blank" rel="noopener">Book with Sage</a>
+          <a class="btn btn-outline" href="tel:+18435550104">Call</a>
+          <a class="btn btn-outline" href="sms:+18435550104">Text</a>
+        </div>
         <p class="pro-actions"><a class="btn btn-outline" href="https://example.com/sage-nguyen" target="_blank" rel="noopener">Instagram</a><a class="btn btn-outline" href="https://example.com/sage-nguyen-tiktok" target="_blank" rel="noopener">TikTok</a></p>
       </div>
     </div>
-    <section class="pro-section">
-      <h2>Services</h2>
-      <p class="pills"><span class="pill">Classic lash set</span><span class="pill">Brow lamination</span><span class="pill">Facial</span><span class="pill">Waxing</span></p>
-    </section>
     <section class="pro-section">
       <h2>About</h2>
       <p>Sample lash and skin pro for classic sets, brow lamination, and calm facials. Photos and the name are made up for this preview.</p>
@@ -66,10 +65,14 @@
       <p>Payment: Card</p>
     </section>
     <section class="pro-section">
-      <h2>Weekly hours</h2>
-      <table class="hours"><tbody><tr><th scope="row">Monday</th><td>Closed</td></tr><tr><th scope="row">Tuesday</th><td>10:00 AM – 6:00 PM</td></tr><tr><th scope="row">Wednesday</th><td>10:00 AM – 6:00 PM</td></tr><tr><th scope="row">Thursday</th><td>10:00 AM – 7:00 PM</td></tr><tr><th scope="row">Friday</th><td>10:00 AM – 6:00 PM</td></tr><tr><th scope="row">Saturday</th><td>9:00 AM – 2:00 PM</td></tr><tr><th scope="row">Sunday</th><td>Closed</td></tr></tbody></table>
+      <h2>Services</h2>
+      <p class="pills"><span class="pill">Classic lash set</span><span class="pill">Brow lamination</span><span class="pill">Facial</span><span class="pill">Waxing</span></p>
     </section>
-    <p class="pro-actions"><a class="btn btn-gold" href="https://example.com/book/sage-nguyen" target="_blank" rel="noopener">Book with Sage</a> <a class="btn btn-outline" href="/find-a-pro?location=summerville-ladson">More Oh La La pros</a></p>
+    <section class="pro-section">
+      <h2>Hours</h2>
+      <table class="hours"><tbody><tr data-day="Monday"><th scope="row">Monday</th><td>Closed</td></tr><tr data-day="Tuesday"><th scope="row">Tuesday</th><td>10:00 AM – 6:00 PM</td></tr><tr data-day="Wednesday"><th scope="row">Wednesday</th><td>10:00 AM – 6:00 PM</td></tr><tr data-day="Thursday"><th scope="row">Thursday</th><td>10:00 AM – 7:00 PM</td></tr><tr data-day="Friday"><th scope="row">Friday</th><td>10:00 AM – 6:00 PM</td></tr><tr data-day="Saturday"><th scope="row">Saturday</th><td>9:00 AM – 2:00 PM</td></tr><tr data-day="Sunday"><th scope="row">Sunday</th><td>Closed</td></tr></tbody></table>
+    </section>
+    <p><a class="btn btn-outline" href="/find-a-pro?location=summerville-ladson">More Oh La La pros</a></p>
   </div>
 </main>
 <footer>
@@ -78,6 +81,7 @@
     <p><a href="/">Home</a> · <a href="/find-a-pro">Find a Pro</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
   </div>
 </footer>
-<div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-gold" href="tel:+18434209965">Call</a></div>
+<div class="pro-sticky"><a class="btn btn-primary" href="https://example.com/book/sage-nguyen" target="_blank" rel="noopener">Book</a><a class="btn btn-outline" href="tel:+18435550104">Call</a></div>
+<script>const names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];document.querySelector('[data-day="'+names[new Date().getDay()]+'"]')?.classList.add("is-today");</script>
 </body>
 </html>

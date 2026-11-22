@@ -1,29 +1,33 @@
 /**
- * Find a Pro directory.
- * Filter state is one plain object. A future grouped filter modal can call
- * setState() with the same keys. That modal is not built.
- *
- * Keys: q, category, location, accepting, languages[], payments[]
- * ZIP and radius stay hidden until more than one location exists.
+ * Find a Pro. Filter state is one object so a larger filter modal can call setState later.
+ * One studio uses a compact map. More than one studio switches to the large map.
  */
 (function () {
-  const STUDIO_PHONE = "(843) 420-9965";
-  const STUDIO_TEL = "+18434209965";
   const CATS = [
-    { slug: "hair", label: "Hair (cuts, color, extensions, braids & locs)", short: "Hair" },
-    { slug: "barber", label: "Barber", short: "Barber" },
-    { slug: "nails", label: "Nails", short: "Nails" },
-    { slug: "lashes-brows", label: "Lashes, Brows & Hair Removal", short: "Lashes & Brows" },
-    { slug: "skin", label: "Skin Care", short: "Skin Care" },
-    { slug: "tattoo", label: "Tattoo & Permanent Makeup", short: "Tattoo & PMU" },
-    { slug: "massage", label: "Massage & Bodywork", short: "Massage" },
-    { slug: "wellness", label: "Wellness (nutrition, weight loss, holistic)", short: "Wellness" },
-    { slug: "fitness", label: "Fitness (personal training, yoga, pilates)", short: "Fitness" },
-    { slug: "other", label: "Other", short: "Other" },
+    { slug: "", label: "All" },
+    { slug: "hair", label: "Hair" },
+    { slug: "barber", label: "Barber" },
+    { slug: "nails", label: "Nails" },
+    { slug: "lashes-brows", label: "Lashes & Brows" },
+    { slug: "skin", label: "Skin" },
+    { slug: "tattoo", label: "Tattoo & PMU" },
+    { slug: "massage", label: "Massage" },
+    { slug: "wellness", label: "Wellness" },
+    { slug: "fitness", label: "Fitness" },
+    { slug: "other", label: "Other" },
   ];
-  const LANGS = ["English", "Chinese", "Spanish"];
-  const PAYS = ["Card", "Buy Now Pay Later"];
-  const catBySlug = Object.fromEntries(CATS.map((cat) => [cat.slug, cat]));
+  const FULL = {
+    hair: "Hair",
+    barber: "Barber",
+    nails: "Nails",
+    "lashes-brows": "Lashes & Brows",
+    skin: "Skin",
+    tattoo: "Tattoo & PMU",
+    massage: "Massage",
+    wellness: "Wellness",
+    fitness: "Fitness",
+    other: "Other",
+  };
 
   const els = {
     form: document.getElementById("filters"),
@@ -36,66 +40,54 @@
     list: document.getElementById("proList"),
     empty: document.getElementById("emptyState"),
     geo: document.getElementById("geoExtra"),
-    map: document.getElementById("map"),
+    mini: document.getElementById("miniMap"),
+    big: document.getElementById("bigMap"),
+    locCard: document.getElementById("locCard"),
   };
 
   let locations = [];
   let pros = [];
   let map;
-  let marker;
+  let timer;
 
   function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
     }[ch]));
   }
-
-  function telHref(phone) {
-    const digits = String(phone || "").replace(/\D/g, "");
-    if (digits.length < 7) return "tel:" + STUDIO_TEL;
-    return "tel:+1" + digits.slice(-10);
-  }
-
-  function smsHref(phone) {
-    return telHref(phone).replace("tel:", "sms:");
-  }
-
   function initials(name) {
     return String(name || "").split(/\s+/).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase();
   }
-
   function isPublic(pro) {
     return pro.active && (pro.consentApproved || pro.isSample);
   }
-
+  function pressed(selector) {
+    return [...document.querySelectorAll(selector + '[aria-pressed="true"]')].map((el) => el.dataset.lang || el.dataset.pay).filter(Boolean);
+  }
   function getState() {
-    const checked = (name) => [...els.form.querySelectorAll('input[name="' + name + '"]:checked')].map((input) => input.value);
     return {
       q: els.q.value.trim(),
       category: els.category.value,
       location: els.location.value,
-      accepting: els.accepting.checked,
-      languages: checked("lang"),
-      payments: checked("pay"),
+      accepting: els.accepting.getAttribute("aria-pressed") === "true",
+      languages: pressed("[data-lang]"),
+      payments: pressed("[data-pay]"),
     };
   }
-
   function setState(next) {
     els.q.value = next.q || "";
-    els.category.value = catBySlug[next.category] ? next.category : "";
-    const knownLocation = locations.some((loc) => loc.id === next.location);
-    els.location.value = knownLocation ? next.location : "";
-    els.accepting.checked = !!next.accepting;
-    els.form.querySelectorAll('input[name="lang"]').forEach((input) => {
-      input.checked = (next.languages || []).includes(input.value);
+    els.category.value = CATS.some((cat) => cat.slug === next.category) ? next.category : "";
+    document.querySelectorAll("#catChips .chip-btn").forEach((btn) => {
+      btn.setAttribute("aria-pressed", btn.dataset.cat === els.category.value ? "true" : "false");
     });
-    els.form.querySelectorAll('input[name="pay"]').forEach((input) => {
-      input.checked = (next.payments || []).includes(input.value);
-    });
+    const known = locations.some((loc) => loc.id === next.location);
+    els.location.value = known ? next.location : "";
+    els.accepting.setAttribute("aria-pressed", next.accepting ? "true" : "false");
+    document.querySelectorAll("[data-lang]").forEach((btn) => btn.setAttribute("aria-pressed", (next.languages || []).includes(btn.dataset.lang) ? "true" : "false"));
+    document.querySelectorAll("[data-pay]").forEach((btn) => btn.setAttribute("aria-pressed", (next.payments || []).includes(btn.dataset.pay) ? "true" : "false"));
     writeUrl(getState());
     render();
   }
-
   function readUrl() {
     const params = new URLSearchParams(location.search);
     return {
@@ -107,7 +99,6 @@
       payments: (params.get("pay") || "").split(",").filter(Boolean),
     };
   }
-
   function writeUrl(state) {
     const params = new URLSearchParams();
     if (state.q) params.set("q", state.q);
@@ -119,11 +110,9 @@
     const query = params.toString();
     history.replaceState(null, "", query ? "?" + query : location.pathname);
   }
-
   function filtersActive(state) {
     return !!(state.q || state.category || state.location || state.accepting || state.languages.length || state.payments.length);
   }
-
   function proMatches(pro, state) {
     if (state.category && !(pro.categories || []).includes(state.category)) return false;
     if (state.location && pro.locationId !== state.location) return false;
@@ -131,103 +120,80 @@
     if (state.languages.length && !state.languages.some((lang) => (pro.languages || []).includes(lang))) return false;
     if (state.payments.length && !state.payments.some((pay) => (pro.payments || []).includes(pay))) return false;
     if (state.q) {
-      const hay = [
-        pro.name,
-        pro.businessName,
-        ...(pro.services || []),
-        ...(pro.categories || []).map((slug) => (catBySlug[slug] ? catBySlug[slug].label + " " + catBySlug[slug].short : slug)),
-      ].join(" ").toLowerCase();
+      const hay = [pro.name, pro.businessName, ...(pro.services || []), ...(pro.categories || []).map((slug) => FULL[slug] || slug)].join(" ").toLowerCase();
       if (!hay.includes(state.q.toLowerCase())) return false;
     }
     return true;
   }
-
-  const phoneIcon = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h3l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-2z"/></svg>';
-  const pinIcon = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
-
-  function card(pro, loc) {
-    const pills = (pro.categories || []).map((slug) => '<span class="pill">' + esc(catBySlug[slug] ? catBySlug[slug].short : slug) + "</span>").join("");
+  function card(pro) {
     const photo = pro.photo
-      ? '<img class="avatar" src="' + esc(pro.photo) + '" alt="" width="64" height="64">'
+      ? '<img class="avatar" src="' + esc(pro.photo) + '" alt="" width="88" height="88">'
       : '<span class="mono avatar" aria-hidden="true">' + esc(initials(pro.name)) + "</span>";
-    const sample = pro.isSample ? '<span class="sample-tag">Sample</span>' : "";
-    const city = loc ? esc(loc.city) + ", " + esc(loc.state) : "";
-    const address = "4498 Ladson Rd, " + esc(pro.suite) + ", Summerville, SC 29485";
-    const phone = pro.phone || (loc && loc.phone) || STUDIO_PHONE;
-    return '<a class="finder-card" href="/pros/' + esc(pro.slug) + '">' + photo +
-      "<span><strong>" + esc(pro.name) + "</strong>" + sample +
-      '<span class="biz">' + esc(pro.businessName) + (city ? " · " + city : "") + "</span>" +
-      '<span class="meta">' + phoneIcon + esc(phone) + "</span>" +
-      '<span class="meta">' + pinIcon + address + "</span>" +
-      '<span class="pills">' + pills + "</span></span></a>";
+    const cat = FULL[(pro.categories || [])[0]] || "";
+    const sample = pro.isSample ? '<span class="sample-quiet">Sample</span>' : "";
+    const book = pro.bookingUrl
+      ? '<a class="btn btn-primary book-mini" href="' + esc(pro.bookingUrl) + '" target="_blank" rel="noopener">Book</a>'
+      : '<a class="btn btn-primary book-mini" href="/pros/' + esc(pro.slug) + '#book">Book</a>';
+    return '<article class="pro-tile">' + photo +
+      '<a class="pro-tile-link" href="/pros/' + esc(pro.slug) + '"><span class="visually-hidden">' + esc(pro.name) + "</span></a>" +
+      "<div><h2>" + esc(pro.name) + "</h2>" +
+      '<p class="cat-line">' + esc(cat) + "</p>" +
+      '<p class="suite-line">' + esc(pro.suite) + "</p>" +
+      '<p class="phone-line">' + esc(pro.phone || "(843) 420-9965") + "</p>" +
+      sample + "</div>" + book + "</article>";
   }
-
   function render() {
     const state = getState();
-    const locById = Object.fromEntries(locations.map((loc) => [loc.id, loc]));
     const matches = pros.filter(isPublic).filter((pro) => proMatches(pro, state));
-    els.count.textContent = "Showing " + matches.length + (matches.length === 1 ? " pro" : " pros");
-    els.list.innerHTML = matches.slice(0, 24).map((pro) => card(pro, locById[pro.locationId])).join("");
+    els.count.textContent = matches.length + (matches.length === 1 ? " pro" : " pros");
+    els.list.innerHTML = matches.slice(0, 24).map(card).join("");
     els.empty.hidden = matches.length > 0;
     els.reset.hidden = !filtersActive(state);
   }
-
-  function fillControls() {
-    els.category.innerHTML = '<option value="">All Services</option>' + CATS.map((cat) => '<option value="' + cat.slug + '">' + esc(cat.label) + "</option>").join("");
-    els.location.innerHTML = '<option value="">All locations</option>' + locations.map((loc) => '<option value="' + esc(loc.id) + '">' + esc(loc.label) + "</option>").join("");
-    if (locations.length > 1) els.geo.hidden = false;
-  }
-
-  function pinMap() {
-    if (!window.L || !locations[0] || map) return;
-    const loc = locations[0];
-    map = L.map(els.map, { scrollWheelZoom: false }).setView([loc.lat, loc.lng], 15);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-    }).addTo(map);
+  function mountMap(el, loc) {
+    if (!window.L || !loc || map) return;
+    map = L.map(el, { scrollWheelZoom: false, attributionControl: true }).setView([loc.lat, loc.lng], locations.length > 1 ? 11 : 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap" }).addTo(map);
     const icon = L.divIcon({ className: "pin", html: "<span></span>", iconSize: [28, 28], iconAnchor: [14, 28] });
-    marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
-    marker.bindPopup(
-      "<strong>" + esc(loc.name) + "</strong><br>" +
-      '<a href="tel:' + esc(loc.phoneTel) + '">' + esc(loc.phone) + "</a><br>" +
-      esc(loc.address) + "<br>" +
-      '<a href="' + esc(loc.directionsUrl) + '" target="_blank" rel="noopener">Directions</a>'
-    );
+    locations.forEach((place) => {
+      const marker = L.marker([place.lat, place.lng], { icon }).addTo(map);
+      marker.bindPopup("<strong>" + esc(place.name) + "</strong><br>" + esc(place.phone) + "<br>" + esc(place.address));
+    });
+    setTimeout(() => map.invalidateSize(), 60);
   }
 
-  function showPane(which) {
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    const listOn = which !== "map";
-    document.getElementById("listPane").hidden = mobile && !listOn;
-    document.getElementById("mapPane").hidden = mobile && listOn;
-    document.getElementById("showList").setAttribute("aria-pressed", listOn ? "true" : "false");
-    document.getElementById("showMap").setAttribute("aria-pressed", listOn ? "false" : "true");
-    if (map && (!mobile || !listOn)) setTimeout(() => map.invalidateSize(), 50);
-  }
+  document.getElementById("catChips").innerHTML = CATS.map((cat) =>
+    '<button class="chip-btn" type="button" data-cat="' + cat.slug + '" aria-pressed="' + (cat.slug === "" ? "true" : "false") + '">' + cat.label + "</button>"
+  ).join("");
 
-  document.getElementById("showList").addEventListener("click", () => showPane("list"));
-  document.getElementById("showMap").addEventListener("click", () => showPane("map"));
   els.form.addEventListener("submit", (event) => event.preventDefault());
-  els.form.addEventListener("input", () => {
+  els.q.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { writeUrl(getState()); render(); }, 180);
+  });
+  document.getElementById("catChips").addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-cat]");
+    if (!btn) return;
+    els.category.value = btn.dataset.cat;
+    setState(getState());
+  });
+  document.getElementById("moreBtn").addEventListener("click", () => {
+    const panel = document.getElementById("morePop");
+    const open = panel.classList.toggle("open");
+    document.getElementById("moreBtn").setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.getElementById("morePop").addEventListener("click", (event) => {
+    const btn = event.target.closest(".chip-btn");
+    if (!btn) return;
+    btn.setAttribute("aria-pressed", btn.getAttribute("aria-pressed") === "true" ? "false" : "true");
     writeUrl(getState());
     render();
   });
-  els.reset.addEventListener("click", () => setState({ q: "", category: "", location: "", accepting: false, languages: [], payments: [] }));
-
-  const moreBtn = document.getElementById("moreBtn");
-  const morePop = document.getElementById("morePop");
-  moreBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const open = morePop.classList.toggle("open");
-    moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-  document.addEventListener("click", (event) => {
-    if (!morePop.contains(event.target) && event.target !== moreBtn) {
-      morePop.classList.remove("open");
-      moreBtn.setAttribute("aria-expanded", "false");
-    }
-  });
+  function clearAll() {
+    setState({ q: "", category: "", location: "", accepting: false, languages: [], payments: [] });
+  }
+  els.reset.addEventListener("click", clearAll);
+  document.getElementById("emptyClear").addEventListener("click", clearAll);
 
   Promise.all([
     fetch("/data/pros.json").then((res) => res.json()),
@@ -235,19 +201,21 @@
   ]).then(([proData, locData]) => {
     pros = proData;
     locations = locData;
-    fillControls();
+    els.location.innerHTML = '<option value="">All locations</option>' + locations.map((loc) => '<option value="' + esc(loc.id) + '">' + esc(loc.label) + "</option>").join("");
+    if (locations.length > 1) {
+      document.body.classList.add("multi-loc");
+      els.big.hidden = false;
+      els.locCard.hidden = true;
+      els.geo.hidden = false;
+      mountMap(els.big, locations[0]);
+    } else if (window.matchMedia("(min-width: 800px)").matches) {
+      els.locCard.open = true;
+      mountMap(els.mini, locations[0]);
+    } else {
+      mountMap(els.mini, locations[0]);
+    }
     setState(readUrl());
-    pinMap();
-    showPane("list");
   }).catch(() => {
     els.count.textContent = "The directory could not load. Call (843) 420-9965.";
-  });
-
-  window.addEventListener("resize", () => {
-    if (window.matchMedia("(min-width: 768px)").matches) {
-      document.getElementById("listPane").hidden = false;
-      document.getElementById("mapPane").hidden = false;
-      if (map) map.invalidateSize();
-    }
   });
 })();

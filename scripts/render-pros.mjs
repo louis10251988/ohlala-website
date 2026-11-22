@@ -39,13 +39,15 @@ function initials(name) {
   return name.split(/\s+/).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase();
 }
 
-function bookBlock(pro) {
+const SHORT = {
+  hair: "Hair", barber: "Barber", nails: "Nails", "lashes-brows": "Lashes & Brows",
+  skin: "Skin", tattoo: "Tattoo & PMU", massage: "Massage", wellness: "Wellness",
+  fitness: "Fitness", other: "Other",
+};
+function bookLink(pro) {
   const first = pro.name.split(" ")[0];
-  if (pro.bookingUrl) {
-    return `<a class="btn btn-gold" href="${esc(pro.bookingUrl)}" target="_blank" rel="noopener">Book with ${esc(first)}</a>`;
-  }
-  const phone = pro.phone || STUDIO_PHONE;
-  return `<div class="call-text"><span>Call or text</span><a class="btn btn-gold" href="${telHref(phone)}">Call</a><a class="btn btn-outline" href="${smsHref(phone)}">Text</a></div>`;
+  if (pro.bookingUrl) return { href: esc(pro.bookingUrl), extra: ' target="_blank" rel="noopener"', label: `Book with ${esc(first)}` };
+  return { href: telHref(pro.phone || STUDIO_PHONE), extra: "", label: `Book with ${esc(first)}` };
 }
 
 function socials(pro) {
@@ -70,7 +72,9 @@ for (const pro of pros) {
     : `<div class="mono" aria-hidden="true">${esc(initials(pro.name))}</div>`;
   const cats = (pro.categories || []).map((slug) => `<span class="pill">${esc(CATS[slug] || slug)}</span>`).join("");
   const services = (pro.services || []).map((service) => `<span class="pill">${esc(service)}</span>`).join("");
-  const hours = DAYS.map((day) => `<tr><th scope="row">${day}</th><td>${esc(pro.hours[day] || "Closed")}</td></tr>`).join("");
+  const hours = DAYS.map((day) => `<tr data-day="${day}"><th scope="row">${day}</th><td>${esc(pro.hours[day] || "Closed")}</td></tr>`).join("");
+  const book = bookLink(pro);
+  const primaryCat = SHORT[(pro.categories || [])[0]] || "";
   const title = `${pro.name} — ${pro.businessName} | Oh La La Salon & Studios`;
   const url = `https://ohlalasalonstudio.com/pros/${pro.slug}`;
   const jsonLd = {
@@ -155,27 +159,26 @@ ${JSON.stringify(jsonLd)}
     <a href="/find-a-pro">Find a Pro</a><a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
-<main id="main" class="dir">
+<main id="main" class="pro-page">
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/find-a-pro">Find a Pro</a> / ${esc(pro.name)}</p>
-    ${pro.isSample ? '<p class="sample-note">Sample profile — real Oh La La pros coming soon.</p>' : ""}
-    <div class="pro-layout">
-      <div class="pro-photo">${photo}${pro.isSample ? '<span class="sample-badge">Sample</span>' : ""}</div>
-      <div class="pro-hero-card">
-        <h1>${esc(pro.name)} <span class="suite">${esc(pro.suite)}</span></h1>
-        <h2>${esc(pro.businessName)} · Oh La La Salon &amp; Studios (Summerville, SC)</h2>
-        <p><a href="${telHref(phone)}">${esc(phone)}</a></p>
+    ${pro.isSample ? '<p class="sample-line">Sample profile — real Oh La La pros coming soon.</p>' : ""}
+    <div class="pro-hero">
+      <div class="pro-photo">${photo}</div>
+      <div>
+        <h1>${esc(pro.name)}</h1>
+        <p class="pro-kicker">${esc(pro.suite)} · ${esc(primaryCat)}</p>
+        <p>${esc(pro.businessName)}</p>
         <p>${esc(suiteAddress)}</p>
         <p><a href="${esc(loc.directionsUrl)}" target="_blank" rel="noopener">Directions</a></p>
-        <p class="pills">${cats}</p>
-        <div class="pro-actions">${bookBlock(pro)}</div>
+        <div class="pro-actions" id="book">
+          <a class="btn btn-primary" href="${book.href}"${book.extra}>${book.label}</a>
+          <a class="btn btn-outline" href="${telHref(phone)}">Call</a>
+          <a class="btn btn-outline" href="${smsHref(phone)}">Text</a>
+        </div>
         ${socials(pro)}
       </div>
     </div>
-    <section class="pro-section">
-      <h2>Services</h2>
-      <p class="pills">${services}</p>
-    </section>
     <section class="pro-section">
       <h2>About</h2>
       <p>${esc(pro.bio)}</p>
@@ -184,10 +187,14 @@ ${JSON.stringify(jsonLd)}
       <p>Payment: ${esc((pro.payments || []).join(", ") || "Ask when you call")}</p>
     </section>
     <section class="pro-section">
-      <h2>Weekly hours</h2>
+      <h2>Services</h2>
+      <p class="pills">${services}</p>
+    </section>
+    <section class="pro-section">
+      <h2>Hours</h2>
       <table class="hours"><tbody>${hours}</tbody></table>
     </section>
-    <p class="pro-actions">${bookBlock(pro)} <a class="btn btn-outline" href="/find-a-pro?location=summerville-ladson">More Oh La La pros</a></p>
+    <p><a class="btn btn-outline" href="/find-a-pro?location=summerville-ladson">More Oh La La pros</a></p>
   </div>
 </main>
 <footer>
@@ -196,7 +203,8 @@ ${JSON.stringify(jsonLd)}
     <p><a href="/">Home</a> · <a href="/find-a-pro">Find a Pro</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
   </div>
 </footer>
-<div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-gold" href="tel:+18434209965">Call</a></div>
+<div class="pro-sticky"><a class="btn btn-primary" href="${book.href}"${book.extra}>Book</a><a class="btn btn-outline" href="${telHref(phone)}">Call</a></div>
+<script>const names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];document.querySelector('[data-day="'+names[new Date().getDay()]+'"]')?.classList.add("is-today");</script>
 </body>
 </html>
 `;
