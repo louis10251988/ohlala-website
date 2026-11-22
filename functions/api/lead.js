@@ -141,8 +141,8 @@ export async function onRequestPost(context) {
   const name = [fn, ln].filter(Boolean).join(" ").slice(0, 200);
   const properties = {
     Name: { title: [{ type: "text", text: { content: name } }] },
-    Status: { status: { name: "新" } },
-    Source: { select: { name: "网站" } },
+    Status: { status: { name: "New" } },
+    Source: { select: { name: "Website" } },
     "Submitted at": { date: { start: new Date().toISOString() } },
   };
 
