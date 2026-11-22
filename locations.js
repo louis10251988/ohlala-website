@@ -20,7 +20,7 @@
   const listEl = document.getElementById("storeList");
   const qEl = document.getElementById("storeQ");
   const msgEl = document.getElementById("storeMsg");
-  const app = document.getElementById("storeApp");
+  const app = document.getElementById("main");
   let locations = [];
   let tags = {};
   let origin = null;

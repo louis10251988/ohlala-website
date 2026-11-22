@@ -22,7 +22,9 @@ nav{position:sticky;top:0;z-index:100;background:#FDFAF8;border-bottom:1px solid
 .nav-logo{display:flex;align-items:center;min-height:44px;flex:0 0 auto}
 .nav-logo img{height:44px;width:auto;max-width:none}
 .nav-links{display:none;gap:8px}
+.nav-links a,.mobile-menu a,footer a{text-decoration:none}
 .nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:16px;font-weight:600;text-decoration:none}
+footer a:hover{text-decoration:underline}
 .nav-cta{display:none;gap:8px}
 .burger{width:44px;height:44px;border:0;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer}
 .burger span{display:block;width:22px;height:2px;background:var(--burgundy)}
@@ -38,7 +40,7 @@ nav{position:sticky;top:0;z-index:100;background:#FDFAF8;border-bottom:1px solid
 .btn:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
 .btn:active{transform:translateY(1px)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.pill-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:2px solid var(--burgundy);line-height:1}
+a.pill-cta,a.pill-cta:link,a.pill-cta:visited{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:2px solid var(--burgundy);line-height:1;box-sizing:border-box}
 .pill-cta-outline{background:var(--cream);color:var(--burgundy)}
 .pill-cta-solid{background:var(--burgundy);color:#fff}
 .pill-cta:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
@@ -302,7 +304,7 @@ footer p{max-width:36rem}
 body.multi-loc .dir-grid{grid-template-columns:380px 1fr}
 body.multi-loc .loc-card{display:none}
 
-body.store-page{height:100dvh;overflow:hidden}
+body.store-page{height:auto;overflow:auto;min-height:100dvh}
 body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
 .store-app{display:flex;flex-direction:column;height:calc(100dvh - 68px);min-height:0}
 .store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1;padding:0}
@@ -354,6 +356,16 @@ body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
 .leaflet-bar{border:0;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(42,23,32,.16)}
 .leaflet-bar a{width:36px;height:36px;line-height:36px;color:var(--burgundy);background:#fff;border:0}
 .leaflet-control-attribution{font-size:11px;background:rgba(255,255,255,.88)}
+.suite-end{margin:28px 0 8px}
+.ask a{color:var(--burgundy);font-weight:700}
+.svc{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+.svc a{display:flex;align-items:center;justify-content:center;min-height:72px;padding:12px;background:#fff;border:1px solid rgba(93,26,58,.18);border-radius:16px;text-align:center;font-weight:700;text-decoration:none;color:var(--burgundy)}
+.svc a:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+.page{padding:28px 0 48px}
+@media(min-width:800px){
+  .svc{grid-template-columns:repeat(4,1fr)}
+}
+a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:none}
 .maplibregl-ctrl-logo,.maplibregl-ctrl-attrib{display:none !important}
 .maplibregl-map{font:inherit}
 @media(min-width:800px){

@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { ASSET, cssHref, fontHref, header, footer } from "./chrome.mjs";
 
 const pros = JSON.parse(readFileSync("data/pros.json", "utf8"));
 const locations = JSON.parse(readFileSync("data/locations.json", "utf8"));
@@ -182,33 +183,14 @@ for (const pro of pros) {
 <meta property="og:type" content="profile">
 <meta property="og:url" content="${url}">
 ${pro.isSample || !pro.consentApproved ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow">'}
-<link rel="stylesheet" href="../styles.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="${cssHref}">
+<link rel="stylesheet" href="${fontHref}">
 <script type="application/ld+json">
 ${JSON.stringify(jsonLd)}
 </script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<nav>
-  <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="../images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
-    <div class="nav-links">
-      <a href="/locations">Locations</a>
-      <a href="/suites">Suites</a>
-      <a href="/earnings">Earnings</a>
-      <a href="/faq">FAQ</a>
-    </div>
-    <div class="nav-cta">
-      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
-      <a class="btn btn-primary" href="/#tour">Tour</a>
-    </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
-  </div>
-  <div class="mobile-menu" id="mm">
-    <a href="/locations">Locations</a><a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
-  </div>
-</nav>
+${header()}
 <main id="main" class="pro-page">
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/locations">Locations</a> / <a href="${loc && loc.page ? loc.page : "/locations/summerville"}">${esc(loc ? loc.city : "Summerville")}</a> / ${esc(pro.name)}</p>
@@ -248,12 +230,7 @@ ${JSON.stringify(jsonLd)}
     <p><a class="btn btn-outline" href="${loc && loc.page ? loc.page : "/locations/summerville"}">More pros at this studio</a></p>
   </div>
 </main>
-<footer>
-  <div class="wrap">
-    <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
-    <p><a href="/">Home</a> · <a href="/locations">Locations</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
-  </div>
-</footer>
+${footer({ sticky: false })}
 ${stickyHtml(pro)}
 <dialog class="lightbox" id="lightbox"><button type="button" class="btn btn-outline" id="closeLight">Close</button><img alt=""><p class="sample-line">Sample</p></dialog>
 <script>
@@ -298,11 +275,10 @@ for (const loc of locations) {
 <meta property="og:title" content="${esc(loc.name)} in ${esc(loc.city)}">
 <meta property="og:description" content="${esc(tagline)}">
 <meta property="og:url" content="https://ohlalasalonstudio.com${loc.page}">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="${cssHref}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+<link rel="stylesheet" href="${fontHref}">
 <script type="application/ld+json">
 ${JSON.stringify({
   "@context": "https://schema.org",
@@ -323,26 +299,7 @@ ${JSON.stringify({
 </script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<nav>
-  <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="../images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
-    <div class="nav-links">
-      <a href="/locations">Locations</a>
-      <a href="/suites">Suites</a>
-      <a href="/earnings">Earnings</a>
-      <a href="/faq">FAQ</a>
-    </div>
-    <div class="nav-cta">
-      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
-      <a class="btn btn-primary" href="/#tour">Tour</a>
-    </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
-  </div>
-  <div class="mobile-menu" id="mm">
-    <a href="/locations">Locations</a><a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
-  </div>
-</nav>
+${header("locations")}
 <header class="studio-hero">
   <div class="studio-hero-copy">
     <h1>${esc(loc.name)}</h1>
@@ -359,7 +316,7 @@ ${JSON.stringify({
       <h2>Pro Directory</h2>
       <div class="studio-lease">
         <p>Are you a pro interested in renting a suite?</p>
-        <a class="btn btn-primary" href="/#tour">Find a suite</a>
+        <a class="btn btn-primary" href="/#tour">Find your suite</a>
       </div>
     </div>
     <form class="studio-filters" id="studioFilters" role="search">
@@ -396,16 +353,11 @@ ${JSON.stringify({
     </section>
   </div>
 </main>
-<footer>
-  <div class="wrap">
-    <p><a href="/locations">Locations</a> · <a href="/pros/join">Oh La La tenant? Join the directory</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
-  </div>
-</footer>
-<div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-primary" href="tel:+18434209965">Call</a></div>
+${footer()}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="/studio.js"></script>
+<script src="/studio.js?v=${ASSET}"></script>
 </body>
 </html>`;
   writeFileSync(`locations/${loc.slug}.html`, page);

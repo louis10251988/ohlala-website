@@ -10,9 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="images/real/suite-1.webp" fetchpriority="high">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+<link rel="stylesheet" href="/styles.css?v=20261122e">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="icon" href="images/logo.webp" type="image/webp">
 <script type="application/ld+json">
 {
@@ -34,33 +33,30 @@
 </script>
 </head>
 <body>
+<!-- site-header -->
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
     <div class="nav-links">
       <a href="/suites">Suites</a>
       <a href="/earnings">Earnings</a>
       <a href="/faq">FAQ</a>
-      <a href="/locations">Locations</a>
+      <a href="/locations/">Locations</a>
     </div>
     <div class="nav-cta">
-      <a class="pill-cta pill-cta-outline" href="/locations">Book a service</a>
-      <a class="pill-cta pill-cta-solid" href="#tour">Find your suite</a>
+      <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
+      <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
     </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mm">
-    <a href="/suites">Suites</a>
-    <a href="/earnings">Earnings</a>
-    <a href="/faq">FAQ</a>
-    <a href="/locations">Locations</a>
-    <a href="#tour">Tour</a>
+    <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations/">Locations</a>
+    <a href="/#tour">Find your suite</a>
     <a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
+<!-- /site-header -->
 
 <main id="main">
 <header class="hero">
@@ -72,8 +68,8 @@
       <p class="lead">Stylists, barbers, nails, lash, skin, tattoo, nutrition, training, massage, and wellness.</p>
       <p class="hero-pack"><b>$4,752</b> New-Tenant<br class="m-only"> Launch Package<br>FREE when you move in</p>
       <div class="hero-ctas">
-        <a class="pill-cta pill-cta-outline" href="/locations">Book a service</a>
-        <a class="pill-cta pill-cta-solid" href="#tour">Find your suite</a>
+        <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
+        <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
       </div>
     </div>
     <p class="hero-note">4498 Ladson Rd · Open 24 hours</p>
@@ -92,7 +88,7 @@
     <div class="benefits">
       <article class="benefit"><h2>Keep 100%</h2><p>You keep your service revenue, tips, and product sales.</p></article>
       <article class="benefit"><h2>24/7 access</h2><p>Suite access is open 24 hours, 7 days a week.</p></article>
-      <article class="benefit"><h2>All-in rent</h2><p>One flat weekly rent covers Wi-Fi, utilities, laundry, and security. No surprise bills. No fine print.</p></article>
+      <article class="benefit"><h2>All-in rent</h2><p>One flat weekly rent covers Wi-Fi, utilities, and laundry. No surprise bills. No fine print.</p></article>
       <article class="benefit"><h2>Launch help</h2><p>Logo, website, booking, and coaching are included when you move in.</p></article>
     </div>
   </div>
@@ -125,7 +121,7 @@
         </ul>
       </div>
       <p class="scarcity">Limited suites available</p>
-      <a class="btn btn-gold offer-cta" href="#tour">Claim it — book your tour</a>
+      <a class="btn btn-primary offer-cta" href="/#tour">Find your suite</a>
     </div>
   </div>
 </section>
@@ -159,7 +155,7 @@
     </div>
   </div>
   <p class="math-note">Estimates only, before taxes, product costs, and other business expenses. Talk to our team for a personalized breakdown.</p>
-  <a class="btn btn-gold" href="#tour">Book a tour</a>
+  <a class="btn btn-primary" href="/#tour">Find your suite</a>
 </section>
 
 <section id="gallery">
@@ -193,7 +189,7 @@
 <section class="tour" id="tour">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Book a tour</h2>
+      <h2>Find your suite</h2>
       <p>Tours take 20 minutes.</p>
     </div>
     <div class="form-card">
@@ -246,10 +242,11 @@
 </section>
 </main>
 
+<!-- site-footer -->
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <a href="/" aria-label="Oh La La Salon and Studios home"><img class="foot-logo" src="images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
       <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
       <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
     </div>
@@ -259,9 +256,8 @@
         <li><a href="/suites">Suites</a></li>
         <li><a href="/earnings">Earnings</a></li>
         <li><a href="/faq">FAQ</a></li>
-        <li><a href="/locations">Locations</a></li>
+        <li><a href="/locations/">Locations</a></li>
         <li><a href="/locations/summerville">Summerville studio</a></li>
-        <li><a href="/services">Book a service</a></li>
       </ul>
     </div>
     <div>
@@ -276,13 +272,10 @@
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
+<div class="msticky"><a class="btn btn-outline" href="/#tour">Find your suite</a><a class="btn btn-primary" href="tel:+18434209965">Call</a></div>
+<!-- /site-footer -->
 
-<div class="msticky">
-  <a class="btn btn-outline" href="#tour">Tour</a>
-  <a class="btn btn-gold" href="tel:+18434209965">Call</a>
-</div>
-
-<script src="/earnings-calc.js"></script>
+<script src="/earnings-calc.js?v=20261122e"></script>
 <script>
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
 document.getElementById('tourForm').addEventListener('submit',async e=>{
