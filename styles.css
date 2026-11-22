@@ -136,6 +136,12 @@ body.menu-open .msticky,.msticky.is-away{display:none}
 
 .page{padding:32px 0 72px}
 .page h1{font-size:clamp(30px, 7.5vw, 36px);margin-bottom:12px}
+.why-list{list-style:none;counter-reset:why;display:grid;gap:12px;margin-top:8px}
+.why-list > li{counter-increment:why;position:relative;background:#fff;border:1px solid rgba(93,26,58,.16);border-radius:16px;padding:16px 16px 16px 64px}
+.why-list > li::before{content:counter(why);position:absolute;left:14px;top:16px;width:36px;height:36px;border-radius:50%;background:var(--blush);color:var(--burgundy);display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:18px}
+.why-list h2{font-size:22px;margin:0 0 6px}
+.why-list p{margin:0;font-size:16px}
+.why-welcome{margin:20px 0 16px;font-size:16px}
 .tiers{display:grid;gap:16px}
 .tier{background:#fff;border:1px solid rgba(122,48,64,.18);border-radius:16px;padding:18px}
 .tier h2{font-size:22px}

@@ -2,12 +2,13 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122q";
+export const ASSET = "20261122r";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
 const NAV = [
   ["suites", "/suites", "Suites"],
+  ["why", "/why-us", "Why Us"],
   ["earnings", "/earnings", "Earnings"],
   ["faq", "/faq", "FAQ"],
   ["locations", "/locations/", "Locations"],
@@ -55,6 +56,7 @@ export function footer(options = {}) {
       <h2>Explore</h2>
       <ul>
         <li><a href="/suites">Suites</a></li>
+        <li><a href="/why-us">Why Us</a></li>
         <li><a href="/earnings">Earnings</a></li>
         <li><a href="/faq">FAQ</a></li>
         <li><a href="/locations/">Locations</a></li>
