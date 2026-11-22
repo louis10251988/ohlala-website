@@ -1,0 +1,16 @@
+[
+  {
+    "id": "summerville-ladson",
+    "name": "Oh La La Salon & Studios",
+    "label": "Summerville, SC — 4498 Ladson Rd",
+    "city": "Summerville",
+    "state": "SC",
+    "zip": "29485",
+    "address": "4498 Ladson Rd, Summerville, SC 29485",
+    "phone": "(843) 420-9965",
+    "phoneTel": "+18434209965",
+    "lat": 32.958014,
+    "lng": -80.15923,
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485"
+  }
+]

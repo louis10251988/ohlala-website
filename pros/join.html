@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join the directory | Oh La La Salon &amp; Studios</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Oh La La tenants can submit a directory profile. It stays pending until we review it.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="../images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <div class="nav-links">
+      <a href="/find-a-pro">Find a Pro</a>
+      <a href="/suites">Suites</a>
+      <a href="/faq">FAQ</a>
+    </div>
+    <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
+  </div>
+</nav>
+<main id="main" class="dir">
+  <div class="wrap" style="max-width:760px">
+    <h1>Join the directory</h1>
+    <p>This form is for Oh La La tenants. Your profile stays pending until we review it. Nothing is published automatically.</p>
+    <form id="joinForm" class="form-card" novalidate>
+      <div class="form-grid">
+        <div class="fg"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+        <div class="fg"><label for="business">Business name</label><input id="business" name="business" required></div>
+        <div class="fg"><label for="suite">Suite #</label><input id="suite" name="suite" inputmode="text"></div>
+        <div class="fg"><label for="ph">Phone</label><input id="ph" name="ph" type="tel" autocomplete="tel"></div>
+        <div class="fg"><label for="em">Email</label><input id="em" name="em" type="email" autocomplete="email"></div>
+        <fieldset class="checks">
+          <legend>Categories</legend>
+          <label><input type="checkbox" name="categories" value="hair"> Hair (cuts, color, extensions, braids &amp; locs)</label>
+          <label><input type="checkbox" name="categories" value="barber"> Barber</label>
+          <label><input type="checkbox" name="categories" value="nails"> Nails</label>
+          <label><input type="checkbox" name="categories" value="lashes-brows"> Lashes, Brows &amp; Hair Removal</label>
+          <label><input type="checkbox" name="categories" value="skin"> Skin Care</label>
+          <label><input type="checkbox" name="categories" value="tattoo"> Tattoo &amp; Permanent Makeup</label>
+          <label><input type="checkbox" name="categories" value="massage"> Massage &amp; Bodywork</label>
+          <label><input type="checkbox" name="categories" value="wellness"> Wellness (nutrition, weight loss, holistic)</label>
+          <label><input type="checkbox" name="categories" value="fitness"> Fitness (personal training, yoga, pilates)</label>
+          <label><input type="checkbox" name="categories" value="other"> Other</label>
+        </fieldset>
+        <div class="fg"><label for="services">Detailed services</label><textarea id="services" name="services" placeholder="Balayage, silk press, extensions"></textarea></div>
+        <div class="fg"><label for="bio">Bio <span id="bioCount">0 / 600</span></label><textarea id="bio" name="bio" maxlength="600"></textarea></div>
+        <fieldset class="hours-grid">
+          <legend>Weekly hours</legend>
+          <label class="fg">Monday<input name="Monday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Tuesday<input name="Tuesday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Wednesday<input name="Wednesday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Thursday<input name="Thursday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Friday<input name="Friday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Saturday<input name="Saturday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
+          <label class="fg">Sunday<input name="Sunday" placeholder="Closed"></label>
+        </fieldset>
+        <div class="fg"><label for="booking">Booking link</label><input id="booking" name="booking" type="url" placeholder="https://"></div>
+        <div class="fg"><label for="instagram">Instagram</label><input id="instagram" name="instagram" placeholder="https:// or @handle"></div>
+        <div class="fg"><label for="tiktok">TikTok</label><input id="tiktok" name="tiktok"></div>
+        <div class="fg"><label for="facebook">Facebook</label><input id="facebook" name="facebook"></div>
+        <div class="fg"><label for="web">Website</label><input id="web" name="web" type="url" placeholder="https://"></div>
+        <fieldset class="checks">
+          <legend>Languages</legend>
+          <label><input type="checkbox" name="languages" value="English"> English</label>
+          <label><input type="checkbox" name="languages" value="Chinese"> Chinese</label>
+          <label><input type="checkbox" name="languages" value="Spanish"> Spanish</label>
+          <label><input type="checkbox" name="languages" value="Other"> Other</label>
+        </fieldset>
+        <fieldset class="checks">
+          <legend>Payments</legend>
+          <label><input type="checkbox" name="payments" value="Card"> Card</label>
+          <label><input type="checkbox" name="payments" value="Buy Now Pay Later"> Buy Now Pay Later</label>
+          <label><input type="checkbox" name="payments" value="Cash"> Cash</label>
+        </fieldset>
+        <label class="chip"><input id="accepting" name="accepting" type="checkbox"> Accepting new clients</label>
+        <div class="fg"><label for="photo">Photo URL</label><input id="photo" name="photo" type="url" placeholder="https://">
+          <p class="join-note">Or text your photo to <a href="sms:+18434209965">(843) 420-9965</a>.</p>
+        </div>
+        <label class="chip"><input id="consent" name="consent" type="checkbox" required> I agree Oh La La can show this info and photo on its website.</label>
+        <div class="hp" aria-hidden="true"><label for="company">Company</label><input id="company" name="company" tabindex="-1" autocomplete="off"></div>
+        <p class="form-err" id="formErr" role="alert"></p>
+        <button class="btn btn-gold" type="submit">Submit my profile</button>
+      </div>
+    </form>
+    <div class="form-ok" id="formOk">
+      <p class="big">Received</p>
+      <p>Your profile is pending review. Nothing goes on the site until we approve it. Questions? Call <a href="tel:+18434209965">(843) 420-9965</a>.</p>
+    </div>
+  </div>
+</main>
+<script>
+const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
+const bio=document.getElementById('bio');
+const bioCount=document.getElementById('bioCount');
+bio.addEventListener('input',()=>{bioCount.textContent=bio.value.length+' / 600';});
+document.getElementById('joinForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=e.target;
+  const err=document.getElementById('formErr');
+  const btn=f.querySelector('button[type="submit"]');
+  const showErr=msg=>{err.innerHTML=msg;err.style.display='block';};
+  err.style.display='none';
+  const vals=name=>[...f.querySelectorAll('[name="'+name+'"]:checked')].map(el=>el.value);
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const hours=days.map(day=>day+': '+(f[day].value.trim()||'—')).join('\n');
+  const payload={
+    name:f.name.value.trim(),
+    business:f.business.value.trim(),
+    suite:f.suite.value.trim(),
+    ph:f.ph.value.trim(),
+    em:f.em.value.trim(),
+    categories:vals('categories'),
+    services:f.services.value.trim(),
+    bio:f.bio.value.trim(),
+    hours,
+    booking:f.booking.value.trim(),
+    instagram:f.instagram.value.trim(),
+    tiktok:f.tiktok.value.trim(),
+    facebook:f.facebook.value.trim(),
+    web:f.web.value.trim(),
+    languages:vals('languages'),
+    payments:vals('payments'),
+    accepting:f.accepting.checked,
+    photo:f.photo.value.trim(),
+    consent:f.consent.checked,
+    company:f.company.value
+  };
+  if(!payload.name){showErr('Please add your name, or call us at '+PHONE_LINK+'.');return;}
+  if(!payload.business){showErr('Please add your business name, or call us at '+PHONE_LINK+'.');return;}
+  if(payload.ph.replace(/\D/g,'').length<7 && !payload.em){showErr('Please add a phone number or email, or call us at '+PHONE_LINK+'.');return;}
+  if(!payload.consent){showErr('Please agree that Oh La La can show this info and photo on its website.');return;}
+  if(payload.bio.length>600){showErr('Please keep the bio to 600 characters.');return;}
+  btn.disabled=true;
+  const prev=btn.textContent;
+  btn.textContent='Sending…';
+  try{
+    const res=await fetch('/api/pro-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok)throw new Error(data.error||'save failed');
+    f.style.display='none';
+    document.getElementById('formOk').style.display='block';
+  }catch(err){
+    showErr((err.message&&err.message!=='save failed'?err.message+' ':'')+'Please call us at '+PHONE_LINK+' and we’ll take your details.');
+    btn.disabled=false;
+    btn.textContent=prev;
+  }
+});
+</script>
+</body>
+</html>
