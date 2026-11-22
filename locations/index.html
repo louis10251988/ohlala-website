@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locations | Oh La La Salon &amp; Studios</title>
+<meta name="description" content="Pick an Oh La La studio, then meet the independent pros inside. Summerville, SC is open now.">
+<link rel="canonical" href="https://ohlalasalonstudio.com/locations">
+<meta property="og:title" content="Locations | Oh La La Salon &amp; Studios">
+<meta property="og:description" content="Choose a studio, then see the pros who work there.">
+<meta property="og:url" content="https://ohlalasalonstudio.com/locations">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+</head>
+<body class="store-page">
+<a class="skip" href="#storeList">Skip to locations</a>
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <div class="nav-links">
+      <a href="/locations" aria-current="page">Locations</a>
+      <a href="/suites">Suites</a>
+      <a href="/earnings">Earnings</a>
+      <a href="/faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
+      <a class="btn btn-primary" href="/#tour">Tour</a>
+    </div>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="/locations">Locations</a>
+    <a href="/suites">Suites</a>
+    <a href="/earnings">Earnings</a>
+    <a href="/faq">FAQ</a>
+    <a href="/#tour">Tour</a>
+    <a href="tel:+18434209965">Call (843) 420-9965</a>
+  </div>
+</nav>
+<div class="store-app" id="storeApp">
+  <div class="store-toggle" role="group" aria-label="List or map">
+    <button type="button" id="tabList" aria-pressed="true">List</button>
+    <button type="button" id="tabMap" aria-pressed="false">Map</button>
+  </div>
+  <section class="store-panel" aria-label="Studios">
+    <div class="store-tools">
+      <form id="storeSearch" role="search">
+        <label class="visually-hidden" for="storeQ">City, state or ZIP</label>
+        <input id="storeQ" type="search" placeholder="City, state or ZIP" autocomplete="off">
+        <button class="btn btn-outline" id="useLoc" type="button">Use my location</button>
+      </form>
+      <p class="store-msg" id="storeMsg" role="status"></p>
+    </div>
+    <div class="store-scroll" id="storeList"></div>
+  </section>
+  <div class="store-map-wrap">
+    <button class="search-area" id="searchArea" type="button" hidden>Search this area</button>
+    <div class="store-map" id="storeMap" aria-label="Map of Oh La La studios" tabindex="0"></div>
+  </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="/locations.js"></script>
+</body>
+</html>

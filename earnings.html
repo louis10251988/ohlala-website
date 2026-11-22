@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earnings | Oh La La Salon &amp; Studios</title>
+<meta name="description" content="Compare a commission split with keeping 100% of your service revenue at Oh La La. Suite rent is separate.">
+<link rel="canonical" href="https://ohlalasalonstudio.com/earnings">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="/" aria-label="Oh La La home"><img src="images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <div class="nav-links">
+      <a href="/suites">Suites</a>
+      <a href="/earnings">Earnings</a>
+      <a href="/faq">FAQ</a>
+      <a href="/locations">Locations</a>
+      <a class="btn btn-primary" href="/#tour">Tour</a>
+    </div>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations">Locations</a><a href="/#tour">Tour</a><a href="tel:+18434209965">Call (843) 420-9965</a>
+  </div>
+</nav>
+<main>
+<section class="math-band" data-math>
+  <p class="math-eye">The Oh La La math</p>
+  <h2>Stop splitting. <span class="script">Start keeping.</span></h2>
+  <p class="math-sub">Drag the sliders. See what going independent could mean for you every month.</p>
+  <div class="math-card">
+    <div class="math-controls">
+      <label for="revEarn">Your weekly service revenue</label>
+      <input id="revEarn" data-rev type="range" min="500" max="10000" step="100" value="2500" aria-valuemin="500" aria-valuemax="10000" aria-valuenow="2500" aria-valuetext="2,500 dollars per week">
+      <p class="math-val" data-rev-label>$2,500 / week</p>
+      <label for="splitEarn">Your current commission split (what the salon keeps)</label>
+      <input id="splitEarn" data-split type="range" min="20" max="70" step="1" value="45" aria-valuemin="20" aria-valuemax="70" aria-valuenow="45" aria-valuetext="The salon keeps 45 percent">
+      <p class="math-val" data-split-label>45%</p>
+      <label for="suiteEarn">Your Oh La La suite</label>
+      <select id="suiteEarn" data-suite>
+        <option value="s" selected>Small studio (100 sq ft)</option>
+        <option value="m">Medium studio (140 sq ft)</option>
+        <option value="l">Large studio (200 sq ft)</option>
+      </select>
+    </div>
+    <div class="math-results">
+      <div class="math-row"><span>You keep today (commission)</span><b data-today>$0 / mo</b></div>
+      <div class="math-row"><span>You'd keep at Oh La La</span><b data-oll>$0 / mo</b></div>
+      <div class="math-more" data-more>
+        <span>More in your pocket every month</span>
+        <b data-diff>+$0</b>
+      </div>
+    </div>
+  </div>
+  <p class="math-note">Estimates only, before taxes, product costs, and other business expenses. Talk to our team for a personalized breakdown.</p>
+  <a class="btn btn-gold" href="/#tour">Book a tour</a>
+</section>
+</main>
+<div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-gold" href="tel:+18434209965">Call</a></div>
+<script src="/earnings-calc.js"></script>
+</body>
+</html>
