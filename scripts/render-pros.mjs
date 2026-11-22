@@ -298,6 +298,8 @@ for (const loc of locations) {
 <meta property="og:url" content="https://ohlalasalonstudio.com${loc.page}">
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
 <script type="application/ld+json">
 ${JSON.stringify({
   "@context": "https://schema.org",
@@ -342,8 +344,10 @@ ${JSON.stringify({
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/find-a-pro">Find a Pro</a> / ${esc(loc.city)}</p>
     <h1>${esc(loc.name)}</h1>
-    <p>${esc(loc.address)}</p>
-    <p>${esc(loc.hoursNote || "")}</p>
+    <div class="loc-intro">
+      <p>${esc(loc.address)}</p>
+      <p>${esc(loc.hoursNote || "")}</p>
+    </div>
     <div class="dir-grid">
       <div>
         <h2>Pros at this studio</h2>
@@ -357,6 +361,7 @@ ${JSON.stringify({
         <p><a class="btn btn-outline" href="${esc(loc.directionsUrl)}" target="_blank" rel="noopener">Directions</a></p>
         <h2>In the building</h2>
         <ul class="amenity-list">${amenities}</ul>
+        <p class="loc-rent"><a class="btn btn-primary" href="/#tour">Rent a suite</a></p>
       </aside>
     </div>
   </div>

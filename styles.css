@@ -105,7 +105,7 @@ section{padding:48px 0}
 .form-ok .big{font-family:var(--serif);font-size:36px;color:var(--burgundy)}
 
 .loc-card p{font-size:16px;margin:8px 0 16px}
-.loc-card a{color:var(--rg1);display:inline-flex;align-items:center;min-height:44px}
+.loc-card a:not(.btn){color:var(--burgundy);display:inline-flex;align-items:center;min-height:44px}
 footer a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
 .foot-logo{height:64px;width:auto;max-width:none;margin-bottom:14px;background:#FDFAF8;border-radius:14px;padding:8px 12px;box-sizing:content-box}
 
@@ -241,7 +241,7 @@ footer p{max-width:36rem}
   .chip-row::-webkit-scrollbar{display:none}
 }
 .join-foot{margin:40px 0 8px;text-align:center;font-size:16px;color:var(--muted)}
-.join-foot a{color:var(--muted);font-weight:500;text-decoration:none}
+.join-foot a:not(.btn){color:var(--muted);font-weight:500;text-decoration:none}
 .join-foot a:hover{color:var(--burgundy)}
 .menu{list-style:none}
 .menu li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--blush);font-size:16px}
@@ -258,6 +258,10 @@ footer p{max-width:36rem}
 .book-menu summary{list-style:none}
 .book-menu summary::-webkit-details-marker{display:none}
 .book-menu a{display:flex;align-items:center;min-height:44px;padding:0 12px;color:var(--burgundy);font-weight:700}
+.loc-intro{margin:0 0 32px}
+.loc-intro p+p{margin-top:6px}
+.loc-rent{margin-top:18px}
+.loc-card .loc-rent .btn{width:100%}
 .amenity-list{margin:8px 0 0 18px}
 .amenity-list li{margin:6px 0;font-size:16px}
 .socials{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:14px}
