@@ -2,16 +2,16 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122r";
+export const ASSET = "20261122s";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
 const NAV = [
-  ["suites", "/suites", "Suites"],
   ["why", "/why-us", "Why Us"],
+  ["suites", "/suites", "Suites"],
   ["earnings", "/earnings", "Earnings"],
-  ["faq", "/faq", "FAQ"],
   ["locations", "/locations/", "Locations"],
+  ["faq", "/faq", "FAQ"],
 ];
 
 export function header(active = "") {
@@ -29,6 +29,7 @@ export function header(active = "") {
     <div class="nav-cta">
       <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
+      <a class="nav-call" href="tel:+18434209965">Call (843) 420-9965</a>
     </div>
     <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);if(o){var n=document.querySelector('nav');if(n)n.classList.remove('nav-up')}"><span></span><span></span><span></span></button>
   </div>
