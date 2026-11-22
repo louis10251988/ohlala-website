@@ -15,7 +15,7 @@
     other: "Other",
   };
   const STATES = { sc: "south carolina", southcarolina: "sc" };
-  const PIN = '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16.5" r="6" fill="#fff"/></svg>';
+  const PIN = '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16" r="4.5" fill="#E8B4A8"/></svg>';
 
   const listEl = document.getElementById("storeList");
   const qEl = document.getElementById("storeQ");
@@ -125,10 +125,11 @@
     if (!window.L || map) return;
     map = L.map("storeMap", { scrollWheelZoom: false, zoomControl: false, maxZoom: 18 });
     L.control.zoom({ position: "bottomright" }).addTo(map);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    L.maplibreGL({
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      attributionControl: false,
     }).addTo(map);
+    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
     const icon = L.divIcon({ className: "store-pin", html: PIN, iconSize: [36, 48], iconAnchor: [18, 46], popupAnchor: [0, -42] });
     cluster = L.markerClusterGroup({
       showCoverageOnHover: false,
@@ -235,13 +236,13 @@
     });
     render();
     const start = () => {
-      const css = document.querySelector('link[href*="leaflet.css"]');
-      if (!css) {
+      ["https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css", "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"].forEach((href) => {
+        if (document.querySelector('link[href="' + href + '"]')) return;
         const link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        link.href = href;
         document.head.appendChild(link);
-      }
+      });
       const load = (src) => new Promise((resolve, reject) => {
         if (document.querySelector('script[src="' + src + '"]')) return resolve();
         const el = document.createElement("script");
@@ -251,6 +252,8 @@
         document.body.appendChild(el);
       });
       load("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+        .then(() => load("https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"))
+        .then(() => load("https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"))
         .then(() => load("https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"))
         .then(mountMap)
         .catch((err) => console.error(err));

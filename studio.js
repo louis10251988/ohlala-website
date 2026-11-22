@@ -129,23 +129,25 @@
     const mapEl = document.getElementById("studioMap");
     if (!mapEl || mapEl.dataset.ready || !window.L) return;
     mapEl.dataset.ready = "1";
-    if (!document.querySelector('link[href*="leaflet.css"]')) {
+    ["https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"].forEach((href) => {
+      if (document.querySelector('link[href="' + href + '"]')) return;
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      link.href = href;
       document.head.appendChild(link);
-    }
+    });
     const lat = Number(mapEl.dataset.lat);
     const lng = Number(mapEl.dataset.lng);
     const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: false }).setView([lat, lng], 14);
     L.control.zoom({ position: "bottomright" }).addTo(map);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    L.maplibreGL({
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      attributionControl: false,
     }).addTo(map);
+    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
     const icon = L.divIcon({
       className: "store-pin",
-      html: '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16.5" r="6" fill="#fff"/></svg>',
+      html: '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16" r="4.5" fill="#E8B4A8"/></svg>',
       iconSize: [36, 48],
       iconAnchor: [18, 46],
     });
@@ -163,7 +165,10 @@
     const watch = new IntersectionObserver((entries) => {
       if (!entries.some((entry) => entry.isIntersecting)) return;
       watch.disconnect();
-      loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js").then(mountStudioMap);
+      loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+        .then(() => loadScript("https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"))
+        .then(() => loadScript("https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"))
+        .then(mountStudioMap);
     }, { rootMargin: "200px" });
     watch.observe(mapEl);
   }

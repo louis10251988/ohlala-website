@@ -9,7 +9,8 @@
 <meta property="og:title" content="Oh La La Salon &amp; Studios in Summerville">
 <meta property="og:description" content="A local community of independent beauty &amp; wellness pros">
 <meta property="og:url" content="https://ohlalasalonstudio.com/locations/summerville">
-<link rel="stylesheet" href="/styles.css?v=20261122g">
+<link rel="preload" as="image" href="/images/real/suite-1-desk.webp" fetchpriority="high">
+<link rel="stylesheet" href="/styles.css?v=20261122k">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <script type="application/ld+json">
@@ -23,7 +24,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) 154px, 220px" decoding="async"></picture></a>
     <div class="nav-links">
       <a href="/suites">Suites</a>
       <a href="/earnings">Earnings</a>
@@ -34,7 +35,7 @@
       <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
     </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);if(o){var n=document.querySelector('nav');if(n)n.classList.remove('nav-up')}"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mm">
     <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations/">Locations</a>
@@ -52,7 +53,7 @@
     <p>4498 Ladson Rd, Summerville, SC 29485</p>
     <p class="studio-socials"><a class="hero-social" href="https://facebook.com/352835481242473" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1z"/></svg><span class="visually-hidden">Facebook</span></a></p>
   </div>
-  <div class="studio-photos"><img src="/images/real/suite-1-desk.webp" alt="Treatment room inside a suite at Oh La La" width="640" height="480"></div>
+  <div class="studio-photos"><img src="/images/real/suite-1-desk.webp" alt="Treatment room inside a suite at Oh La La" width="800" height="1000" sizes="(min-width: 800px) 440px, calc(100vw - 32px)" fetchpriority="high" decoding="async"></div>
 </header>
 <div class="studio-page" data-location="summerville-ladson" data-city="Summerville">
   <div class="wrap">
@@ -103,7 +104,7 @@
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="240px" decoding="async" loading="lazy"></picture></a>
       <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
       <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
     </div>
@@ -129,8 +130,32 @@
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
-<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find your suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find a suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<script>
+(function(){
+  var nav=document.querySelector("nav");
+  var bar=document.querySelector(".msticky");
+  var foot=document.querySelector("footer");
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var phone=window.matchMedia("(max-width: 799px)");
+  if(nav && !reduce){
+    var last=window.scrollY||0;
+    window.addEventListener("scroll",function(){
+      if(!phone.matches || document.body.classList.contains("menu-open")) return;
+      var y=window.scrollY||0;
+      if(y>last+8 && y>72) nav.classList.add("nav-up");
+      else if(y<last-8 || y<12) nav.classList.remove("nav-up");
+      last=y;
+    },{passive:true});
+  }
+  if(bar && foot && "IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ bar.classList.toggle("is-away", entry.isIntersecting); });
+    },{rootMargin:"0px 0px 80px 0px",threshold:0}).observe(foot);
+  }
+})();
+</script>
 <!-- /site-footer -->
-<script src="/studio.js?v=20261122g"></script>
+<script src="/studio.js?v=20261122k"></script>
 </body>
 </html>
