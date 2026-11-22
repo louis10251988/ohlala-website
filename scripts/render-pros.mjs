@@ -44,10 +44,39 @@ const SHORT = {
   skin: "Skin", tattoo: "Tattoo & PMU", massage: "Massage", wellness: "Wellness",
   fitness: "Fitness", other: "Other",
 };
+function serviceItems(list) {
+  return (list || []).map((item) => typeof item === "string" ? { name: item, duration: "", price: "" } : item);
+}
 function bookLink(pro) {
-  const first = pro.name.split(" ")[0];
-  if (pro.bookingUrl) return { href: esc(pro.bookingUrl), extra: ' target="_blank" rel="noopener"', label: `Book with ${esc(first)}` };
-  return { href: telHref(pro.phone || STUDIO_PHONE), extra: "", label: `Book with ${esc(first)}` };
+  const first = esc(pro.name.split(" ")[0]);
+  if (pro.vagaroUrl) {
+    return { kind: "link", href: esc(pro.vagaroUrl), extra: ' target="_blank" rel="noopener"', label: "Book on Vagaro", note: "Pick a time online" };
+  }
+  if (pro.bookingUrl) {
+    return { kind: "link", href: esc(pro.bookingUrl), extra: ' target="_blank" rel="noopener"', label: `Book with ${first}`, note: "" };
+  }
+  const phone = pro.phone || "";
+  const tel = telHref(phone || STUDIO_PHONE);
+  const sms = smsHref(phone || STUDIO_PHONE);
+  if (phone) {
+    return { kind: "menu", tel, sms, label: `Book with ${first}`, note: "" };
+  }
+  return { kind: "link", href: tel, extra: "", label: "Book", note: "Call the studio" };
+}
+function bookHtml(pro, id) {
+  const book = bookLink(pro);
+  if (book.kind === "menu") {
+    return `<details class="book-menu" ${id ? `id="${id}"` : ""}><summary class="btn btn-primary">${book.label}</summary><a href="${book.tel}">Call</a><a href="${book.sms}">Text</a></details>`;
+  }
+  return `<a class="btn btn-primary" ${id ? `id="${id}"` : ""} href="${book.href}"${book.extra}>${book.label}</a>${book.note ? `<p class="book-note">${book.note}</p>` : ""}`;
+}
+function stickyHtml(pro) {
+  const book = bookLink(pro);
+  const phone = pro.phone || STUDIO_PHONE;
+  if (book.kind === "menu") {
+    return `<div class="pro-sticky"><a class="btn btn-primary" href="${book.tel}">Call</a><a class="btn btn-outline" href="${book.sms}">Text</a></div>`;
+  }
+  return `<div class="pro-sticky"><a class="btn btn-primary" href="${book.href}"${book.extra}>Book</a><a class="btn btn-outline" href="${telHref(phone)}">Call</a></div>`;
 }
 
 function socials(pro) {
@@ -77,9 +106,9 @@ for (const pro of pros) {
     ? `<img src="${esc(pro.photo)}" alt="Portrait of ${esc(pro.name)}" width="480" height="640">`
     : `<div class="mono" aria-hidden="true">${esc(initials(pro.name))}</div>`;
   const cats = (pro.categories || []).map((slug) => `<span class="pill">${esc(CATS[slug] || slug)}</span>`).join("");
-  const services = (pro.services || []).map((service) => `<span class="pill">${esc(service)}</span>`).join("");
+  const services = serviceItems(pro.services).map((service) => `<li><span>${esc(service.name)}</span><span>${[service.duration, service.price].filter(Boolean).map(esc).join(" · ")}</span></li>`).join("");
+  const photos = (pro.photos || []).slice(0, 9).map((src, i) => `<button type="button" class="shot" data-full="${esc(src)}"><img src="${esc(src)}" alt="Sample portfolio image ${i + 1} for ${esc(pro.name)}" width="400" height="400" loading="lazy"><span class="sample-quiet">Sample</span></button>`).join("");
   const hours = DAYS.map((day) => `<tr data-day="${day}"><th scope="row">${day}</th><td>${esc(pro.hours[day] || "Closed")}</td></tr>`).join("");
-  const book = bookLink(pro);
   const primaryCat = SHORT[(pro.categories || [])[0]] || "";
   const title = `${pro.name} — ${pro.businessName} | Oh La La Salon & Studios`;
   const url = `https://ohlalasalonstudio.com/pros/${pro.slug}`;
@@ -99,7 +128,20 @@ for (const pro of pros) {
         "name": pro.name,
         "description": pro.bio,
         "telephone": phone,
-        "worksFor": { "@type": "Organization", "name": "Oh La La Salon & Studios", "url": "https://ohlalasalonstudio.com/" },
+        "worksFor": {
+          "@type": "HealthAndBeautyBusiness",
+          "name": "Oh La La Salon & Studios",
+          "url": "https://ohlalasalonstudio.com/",
+          "telephone": "+18434209965",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": `4498 Ladson Rd, ${pro.suite}`,
+            "addressLocality": "Summerville",
+            "addressRegion": "SC",
+            "postalCode": "29485",
+            "addressCountry": "US",
+          },
+        },
       },
       {
         "@type": "Place",
@@ -138,6 +180,7 @@ for (const pro of pros) {
 <meta property="og:description" content="${esc(pro.bio)}">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="${url}">
+${pro.isSample || !pro.consentApproved ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow">'}
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
 <script type="application/ld+json">
@@ -178,7 +221,7 @@ ${JSON.stringify(jsonLd)}
         <p>${esc(suiteAddress)}</p>
         <p><a href="${esc(loc.directionsUrl)}" target="_blank" rel="noopener">Directions</a></p>
         <div class="pro-actions" id="book">
-          <a class="btn btn-primary" href="${book.href}"${book.extra}>${book.label}</a>
+          ${bookHtml(pro)}
           <a class="btn btn-outline" href="${telHref(phone)}">Call</a>
           <a class="btn btn-outline" href="${smsHref(phone)}">Text</a>
         </div>
@@ -194,8 +237,9 @@ ${JSON.stringify(jsonLd)}
     </section>
     <section class="pro-section">
       <h2>Services</h2>
-      <p class="pills">${services}</p>
+      <ul class="menu">${services}</ul>
     </section>
+    ${photos ? `<section class="pro-section"><h2>Portfolio</h2><div class="gallery">${photos}</div><p class="sample-line">Sample images — not a real portfolio.</p></section>` : ""}
     <section class="pro-section">
       <h2>Hours</h2>
       <table class="hours"><tbody>${hours}</tbody></table>
@@ -209,11 +253,128 @@ ${JSON.stringify(jsonLd)}
     <p><a href="/">Home</a> · <a href="/find-a-pro">Find a Pro</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
   </div>
 </footer>
-<div class="pro-sticky"><a class="btn btn-primary" href="${book.href}"${book.extra}>Book</a><a class="btn btn-outline" href="${telHref(phone)}">Call</a></div>
-<script>const names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];document.querySelector('[data-day="'+names[new Date().getDay()]+'"]')?.classList.add("is-today");</script>
+${stickyHtml(pro)}
+<dialog class="lightbox" id="lightbox"><button type="button" class="btn btn-outline" id="closeLight">Close</button><img alt=""><p class="sample-line">Sample</p></dialog>
+<script>
+const names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+document.querySelector('[data-day="'+names[new Date().getDay()]+'"]')?.classList.add("is-today");
+const box=document.getElementById("lightbox");
+document.querySelectorAll(".shot").forEach(btn=>btn.addEventListener("click",()=>{box.querySelector("img").src=btn.dataset.full;box.showModal();}));
+document.getElementById("closeLight").addEventListener("click",()=>box.close());
+box.addEventListener("click",e=>{if(e.target===box)box.close();});
+</script>
 </body>
 </html>
 `;
   writeFileSync(`pros/${pro.slug}.html`, html);
   console.log(pro.slug);
+}
+
+mkdirSync("locations", { recursive: true });
+for (const loc of locations) {
+  const here = pros.filter((pro) => pro.locationId === loc.id && pro.active);
+  const cards = here.map((pro) => {
+    const cat = SHORT[(pro.categories || [])[0]] || "";
+    const photo = pro.photo
+      ? `<img class="avatar" src="${esc(pro.photo)}" alt="" width="88" height="88">`
+      : `<span class="mono avatar" aria-hidden="true">${esc(initials(pro.name))}</span>`;
+    const book = pro.vagaroUrl || pro.bookingUrl;
+    const bookTag = book
+      ? `<a class="btn btn-primary book-mini" href="${esc(book)}" target="_blank" rel="noopener">Book</a>`
+      : `<a class="btn btn-primary book-mini" href="/pros/${esc(pro.slug)}#book">Book</a>`;
+    return `<article class="pro-tile">${photo}<a class="pro-tile-link" href="/pros/${esc(pro.slug)}"><span class="visually-hidden">${esc(pro.name)}</span></a><div><h2>${esc(pro.name)}</h2><p class="cat-line">${esc(cat)}</p><p class="suite-line">${esc(pro.suite)}</p>${pro.isSample ? '<span class="sample-quiet">Sample</span>' : ""}</div>${bookTag}</article>`;
+  }).join("");
+  const amenities = (loc.amenities || []).map((item) => `<li>${esc(item)}</li>`).join("");
+  const page = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(loc.name)} in ${esc(loc.city)}, ${esc(loc.state)} | Oh La La Salon &amp; Studios</title>
+<meta name="description" content="Visit Oh La La Salon &amp; Studios at ${esc(loc.address)}. See the pros working in this building and book a tour to rent a suite.">
+<link rel="canonical" href="https://ohlalasalonstudio.com${loc.page}">
+<meta property="og:title" content="${esc(loc.name)} in ${esc(loc.city)}">
+<meta property="og:description" content="Pros, directions, and suite access at ${esc(loc.address)}.">
+<meta property="og:url" content="https://ohlalasalonstudio.com${loc.page}">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script type="application/ld+json">
+${JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  name: "Oh La La Salon & Studios",
+  url: "https://ohlalasalonstudio.com" + loc.page,
+  telephone: "+18434209965",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "4498 Ladson Rd",
+    addressLocality: loc.city,
+    addressRegion: loc.state,
+    postalCode: loc.zip,
+    addressCountry: "US",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: loc.lat, longitude: loc.lng },
+})}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="../images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <div class="nav-links">
+      <a href="/find-a-pro">Find a Pro</a>
+      <a href="/suites">Suites</a>
+      <a href="/earnings">Earnings</a>
+      <a href="/faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
+      <a class="btn btn-primary" href="/#tour">Tour</a>
+    </div>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="/find-a-pro">Find a Pro</a><a href="/suites">Suites</a><a href="/locations/${esc(loc.slug)}">This studio</a><a href="/#tour">Tour</a>
+  </div>
+</nav>
+<main id="main" class="dir-page">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Home</a> / <a href="/find-a-pro">Find a Pro</a> / ${esc(loc.city)}</p>
+    <h1>${esc(loc.name)}</h1>
+    <p>${esc(loc.address)}</p>
+    <p>${esc(loc.hoursNote || "")}</p>
+    <div class="dir-grid">
+      <div>
+        <h2>Pros at this studio</h2>
+        <p class="sample-line">Sample profiles shown — real pros coming soon.</p>
+        <div class="pro-grid">${cards}</div>
+        <p class="join-foot"><a class="btn btn-primary" href="/#tour">Rent a suite</a></p>
+      </div>
+      <aside class="loc-card">
+        <div id="locMap" class="mini-map" aria-label="Map"></div>
+        <p>${esc(loc.address)}</p>
+        <p><a class="btn btn-outline" href="${esc(loc.directionsUrl)}" target="_blank" rel="noopener">Directions</a></p>
+        <h2>In the building</h2>
+        <ul class="amenity-list">${amenities}</ul>
+      </aside>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <p><a href="/find-a-pro">Find a Pro</a> · <a href="/pros/join">Oh La La tenant? Join the directory</a> · <a href="tel:+18434209965">(843) 420-9965</a></p>
+  </div>
+</footer>
+<div class="msticky"><a class="btn btn-outline" href="/#tour">Tour</a><a class="btn btn-primary" href="tel:+18434209965">Call</a></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map=L.map("locMap",{scrollWheelZoom:false}).setView([${loc.lat},${loc.lng}],15);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(map);
+L.marker([${loc.lat},${loc.lng}]).addTo(map);
+</script>
+</body>
+</html>`;
+  writeFileSync(`locations/${loc.slug}.html`, page);
+  console.log("location", loc.slug);
 }

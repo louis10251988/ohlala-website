@@ -11,6 +11,15 @@
     "phoneTel": "+18434209965",
     "lat": 32.958014,
     "lng": -80.15923,
-    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485"
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485",
+    "slug": "summerville",
+    "page": "/locations/summerville",
+    "hoursNote": "Suite access is open 24 hours, 7 days a week.",
+    "amenities": [
+      "Private furnished suites",
+      "Wi-Fi and utilities",
+      "Laundry and a break room",
+      "Security"
+    ]
   }
 ]

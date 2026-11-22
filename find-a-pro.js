@@ -120,7 +120,8 @@
     if (state.languages.length && !state.languages.some((lang) => (pro.languages || []).includes(lang))) return false;
     if (state.payments.length && !state.payments.some((pay) => (pro.payments || []).includes(pay))) return false;
     if (state.q) {
-      const hay = [pro.name, pro.businessName, ...(pro.services || []), ...(pro.categories || []).map((slug) => FULL[slug] || slug)].join(" ").toLowerCase();
+      const services = (pro.services || []).map((item) => typeof item === "string" ? item : [item.name, item.duration, item.price].filter(Boolean).join(" "));
+      const hay = [pro.name, pro.businessName, ...services, ...(pro.categories || []).map((slug) => FULL[slug] || slug)].join(" ").toLowerCase();
       if (!hay.includes(state.q.toLowerCase())) return false;
     }
     return true;
@@ -131,8 +132,9 @@
       : '<span class="mono avatar" aria-hidden="true">' + esc(initials(pro.name)) + "</span>";
     const cat = FULL[(pro.categories || [])[0]] || "";
     const sample = pro.isSample ? '<span class="sample-quiet">Sample</span>' : "";
-    const book = pro.bookingUrl
-      ? '<a class="btn btn-primary book-mini" href="' + esc(pro.bookingUrl) + '" target="_blank" rel="noopener">Book</a>'
+    const external = pro.vagaroUrl || pro.bookingUrl;
+    const book = external
+      ? '<a class="btn btn-primary book-mini" href="' + esc(external) + '" target="_blank" rel="noopener">Book</a>'
       : '<a class="btn btn-primary book-mini" href="/pros/' + esc(pro.slug) + '#book">Book</a>';
     return '<article class="pro-tile">' + photo +
       '<a class="pro-tile-link" href="/pros/' + esc(pro.slug) + '"><span class="visually-hidden">' + esc(pro.name) + "</span></a>" +

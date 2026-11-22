@@ -7,8 +7,31 @@
     "businessName": "Cole Color Room",
     "suite": "Suite 101",
     "locationId": "summerville-ladson",
-    "categories": ["hair"],
-    "services": ["Balayage", "Silk press", "Hand-tied extensions", "Haircut"],
+    "categories": [
+      "hair"
+    ],
+    "services": [
+      {
+        "name": "Balayage",
+        "duration": "2.5 hr",
+        "price": "from $180"
+      },
+      {
+        "name": "Silk press",
+        "duration": "1.5 hr",
+        "price": "from $85"
+      },
+      {
+        "name": "Hand-tied extensions",
+        "duration": "3 hr",
+        "price": "from $350"
+      },
+      {
+        "name": "Haircut",
+        "duration": "45 min",
+        "price": "from $55"
+      }
+    ],
     "bio": "Sample stylist focused on lived-in color, silk presses, and extension installs that still feel like your hair. This profile is a placeholder, not a real tenant.",
     "photo": "",
     "phone": "(843) 555-0141",
@@ -29,9 +52,19 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": true,
-    "languages": ["English"],
-    "payments": ["Card"],
-    "active": true
+    "languages": [
+      "English"
+    ],
+    "payments": [
+      "Card"
+    ],
+    "active": true,
+    "vagaroUrl": "https://example.com/vagaro/avery-cole",
+    "photos": [
+      "/images/samples/swatch-a.svg",
+      "/images/samples/swatch-b.svg",
+      "/images/samples/swatch-c.svg"
+    ]
   },
   {
     "slug": "jordan-hale",
@@ -41,8 +74,26 @@
     "businessName": "Hale Barber Co",
     "suite": "Suite 108",
     "locationId": "summerville-ladson",
-    "categories": ["barber"],
-    "services": ["Skin fade", "Beard trim", "Hot towel shave"],
+    "categories": [
+      "barber"
+    ],
+    "services": [
+      {
+        "name": "Skin fade",
+        "duration": "45 min",
+        "price": "from $40"
+      },
+      {
+        "name": "Beard trim",
+        "duration": "20 min",
+        "price": "from $20"
+      },
+      {
+        "name": "Hot towel shave",
+        "duration": "30 min",
+        "price": "from $35"
+      }
+    ],
     "bio": "Sample barber for sharp fades and beard work by appointment. This is practice copy for the directory, not a person who works here.",
     "photo": "",
     "phone": "(843) 555-0148",
@@ -63,9 +114,21 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": true,
-    "languages": ["English", "Spanish"],
-    "payments": ["Card", "Buy Now Pay Later"],
-    "active": true
+    "languages": [
+      "English",
+      "Spanish"
+    ],
+    "payments": [
+      "Card",
+      "Buy Now Pay Later"
+    ],
+    "active": true,
+    "vagaroUrl": "",
+    "photos": [
+      "/images/samples/swatch-b.svg",
+      "/images/samples/swatch-d.svg",
+      "/images/samples/swatch-e.svg"
+    ]
   },
   {
     "slug": "rowan-ellis",
@@ -75,8 +138,26 @@
     "businessName": "Ellis Fine Line",
     "suite": "Suite 112",
     "locationId": "summerville-ladson",
-    "categories": ["tattoo"],
-    "services": ["Fine-line tattoo", "Permanent makeup", "Touch-up"],
+    "categories": [
+      "tattoo"
+    ],
+    "services": [
+      {
+        "name": "Fine-line tattoo",
+        "duration": "1–3 hr",
+        "price": "from $150"
+      },
+      {
+        "name": "Permanent makeup",
+        "duration": "2 hr",
+        "price": "from $400"
+      },
+      {
+        "name": "Touch-up",
+        "duration": "45 min",
+        "price": "from $80"
+      }
+    ],
     "bio": "Sample tattoo artist for fine-line work and soft permanent makeup. Bookings on this page are examples and do not reach a real artist.",
     "photo": "",
     "phone": "(843) 555-0112",
@@ -97,9 +178,20 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": true,
-    "languages": ["English"],
-    "payments": ["Card"],
-    "active": true
+    "languages": [
+      "English"
+    ],
+    "payments": [
+      "Card"
+    ],
+    "active": true,
+    "vagaroUrl": "",
+    "photos": [
+      "/images/samples/swatch-c.svg",
+      "/images/samples/swatch-f.svg",
+      "/images/samples/swatch-a.svg",
+      "/images/samples/swatch-d.svg"
+    ]
   },
   {
     "slug": "quinn-parker",
@@ -109,8 +201,26 @@
     "businessName": "Parker Plate Plans",
     "suite": "Suite 116",
     "locationId": "summerville-ladson",
-    "categories": ["wellness"],
-    "services": ["Meal planning", "Nutrition coaching", "Habit check-ins"],
+    "categories": [
+      "wellness"
+    ],
+    "services": [
+      {
+        "name": "Meal planning session",
+        "duration": "60 min",
+        "price": "from $90"
+      },
+      {
+        "name": "Nutrition coaching",
+        "duration": "45 min",
+        "price": "from $75"
+      },
+      {
+        "name": "Habit check-in",
+        "duration": "30 min",
+        "price": "from $45"
+      }
+    ],
     "bio": "Sample nutrition coach for practical meal plans and weekly check-ins. This listing shows how a non-beauty suite can appear in the directory.",
     "photo": "",
     "phone": "(843) 555-0116",
@@ -131,9 +241,21 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": true,
-    "languages": ["English", "Chinese"],
-    "payments": ["Card", "Buy Now Pay Later"],
-    "active": true
+    "languages": [
+      "English",
+      "Chinese"
+    ],
+    "payments": [
+      "Card",
+      "Buy Now Pay Later"
+    ],
+    "active": true,
+    "vagaroUrl": "https://example.com/vagaro/quinn-parker",
+    "photos": [
+      "/images/samples/swatch-d.svg",
+      "/images/samples/swatch-e.svg",
+      "/images/samples/swatch-b.svg"
+    ]
   },
   {
     "slug": "sage-nguyen",
@@ -143,8 +265,32 @@
     "businessName": "Lumen Lash & Skin",
     "suite": "Suite 104",
     "locationId": "summerville-ladson",
-    "categories": ["lashes-brows", "skin"],
-    "services": ["Classic lash set", "Brow lamination", "Facial", "Waxing"],
+    "categories": [
+      "lashes-brows",
+      "skin"
+    ],
+    "services": [
+      {
+        "name": "Classic lash set",
+        "duration": "90 min",
+        "price": "from $120"
+      },
+      {
+        "name": "Brow lamination",
+        "duration": "45 min",
+        "price": "from $70"
+      },
+      {
+        "name": "Facial",
+        "duration": "60 min",
+        "price": "from $95"
+      },
+      {
+        "name": "Waxing",
+        "duration": "20 min",
+        "price": "from $25"
+      }
+    ],
     "bio": "Sample lash and skin pro for classic sets, brow lamination, and calm facials. Photos and the name are made up for this preview.",
     "photo": "",
     "phone": "(843) 555-0104",
@@ -165,9 +311,20 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": true,
-    "languages": ["English", "Chinese"],
-    "payments": ["Card"],
-    "active": true
+    "languages": [
+      "English",
+      "Chinese"
+    ],
+    "payments": [
+      "Card"
+    ],
+    "active": true,
+    "vagaroUrl": "",
+    "photos": [
+      "/images/samples/swatch-e.svg",
+      "/images/samples/swatch-a.svg",
+      "/images/samples/swatch-f.svg"
+    ]
   },
   {
     "slug": "riley-brooks",
@@ -177,8 +334,26 @@
     "businessName": "Brooks Bodywork",
     "suite": "Suite 120",
     "locationId": "summerville-ladson",
-    "categories": ["massage"],
-    "services": ["Swedish massage", "Deep tissue", "Prenatal massage"],
+    "categories": [
+      "massage"
+    ],
+    "services": [
+      {
+        "name": "Swedish massage",
+        "duration": "60 min",
+        "price": "from $90"
+      },
+      {
+        "name": "Deep tissue",
+        "duration": "60 min",
+        "price": "from $110"
+      },
+      {
+        "name": "Prenatal massage",
+        "duration": "60 min",
+        "price": "from $105"
+      }
+    ],
     "bio": "Sample massage therapist for Swedish, deep tissue, and prenatal sessions. No personal phone is listed, so booking falls back to the studio line. Still a sample, not a tenant.",
     "photo": "",
     "phone": "",
@@ -199,8 +374,19 @@
       "Sunday": "Closed"
     },
     "acceptingNewClients": false,
-    "languages": ["English", "Spanish"],
-    "payments": ["Buy Now Pay Later"],
-    "active": true
+    "languages": [
+      "English",
+      "Spanish"
+    ],
+    "payments": [
+      "Buy Now Pay Later"
+    ],
+    "active": true,
+    "vagaroUrl": "",
+    "photos": [
+      "/images/samples/swatch-f.svg",
+      "/images/samples/swatch-c.svg",
+      "/images/samples/swatch-b.svg"
+    ]
   }
 ]

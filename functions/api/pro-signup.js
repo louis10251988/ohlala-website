@@ -17,6 +17,8 @@
  *   Bio                      rich_text
  *   Hours                    rich_text
  *   Booking URL              url
+ *   Vagaro link              url (optional; skipped if the database has no such property)
+ *   Portfolio photos         rich_text (optional; skipped if the database has no such property)
  *   Instagram                rich_text
  *   TikTok                   rich_text
  *   Facebook                 rich_text
@@ -133,15 +135,23 @@ export async function onRequestPost(context) {
   const suite = clip(body.suite, 40);
   const ph = clip(body.ph, 40);
   const em = clip(body.em, 120);
-  const services = clip(body.services, 2000);
+  const serviceLines = Array.isArray(body.services)
+    ? body.services.map((item) => {
+        if (!item || typeof item === "string") return clip(item, 160);
+        return [clip(item.name, 80), clip(item.duration, 40), clip(item.price, 40)].filter(Boolean).join(" · ");
+      }).filter(Boolean).slice(0, 30)
+    : clip(body.services, 2000).split("\n").map((line) => clip(line, 160)).filter(Boolean);
+  const services = serviceLines.join("\n").slice(0, 2000);
   const bio = clip(body.bio, 600);
   const hours = clip(body.hours, 800);
   const booking = clip(body.booking, 300);
+  const vagaro = clip(body.vagaro, 300);
   const instagram = clip(body.instagram, 200);
   const tiktok = clip(body.tiktok, 200);
   const facebook = clip(body.facebook, 200);
   const web = clip(body.web, 300);
   const photo = clip(body.photo, 300);
+  const photos = (Array.isArray(body.photos) ? body.photos : asList(body.photos)).map((item) => clip(item, 300)).filter(Boolean).slice(0, 9);
   const consent = body.consent === true || body.consent === "yes" || body.consent === "on";
   const accepting = body.accepting === true || body.accepting === "yes" || body.accepting === "on";
 
@@ -178,10 +188,13 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Please choose a payment option from the list." }, 400);
   }
 
-  for (const [label, value] of [["Booking link", booking], ["Photo URL", photo]]) {
+  for (const [label, value] of [["Booking link", booking], ["Vagaro link", vagaro], ["Photo URL", photo]]) {
     if (value && !validUrl(value)) {
       return json({ ok: false, error: `That ${label} needs to start with http:// or https://.` }, 400);
     }
+  }
+  if (photos.some((item) => !validUrl(item))) {
+    return json({ ok: false, error: "Each portfolio photo needs to start with http:// or https://." }, 400);
   }
 
   const token = env.NOTION_LEADS_TOKEN;
@@ -208,6 +221,8 @@ export async function onRequestPost(context) {
   if (bio) properties.Bio = richText(bio);
   if (hours) properties.Hours = richText(hours);
   if (booking) properties["Booking URL"] = { url: booking };
+  if (vagaro) properties["Vagaro link"] = { url: vagaro };
+  if (photos.length) properties["Portfolio photos"] = richText(photos.join("\n"));
   if (instagram) properties.Instagram = richText(instagram);
   if (tiktok) properties.TikTok = richText(tiktok);
   if (facebook) properties.Facebook = richText(facebook);
@@ -216,20 +231,33 @@ export async function onRequestPost(context) {
   if (payments.length) properties.Payments = { multi_select: payments.map((name) => ({ name })) };
   if (photo) properties["Photo URL"] = { url: photo };
 
-  let notionRes;
-  try {
-    notionRes = await fetch("https://api.notion.com/v1/pages", {
+  async function createPage(props) {
+    return fetch("https://api.notion.com/v1/pages", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Notion-Version": NOTION_VERSION,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        parent: { database_id: databaseId },
-        properties,
-      }),
+      body: JSON.stringify({ parent: { database_id: databaseId }, properties: props }),
     });
+  }
+
+  let notionRes;
+  try {
+    notionRes = await createPage(properties);
+    if (!notionRes.ok) {
+      const detail = await notionRes.text();
+      const optional = ["Vagaro link", "Portfolio photos"].filter((name) => properties[name] && detail.includes(name));
+      if (optional.length) {
+        console.error("Notion is missing properties; retrying without them", optional.join(", "));
+        for (const name of optional) delete properties[name];
+        notionRes = await createPage(properties);
+      } else {
+        console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
+        return json({ ok: false, error: "Could not save your request." }, 502);
+      }
+    }
   } catch (err) {
     console.error("Notion request failed", err && err.message);
     return json({ ok: false, error: "Could not save your request." }, 502);

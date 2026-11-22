@@ -243,6 +243,23 @@ footer p{max-width:36rem}
 .join-foot{margin:40px 0 8px;text-align:center;font-size:16px;color:var(--muted)}
 .join-foot a{color:var(--muted);font-weight:500;text-decoration:none}
 .join-foot a:hover{color:var(--burgundy)}
+.menu{list-style:none}
+.menu li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--blush);font-size:16px}
+.menu li span:last-child{color:var(--muted);text-align:right}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.shot{border:0;background:var(--blush);border-radius:12px;padding:0;cursor:pointer;text-align:left}
+.shot img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.shot .sample-quiet{display:block;padding:4px 8px 8px}
+.lightbox{border:0;border-radius:16px;padding:16px;max-width:min(92vw,720px);background:var(--cream)}
+.lightbox img{width:100%;height:auto;border-radius:12px}
+.lightbox::backdrop{background:rgba(42,23,32,.72)}
+.book-note{margin:6px 0 0;font-size:16px;color:var(--muted)}
+.book-menu{display:inline-block}
+.book-menu summary{list-style:none}
+.book-menu summary::-webkit-details-marker{display:none}
+.book-menu a{display:flex;align-items:center;min-height:44px;padding:0 12px;color:var(--burgundy);font-weight:700}
+.amenity-list{margin:8px 0 0 18px}
+.amenity-list li{margin:6px 0;font-size:16px}
 .socials{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:14px}
 .social-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--muted);font-size:16px;font-weight:600;text-decoration:none}
 .social-link svg{width:18px;height:18px;flex:none}

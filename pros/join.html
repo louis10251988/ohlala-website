@@ -46,7 +46,7 @@
           <label><input type="checkbox" name="categories" value="fitness"> Fitness (personal training, yoga, pilates)</label>
           <label><input type="checkbox" name="categories" value="other"> Other</label>
         </fieldset>
-        <div class="fg"><label for="services">Detailed services</label><textarea id="services" name="services" placeholder="Balayage, silk press, extensions"></textarea></div>
+        <div class="fg"><label for="services">Services (optional)</label><textarea id="services" name="services" placeholder="One per line: Name · duration · price&#10;Balayage · 2.5 hr · from $180"></textarea></div>
         <div class="fg"><label for="bio">Bio <span id="bioCount">0 / 600</span></label><textarea id="bio" name="bio" maxlength="600"></textarea></div>
         <fieldset class="hours-grid">
           <legend>Weekly hours</legend>
@@ -58,7 +58,8 @@
           <label class="fg">Saturday<input name="Saturday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
           <label class="fg">Sunday<input name="Sunday" placeholder="Closed"></label>
         </fieldset>
-        <div class="fg"><label for="booking">Booking link</label><input id="booking" name="booking" type="url" placeholder="https://"></div>
+        <div class="fg"><label for="vagaro">Vagaro link (optional)</label><input id="vagaro" name="vagaro" type="url" placeholder="https://www.vagaro.com/yourname"></div>
+        <div class="fg"><label for="booking">Other booking link (optional)</label><input id="booking" name="booking" type="url" placeholder="https://"></div>
         <div class="fg"><label for="instagram">Instagram</label><input id="instagram" name="instagram" placeholder="https:// or @handle"></div>
         <div class="fg"><label for="tiktok">TikTok</label><input id="tiktok" name="tiktok"></div>
         <div class="fg"><label for="facebook">Facebook</label><input id="facebook" name="facebook"></div>
@@ -77,9 +78,10 @@
           <label><input type="checkbox" name="payments" value="Cash"> Cash</label>
         </fieldset>
         <label class="chip"><input id="accepting" name="accepting" type="checkbox"> Accepting new clients</label>
-        <div class="fg"><label for="photo">Photo URL</label><input id="photo" name="photo" type="url" placeholder="https://">
+        <div class="fg"><label for="photo">Headshot URL</label><input id="photo" name="photo" type="url" placeholder="https://">
           <p class="join-note">Or text your photo to <a href="sms:+18434209965">(843) 420-9965</a>.</p>
         </div>
+        <div class="fg"><label for="photos">Portfolio photo URLs (optional, up to 9)</label><textarea id="photos" name="photos" placeholder="One https link per line"></textarea></div>
         <label class="chip"><input id="consent" name="consent" type="checkbox" required> I agree Oh La La can show this info and photo on its website.</label>
         <div class="hp" aria-hidden="true"><label for="company">Company</label><input id="company" name="company" tabindex="-1" autocomplete="off"></div>
         <p class="form-err" id="formErr" role="alert"></p>
@@ -114,10 +116,15 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
     ph:f.ph.value.trim(),
     em:f.em.value.trim(),
     categories:vals('categories'),
-    services:f.services.value.trim(),
+    services:f.services.value.split('\n').map(line=>{
+      const parts=line.split('·').map(s=>s.trim());
+      if(!parts[0]) return null;
+      return {name:parts[0], duration:parts[1]||'', price:parts[2]||''};
+    }).filter(Boolean),
     bio:f.bio.value.trim(),
     hours,
     booking:f.booking.value.trim(),
+    vagaro:f.vagaro.value.trim(),
     instagram:f.instagram.value.trim(),
     tiktok:f.tiktok.value.trim(),
     facebook:f.facebook.value.trim(),
@@ -126,6 +133,7 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
     payments:vals('payments'),
     accepting:f.accepting.checked,
     photo:f.photo.value.trim(),
+    photos:f.photos.value.split(/\s+/).map(s=>s.trim()).filter(Boolean).slice(0,9),
     consent:f.consent.checked,
     company:f.company.value
   };
