@@ -18,9 +18,9 @@ h1,h2,h3{font-family:var(--serif);color:var(--burgundy);line-height:1.2;font-wei
 .skip:focus{left:8px}
 
 nav{position:sticky;top:0;z-index:100;background:#FDFAF8;border-bottom:1px solid rgba(93,26,58,.1)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1120px;margin:0 auto;padding:0 16px;gap:12px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1120px;margin:0 auto;padding:0 16px;gap:12px}
 .nav-logo{display:flex;align-items:center;min-height:44px;flex:0 0 auto}
-.nav-logo img{height:44px;width:auto;max-width:none}
+.nav-logo img{height:34px;width:auto;max-width:none}
 .nav-links{display:none;gap:8px}
 .nav-links a,.mobile-menu a,footer a{text-decoration:none}
 .nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:16px;font-weight:600;text-decoration:none}
@@ -47,7 +47,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited{display:inline-flex;align-items:ce
 .pill-cta:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
 .hero-ctas .pill-cta{width:100%}
 
-.hero{padding:12px 0 72px;min-height:calc(100dvh - 68px)}
+.hero{padding:12px 0 72px;min-height:calc(100dvh - 56px)}
 .hero-grid{display:flex;flex-direction:column;gap:14px}
 .hero-copy{display:contents}
 .hero-copy > div{order:1}
@@ -115,7 +115,7 @@ section{padding:48px 0}
 .loc-card p{font-size:16px;margin:8px 0 16px}
 .loc-card a:not(.btn){color:var(--burgundy);display:inline-flex;align-items:center;min-height:44px}
 footer a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
-.foot-logo{height:64px;width:auto;max-width:none;margin-bottom:14px;background:#FDFAF8;border-radius:14px;padding:8px 12px;box-sizing:content-box}
+.foot-logo{height:56px;width:auto;max-width:none;margin-bottom:14px;background:#FDFAF8;border-radius:14px;padding:6px 10px;box-sizing:content-box}
 
 footer{background:var(--deep);color:#f3e4ea;padding:36px 0 88px;font-size:16px}
 .foot-grid{display:grid;gap:22px}
@@ -147,11 +147,11 @@ footer p{max-width:36rem}
 .out-big b{display:block;font-family:var(--serif);font-size:32px}
 
 @media(min-width:800px){
-  html{scroll-padding-top:112px}
-  #launch-package{scroll-margin-top:112px}
-  .nav-in{height:96px;padding:0 24px}
-  .nav-logo img{height:65px}
-  .foot-logo{height:80px}
+  html{scroll-padding-top:88px}
+  #launch-package{scroll-margin-top:88px}
+  .nav-in{height:76px;padding:0 24px}
+  .nav-logo img{height:50px}
+  .foot-logo{height:68px}
   .offer-cta{width:auto}
   .burger,.mobile-menu{display:none!important}
   .nav-links,.nav-cta{display:flex}
@@ -181,8 +181,8 @@ footer p{max-width:36rem}
 }
 @media(min-width:800px) and (max-width:1100px){
   .reel{grid-template-columns:repeat(3,1fr)}
-  .nav-in{height:86px}
-  .nav-logo img{height:54px}
+  .nav-in{height:68px}
+  .nav-logo img{height:42px}
   .nav-cta .btn-outline{display:none}
 }
 
@@ -306,7 +306,7 @@ body.multi-loc .loc-card{display:none}
 
 body.store-page{height:auto;overflow:auto;min-height:100dvh}
 body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
-.store-app{display:flex;flex-direction:column;height:calc(100dvh - 68px);min-height:0}
+.store-app{display:flex;flex-direction:column;height:calc(100dvh - 56px);min-height:0}
 .store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1;padding:0}
 .store-tools{position:sticky;top:0;z-index:3;background:var(--cream);padding:12px 12px 8px}
 .store-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 12px 0}
@@ -369,7 +369,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .maplibregl-ctrl-logo,.maplibregl-ctrl-attrib{display:none !important}
 .maplibregl-map{font:inherit}
 @media(min-width:800px){
-  .store-app{flex-direction:row;height:calc(100dvh - 96px)}
+  .store-app{flex-direction:row;height:calc(100dvh - 76px)}
   .store-panel{width:380px;flex:0 0 380px;height:100%}
   .store-tools{padding:0 16px 10px}
   .store-toggle{display:none}
@@ -377,7 +377,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
   .store-app.is-map .store-panel{display:flex}
 }
 @media(min-width:800px) and (max-width:1100px){
-  .store-app{height:calc(100dvh - 86px)}
+  .store-app{height:calc(100dvh - 68px)}
 }
 
 .studio-hero{background:#3D0F26;color:#FDFAF8;display:grid;gap:20px;padding:28px 20px 32px}
