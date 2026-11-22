@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122k";
+export const ASSET = "20261122l";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -21,7 +21,7 @@ export function header(active = "") {
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) 154px, 220px" decoding="async"></picture></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) 195px, (max-width: 1100px) 211px, 228px" decoding="async"></picture></a>
     <div class="nav-links">
       ${links}
     </div>
@@ -83,9 +83,17 @@ ${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/locations/">B
   var phone=window.matchMedia("(max-width: 799px)");
   if(nav && !reduce){
     var last=window.scrollY||0;
+    var anchorUntil=0;
+    document.addEventListener("click",function(event){
+      var link=event.target.closest && event.target.closest("a[href*='#']");
+      if(!link) return;
+      anchorUntil=Date.now()+1200;
+      nav.classList.remove("nav-up");
+    });
     window.addEventListener("scroll",function(){
       if(!phone.matches || document.body.classList.contains("menu-open")) return;
       var y=window.scrollY||0;
+      if(Date.now()<anchorUntil){ nav.classList.remove("nav-up"); last=y; return; }
       if(y>last+8 && y>72) nav.classList.add("nav-up");
       else if(y<last-8 || y<12) nav.classList.remove("nav-up");
       last=y;
