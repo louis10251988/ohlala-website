@@ -263,7 +263,7 @@ const socialIcon = {
 for (const loc of locations) {
   const photos = (loc.photos || []).slice(0, 2);
   const photoHtml = photos.length
-    ? photos.map((photo) => `<img src="${esc(photo.src)}" alt="${esc(photo.alt || loc.name)}" width="640" height="480">`).join("")
+    ? photos.map((photo, i) => `<img src="${esc(photo.src)}" alt="${esc(photo.alt || loc.name)}" width="800" height="1000" sizes="(min-width: 800px) 440px, calc(100vw - 32px)" ${i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}>`).join("")
     : `<figure class="shot-sample"><img src="/images/samples/swatch-a.svg" alt="Sample studio photo"><figcaption>Sample</figcaption></figure><figure class="shot-sample"><img src="/images/samples/swatch-b.svg" alt="Sample studio photo"><figcaption>Sample</figcaption></figure>`;
   const socials = ["facebook", "instagram"].map((key) => loc[key]
     ? `<a class="hero-social" href="${esc(loc[key])}" target="_blank" rel="noopener">${socialIcon[key]}<span class="visually-hidden">${key === "facebook" ? "Facebook" : "Instagram"}</span></a>`
@@ -281,6 +281,7 @@ for (const loc of locations) {
 <meta property="og:title" content="${esc(loc.name)} in ${esc(loc.city)}">
 <meta property="og:description" content="${esc(tagline)}">
 <meta property="og:url" content="https://ohlalasalonstudio.com${loc.page}">
+${photos[0] ? `<link rel="preload" as="image" href="${esc(photos[0].src)}" fetchpriority="high">` : ""}
 <link rel="stylesheet" href="${cssHref}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="${fontHref}">

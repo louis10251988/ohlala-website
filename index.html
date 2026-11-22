@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="images/real/suite-1.webp" fetchpriority="high">
-<link rel="stylesheet" href="/styles.css?v=20261122i">
+<link rel="stylesheet" href="/styles.css?v=20261122k">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <script type="application/ld+json">
 {
@@ -38,7 +38,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) 154px, 220px" decoding="async"></picture></a>
     <div class="nav-links">
       <a href="/suites">Suites</a>
       <a href="/earnings">Earnings</a>
@@ -49,7 +49,7 @@
       <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
     </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);if(o){var n=document.querySelector('nav');if(n)n.classList.remove('nav-up')}"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mm">
     <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations/">Locations</a>
@@ -68,10 +68,10 @@
       <p class="eyebrow">Summerville, SC</p>
       <h1>A private studio for independent pros</h1>
       <p class="lead">For stylists, barbers, nail, lash, skin, massage &amp; wellness pros.</p>
-      <p class="hero-offer"><b>$4,752</b> New-Tenant Launch Package — FREE when you move in</p>
+      <p class="hero-offer"><b>$4,752</b> New-Tenant Launch Package — free when you move in</p>
       <div class="hero-ctas">
-        <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
-        <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
+        <a class="pill-cta pill-cta-outline hero-cta-book" href="/locations/">Book a service</a>
+        <a class="pill-cta pill-cta-solid" href="#tour">Find your suite</a>
       </div>
       <p class="hero-note">4498 Ladson Rd · Open 24 hours</p>
     </div>
@@ -79,7 +79,7 @@
     <div class="hero-photo">
       <picture>
         <source media="(min-width: 800px)" srcset="images/real/suite-1-desk.webp" type="image/webp" width="800" height="1000">
-        <img src="images/real/suite-1.webp" width="800" height="500" alt="A finished treatment suite at Oh La La, with a treatment bed, wood shelving, and a dark accent wall." fetchpriority="high">
+        <img src="images/real/suite-1.webp" srcset="images/real/suite-1.webp 800w" sizes="(min-width: 800px) 352px, calc(100vw - 32px)" width="800" height="500" alt="A finished treatment suite at Oh La La, with a treatment bed, wood shelving, and a dark accent wall." fetchpriority="high" decoding="async">
       </picture>
     </div>
   </div>
@@ -89,10 +89,10 @@
   <div class="wrap">
     <h2 class="sec-title">Why Oh La La</h2>
     <div class="benefits">
-      <article class="benefit"><h2>Keep 100%</h2><p>You keep your service revenue, tips, and product sales.</p></article>
-      <article class="benefit"><h2>24/7 access</h2><p>Suite access is open 24 hours, 7 days a week.</p></article>
-      <article class="benefit"><h2>All-in rent</h2><p>One flat weekly rent covers Wi-Fi, utilities, and laundry. No surprise bills. No fine print.</p></article>
-      <article class="benefit"><h2>Launch help</h2><p>Logo, website, booking, and coaching are included when you move in.</p></article>
+      <article class="benefit"><span class="benefit-n" aria-hidden="true">1</span><div><h2>Keep 100%</h2><p class="benefit-full">You keep your service revenue, tips, and product sales.</p><p class="benefit-short">Keep every service dollar, tip, and product sale.</p></div></article>
+      <article class="benefit"><span class="benefit-n" aria-hidden="true">2</span><div><h2>24/7 access</h2><p class="benefit-full">Suite access is open 24 hours, 7 days a week.</p><p class="benefit-short">Your suite is open 24 hours, every day.</p></div></article>
+      <article class="benefit"><span class="benefit-n" aria-hidden="true">3</span><div><h2>All-in rent</h2><p class="benefit-full">One flat weekly rent covers Wi-Fi, utilities, and laundry. No surprise bills. No fine print.</p><p class="benefit-short">One weekly rent covers Wi-Fi, utilities, and laundry.</p></div></article>
+      <article class="benefit"><span class="benefit-n" aria-hidden="true">4</span><div><h2>Launch help</h2><p class="benefit-full">Logo, website, booking, and coaching are included when you move in.</p><p class="benefit-short">Logo, website, booking, and coaching when you move in.</p></div></article>
     </div>
   </div>
 </section>
@@ -168,12 +168,12 @@
       <p>Photos from suites and sessions at Oh La La in Summerville.</p>
     </div>
     <div class="reel">
-      <img src="images/real/tenant-hair-1.webp" width="720" height="960" alt="A stylist finishing a client's hair during a studio session." loading="lazy" decoding="async">
-      <img src="images/real/tenant-makeup-1.webp" width="720" height="960" alt="A makeup artist adjusting a client's hair before a photo." loading="lazy" decoding="async">
-      <img src="images/real/tenant-station-1.webp" width="720" height="960" alt="A client seated at a styling station inside a suite." loading="lazy" decoding="async">
-      <img src="images/real/studio-photoshoot-1.webp" width="720" height="960" alt="A stylist arranging a client's hair during a studio photoshoot." loading="lazy" decoding="async">
-      <img src="images/real/client-hair-1.webp" width="720" height="960" alt="Blonde styled hair on a client in a suite." loading="lazy" decoding="async">
-      <img src="images/real/tenant-nails-1.webp" width="720" height="960" alt="A French manicure with a small floral accent nail." loading="lazy" decoding="async">
+      <img src="images/real/tenant-hair-1.webp" width="720" height="480" sizes="(min-width: 800px) 16vw, 78vw" alt="A stylist finishing a client's hair during a studio session." loading="lazy" decoding="async">
+      <img src="images/real/tenant-makeup-1.webp" width="720" height="960" sizes="(min-width: 800px) 16vw, 78vw" alt="A makeup artist adjusting a client's hair before a photo." loading="lazy" decoding="async">
+      <img src="images/real/tenant-station-1.webp" width="720" height="960" sizes="(min-width: 800px) 16vw, 78vw" alt="A client seated at a styling station inside a suite." loading="lazy" decoding="async">
+      <img src="images/real/studio-photoshoot-1.webp" width="720" height="1266" sizes="(min-width: 800px) 16vw, 78vw" alt="A stylist arranging a client's hair during a studio photoshoot." loading="lazy" decoding="async">
+      <img src="images/real/client-hair-1.webp" width="720" height="960" sizes="(min-width: 800px) 16vw, 78vw" alt="Blonde styled hair on a client in a suite." loading="lazy" decoding="async">
+      <img src="images/real/tenant-nails-1.webp" width="720" height="960" sizes="(min-width: 800px) 16vw, 78vw" alt="A French manicure with a small floral accent nail." loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -249,7 +249,7 @@
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="240px" decoding="async" loading="lazy"></picture></a>
       <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
       <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
     </div>
@@ -275,10 +275,34 @@
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
-<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find your suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find a suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<script>
+(function(){
+  var nav=document.querySelector("nav");
+  var bar=document.querySelector(".msticky");
+  var foot=document.querySelector("footer");
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var phone=window.matchMedia("(max-width: 799px)");
+  if(nav && !reduce){
+    var last=window.scrollY||0;
+    window.addEventListener("scroll",function(){
+      if(!phone.matches || document.body.classList.contains("menu-open")) return;
+      var y=window.scrollY||0;
+      if(y>last+8 && y>72) nav.classList.add("nav-up");
+      else if(y<last-8 || y<12) nav.classList.remove("nav-up");
+      last=y;
+    },{passive:true});
+  }
+  if(bar && foot && "IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ bar.classList.toggle("is-away", entry.isIntersecting); });
+    },{rootMargin:"0px 0px 80px 0px",threshold:0}).observe(foot);
+  }
+})();
+</script>
 <!-- /site-footer -->
 
-<script src="/earnings-calc.js?v=20261122i"></script>
+<script src="/earnings-calc.js?v=20261122k"></script>
 <script>
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
 document.getElementById('tourForm').addEventListener('submit',async e=>{

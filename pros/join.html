@@ -6,7 +6,7 @@
 <title>Join the directory | Oh La La Salon &amp; Studios</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Oh La La tenants can submit a directory profile. It stays pending until we review it.">
-<link rel="stylesheet" href="/styles.css?v=20261122i">
+<link rel="stylesheet" href="/styles.css?v=20261122k">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="(max-width: 799px) 154px, 220px" decoding="async"></picture></a>
     <div class="nav-links">
       <a href="/suites">Suites</a>
       <a href="/earnings">Earnings</a>
@@ -27,7 +27,7 @@
       <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
     </div>
-    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);if(o){var n=document.querySelector('nav');if(n)n.classList.remove('nav-up')}"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mm">
     <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations/">Locations</a>
@@ -177,7 +177,7 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios" sizes="240px" decoding="async" loading="lazy"></picture></a>
       <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
       <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
     </div>
@@ -203,7 +203,31 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
-<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find your suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find a suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<script>
+(function(){
+  var nav=document.querySelector("nav");
+  var bar=document.querySelector(".msticky");
+  var foot=document.querySelector("footer");
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var phone=window.matchMedia("(max-width: 799px)");
+  if(nav && !reduce){
+    var last=window.scrollY||0;
+    window.addEventListener("scroll",function(){
+      if(!phone.matches || document.body.classList.contains("menu-open")) return;
+      var y=window.scrollY||0;
+      if(y>last+8 && y>72) nav.classList.add("nav-up");
+      else if(y<last-8 || y<12) nav.classList.remove("nav-up");
+      last=y;
+    },{passive:true});
+  }
+  if(bar && foot && "IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ bar.classList.toggle("is-away", entry.isIntersecting); });
+    },{rootMargin:"0px 0px 80px 0px",threshold:0}).observe(foot);
+  }
+})();
+</script>
 <!-- /site-footer -->
 </body>
 </html>
