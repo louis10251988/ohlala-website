@@ -4,7 +4,7 @@
   --serif:'Playfair Display',Georgia,serif; --sans:'Montserrat',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:88px;overflow-x:clip}
+html{scroll-behavior:smooth;scroll-padding-top:78px;overflow-x:clip}
 section{scroll-margin-top:80px}
 #launch-package{scroll-margin-top:0}
 body{font-family:var(--sans);color:var(--ink);background:var(--cream);font-size:16px;line-height:1.5;overflow-x:clip}
@@ -21,9 +21,9 @@ h1,h2,h3{font-family:var(--serif);color:var(--burgundy);line-height:1.2;font-wei
 nav{position:sticky;top:0;z-index:100;background:#FDFAF8;border-bottom:1px solid rgba(93,26,58,.1);transition:transform .22s ease}
 nav.nav-up{transform:translateY(-100%)}
 body.menu-open nav.nav-up{transform:none}
-.nav-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;height:80px;max-width:1120px;margin:0 auto;padding:0 12px;gap:8px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;height:70px;max-width:1120px;margin:0 auto;padding:0 12px;gap:8px}
 .nav-logo{display:flex;align-items:center;min-height:44px;flex:0 1 auto;min-width:0}
-.nav-logo img{height:min(64px, calc((100vw - 84px) / 4.064));width:auto;max-width:none}
+.nav-logo img{height:min(54px, calc((100vw - 84px) / 4.064));width:auto;max-width:none}
 .nav-links{display:none;gap:8px}
 .nav-links a,.mobile-menu a,footer a{text-decoration:none}
 .nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:16px;font-weight:600;text-decoration:none}
@@ -151,14 +151,14 @@ body.menu-open .msticky,.msticky.is-away{display:none}
 .out-big b{display:block;font-family:var(--serif);font-size:32px}
 
 @media(min-width:800px){
-  html{scroll-padding-top:96px}
+  html{scroll-padding-top:84px}
   #launch-package{scroll-margin-top:0}
   body:has(.msticky){padding-bottom:0}
   nav.nav-up{transform:none}
   .wrap{padding:0 24px}
-  .nav-in{height:88px;padding:0 24px;gap:12px}
+  .nav-in{height:76px;padding:0 24px;gap:12px}
   .nav-logo{flex:0 0 auto}
-  .nav-logo img{height:68px}
+  .nav-logo img{height:57px}
   .foot-logo{height:68px}
   .offer-cta{width:auto}
   .burger,.mobile-menu{display:none!important}
@@ -192,9 +192,9 @@ body.menu-open .msticky,.msticky.is-away{display:none}
 }
 @media(min-width:800px) and (max-width:1100px){
   .reel{grid-template-columns:repeat(3,1fr)}
-  .nav-in{height:80px}
-  .nav-logo img{height:64px}
-  html{scroll-padding-top:88px}
+  .nav-in{height:70px}
+  .nav-logo img{height:54px}
+  html{scroll-padding-top:78px}
   .nav-links a{padding:0 6px}
   .nav-cta .pill-cta{padding:0 12px;letter-spacing:.06em}
   .hero{padding:24px 0}
@@ -325,7 +325,7 @@ body.multi-loc .loc-card{display:none}
 
 body.store-page{height:auto;overflow:auto;min-height:100dvh}
 body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
-.store-app{display:flex;flex-direction:column;height:calc(100dvh - 80px);min-height:0}
+.store-app{display:flex;flex-direction:column;height:calc(100dvh - 70px);min-height:0}
 .store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1;padding:0}
 .store-tools{position:sticky;top:0;z-index:3;background:var(--cream);padding:12px 12px 8px}
 .store-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 12px 0}
@@ -418,7 +418,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .maplibregl-ctrl-logo,.maplibregl-ctrl-attrib{display:none !important}
 .maplibregl-map{font:inherit}
 @media(min-width:800px){
-  .store-app{flex-direction:row;height:calc(100dvh - 88px)}
+  .store-app{flex-direction:row;height:calc(100dvh - 76px)}
   .store-panel{width:380px;flex:0 0 380px;height:100%}
   .store-tools{padding:0 16px 10px}
   .store-toggle{display:none}
@@ -426,7 +426,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
   .store-app.is-map .store-panel{display:flex}
 }
 @media(min-width:800px) and (max-width:1100px){
-  .store-app{height:calc(100dvh - 80px)}
+  .store-app{height:calc(100dvh - 70px)}
 }
 
 .studio-hero{background:#3D0F26;color:#FDFAF8;display:grid;gap:20px;padding:20px 16px 24px}
