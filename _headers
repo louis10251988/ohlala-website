@@ -1,0 +1,36 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/locations
+  Cache-Control: public, max-age=0, must-revalidate
+
+/locations/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/pros/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/suites
+  Cache-Control: public, max-age=0, must-revalidate
+
+/earnings
+  Cache-Control: public, max-age=0, must-revalidate
+
+/faq
+  Cache-Control: public, max-age=0, must-revalidate
+
+/services
+  Cache-Control: public, max-age=0, must-revalidate
+
+/styles.css
+  Cache-Control: public, max-age=3600
+
+/*.js
+  Cache-Control: public, max-age=3600

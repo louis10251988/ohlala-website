@@ -35,12 +35,12 @@
     "bio": "Sample stylist focused on lived-in color, silk presses, and extension installs that still feel like your hair. This profile is a placeholder, not a real tenant.",
     "photo": "",
     "phone": "(843) 555-0141",
-    "bookingUrl": "https://example.com/book/avery-cole",
+    "bookingUrl": "",
     "socials": {
-      "instagram": "https://example.com/avery-cole",
+      "instagram": "",
       "tiktok": "",
       "facebook": "",
-      "website": "https://example.com/cole-color"
+      "website": ""
     },
     "hours": {
       "Monday": "Closed",
@@ -59,7 +59,7 @@
       "Card"
     ],
     "active": true,
-    "vagaroUrl": "https://example.com/vagaro/avery-cole",
+    "vagaroUrl": "",
     "photos": [
       "/images/samples/swatch-a.svg",
       "/images/samples/swatch-b.svg",
@@ -99,8 +99,8 @@
     "phone": "(843) 555-0148",
     "bookingUrl": "",
     "socials": {
-      "instagram": "https://example.com/jordan-hale",
-      "tiktok": "https://example.com/jordan-hale-tiktok",
+      "instagram": "",
+      "tiktok": "",
       "facebook": "",
       "website": ""
     },
@@ -161,11 +161,11 @@
     "bio": "Sample tattoo artist for fine-line work and soft permanent makeup. Bookings on this page are examples and do not reach a real artist.",
     "photo": "",
     "phone": "(843) 555-0112",
-    "bookingUrl": "https://example.com/book/rowan-ellis",
+    "bookingUrl": "",
     "socials": {
-      "instagram": "https://example.com/rowan-ellis",
+      "instagram": "",
       "tiktok": "",
-      "facebook": "https://example.com/rowan-ellis-fb",
+      "facebook": "",
       "website": ""
     },
     "hours": {
@@ -229,7 +229,7 @@
       "instagram": "",
       "tiktok": "",
       "facebook": "",
-      "website": "https://example.com/parker-plate"
+      "website": ""
     },
     "hours": {
       "Monday": "9:00 AM – 4:00 PM",
@@ -250,7 +250,7 @@
       "Buy Now Pay Later"
     ],
     "active": true,
-    "vagaroUrl": "https://example.com/vagaro/quinn-parker",
+    "vagaroUrl": "",
     "photos": [
       "/images/samples/swatch-d.svg",
       "/images/samples/swatch-e.svg",
@@ -294,10 +294,10 @@
     "bio": "Sample lash and skin pro for classic sets, brow lamination, and calm facials. Photos and the name are made up for this preview.",
     "photo": "",
     "phone": "(843) 555-0104",
-    "bookingUrl": "https://example.com/book/sage-nguyen",
+    "bookingUrl": "",
     "socials": {
-      "instagram": "https://example.com/sage-nguyen",
-      "tiktok": "https://example.com/sage-nguyen-tiktok",
+      "instagram": "",
+      "tiktok": "",
       "facebook": "",
       "website": ""
     },

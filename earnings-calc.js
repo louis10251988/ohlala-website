@@ -31,7 +31,7 @@
     const diffEl = root.querySelector("[data-diff]");
     if (diff < 0) {
       more.classList.add("is-soft");
-      diffEl.textContent = "This mix may not increase your monthly take-home. Book a tour and we’ll look at your numbers together.";
+      diffEl.textContent = "This mix may not increase your monthly take-home. Find your suite and we’ll look at your numbers together.";
     } else {
       more.classList.remove("is-soft");
       diffEl.textContent = "+" + money(diff);

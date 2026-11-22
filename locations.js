@@ -20,7 +20,7 @@
   const listEl = document.getElementById("storeList");
   const qEl = document.getElementById("storeQ");
   const msgEl = document.getElementById("storeMsg");
-  const app = document.getElementById("storeApp");
+  const app = document.getElementById("main");
   let locations = [];
   let tags = {};
   let origin = null;
@@ -125,11 +125,10 @@
     if (!window.L || map) return;
     map = L.map("storeMap", { scrollWheelZoom: false, zoomControl: false, maxZoom: 18 });
     L.control.zoom({ position: "bottomright" }).addTo(map);
-    L.maplibreGL({
-      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-      attributionControl: false,
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
     const icon = L.divIcon({ className: "store-pin", html: PIN, iconSize: [36, 48], iconAnchor: [18, 46], popupAnchor: [0, -42] });
     cluster = L.markerClusterGroup({
       showCoverageOnHover: false,
@@ -226,7 +225,7 @@
   ]).then(([places, pros]) => {
     locations = places;
     tags = {};
-    pros.filter((pro) => pro.active).forEach((pro) => {
+    pros.filter((pro) => pro.active && pro.consentApproved && !pro.isSample).forEach((pro) => {
       const bag = tags[pro.locationId] || [];
       (pro.categories || []).forEach((slug) => {
         const label = SHORT[slug] || slug;
@@ -235,7 +234,36 @@
       tags[pro.locationId] = bag;
     });
     render();
-    mountMap();
+    const start = () => {
+      const css = document.querySelector('link[href*="leaflet.css"]');
+      if (!css) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        document.head.appendChild(link);
+      }
+      const load = (src) => new Promise((resolve, reject) => {
+        if (document.querySelector('script[src="' + src + '"]')) return resolve();
+        const el = document.createElement("script");
+        el.src = src;
+        el.onload = () => resolve();
+        el.onerror = reject;
+        document.body.appendChild(el);
+      });
+      load("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+        .then(() => load("https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"))
+        .then(mountMap)
+        .catch((err) => console.error(err));
+    };
+    const mapBox = document.getElementById("storeMap");
+    if (mapBox && "IntersectionObserver" in window) {
+      const watch = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        watch.disconnect();
+        start();
+      }, { rootMargin: "200px" });
+      watch.observe(mapBox);
+    } else start();
   }).catch((err) => {
     console.error(err);
     listEl.innerHTML = '<p class="store-empty">The studio list did not load. Call (843) 420-9965.</p>';

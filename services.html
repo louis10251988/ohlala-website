@@ -2,88 +2,96 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Book a service | Oh La La Salon &amp; Studios</title>
-<meta name="description" content="Book a service with an independent pro at Oh La La Salon & Studios, 4498 Ladson Rd, Summerville, SC.">
+<meta name="description" content="Book a service with an independent pro at Oh La La Salon and Studios, 4498 Ladson Rd, Summerville, SC.">
 <link rel="canonical" href="https://ohlalasalonstudio.com/services">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --burgundy:#5D1A3A; --deep:#3D0F26; --blush:#EFD9CE; --cream:#FDFAF8; --ink:#3A2F32;
-  --rg1:#7A3040;
-  --rosegold:linear-gradient(135deg,#5D1A3A,#7A3040);
-  --serif:'Playfair Display',serif; --script:'Great Vibes',cursive; --sans:'Montserrat',sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.7}
-a{color:inherit;text-decoration:none}
-h1,h2{font-family:var(--serif);color:var(--burgundy);line-height:1.15}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-.script{font-family:var(--script);font-size:1.15em;background:var(--rosegold);-webkit-background-clip:text;background-clip:text;color:transparent}
-nav{background:rgba(253,250,248,.94);border-bottom:1px solid rgba(93,26,58,.08)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:96px;max-width:1180px;margin:0 auto;padding:0 24px}
-.nav-logo img{height:65px;width:auto}
-.foot-logo{height:80px;width:auto;display:block;margin-bottom:16px;background:#FDFAF8;border-radius:14px;padding:8px 12px;box-sizing:content-box}
-.nav-cta{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:12px 18px;border-radius:100px;text-align:center}
-.btn-primary{background:var(--burgundy);color:var(--cream)}
-.btn-outline{border:1.5px solid var(--burgundy);color:var(--burgundy)}
-.sec{padding:72px 0 90px}
-.sec-head{text-align:center;max-width:680px;margin:0 auto 40px}
-.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--rg1)}
-.sec-head p{margin-top:14px;color:#6b5a60}
-.svc{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.svc a{background:#fff;border:1px solid rgba(122,48,64,.3);border-radius:16px;padding:26px 12px;text-align:center;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy)}
-.svc a i{display:block;font-style:normal;font-size:1.5rem;margin-bottom:10px}
-footer{background:var(--deep);color:#d9b7c2;padding:36px 0;font-size:.88rem}
-footer a{text-decoration:underline;text-underline-offset:3px}
-footer a:has(img){text-decoration:none}
-@media(max-width:900px){.svc{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.nav-in{height:auto;min-height:68px;padding:12px 16px;flex-wrap:wrap}.nav-logo img{height:44px}.foot-logo{height:64px}}
-@media(max-width:560px){.svc{grid-template-columns:repeat(2,1fr)}}
-</style>
+<meta property="og:title" content="Book a service | Oh La La Salon &amp; Studios">
+<meta property="og:description" content="Pick a studio, then book the pro directly.">
+<meta property="og:url" content="https://ohlalasalonstudio.com/services">
+<link rel="stylesheet" href="/styles.css?v=20261122g">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
+<!-- site-header -->
+<a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
-    <div class="nav-cta">
-      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
-      <a class="btn btn-primary" href="/#tour">Find your suite</a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+    <div class="nav-links">
+      <a href="/suites">Suites</a>
+      <a href="/earnings">Earnings</a>
+      <a href="/faq">FAQ</a>
+      <a href="/locations/">Locations</a>
     </div>
+    <div class="nav-cta">
+      <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
+      <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
+    </div>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="/suites">Suites</a><a href="/earnings">Earnings</a><a href="/faq">FAQ</a><a href="/locations/">Locations</a>
+    <a href="/locations/">Book a service</a>
+    <a href="/#tour">Find your suite</a>
+    <a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
-<main class="sec">
+<!-- /site-header -->
+<main id="main" class="page">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">For clients</span>
-      <h1>Book a service with our <span class="script">pros</span></h1>
-      <p>Every pro at Oh La La runs their own independent studio inside our Summerville location. Hair, barbering, nails, lashes, brows, skin, massage, med spa, permanent makeup, tattoo, and waxing — find yours and book directly, or call (843) 420-9965.</p>
-    </div>
+    <p class="eyebrow">For clients</p>
+    <h1>Book a service with our pros</h1>
+    <p class="lead">Every pro at Oh La La runs their own studio inside our Summerville location. Choose a studio first, then book them directly, or call (843) 420-9965.</p>
     <div class="svc">
-      <a href="/locations?category=barber"><i>💈</i>Barbers</a>
-      <a href="/locations?category=lashes-brows"><i>🖌</i>Brow Tech</a>
-      <a href="/locations?category=skin"><i>✨</i>Estheticians</a>
-      <a href="/locations?category=hair"><i>🎀</i>Hair Extensions</a>
-      <a href="/locations?category=hair"><i>✂</i>Hairstylists</a>
-      <a href="/locations?category=lashes-brows"><i>👁</i>Lash Tech</a>
-      <a href="/locations?category=massage"><i>💆</i>Massage</a>
-      <a href="/locations?category=skin"><i>⚕</i>Med Spa</a>
-      <a href="/locations?category=nails"><i>💅</i>Nail Techs</a>
-      <a href="/locations?category=tattoo"><i>💄</i>Permanent Makeup</a>
-      <a href="/locations?category=tattoo"><i>🖋</i>Tattoo Artists</a>
-      <a href="/locations?category=lashes-brows"><i>🕯</i>Waxing</a>
+      <a href="/locations/">Barbers</a>
+      <a href="/locations/">Brow tech</a>
+      <a href="/locations/">Estheticians</a>
+      <a href="/locations/">Hair extensions</a>
+      <a href="/locations/">Hairstylists</a>
+      <a href="/locations/">Lash tech</a>
+      <a href="/locations/">Massage</a>
+      <a href="/locations/">Med spa</a>
+      <a href="/locations/">Nail techs</a>
+      <a href="/locations/">Permanent makeup</a>
+      <a href="/locations/">Tattoo artists</a>
+      <a href="/locations/">Waxing</a>
     </div>
   </div>
 </main>
+<!-- site-footer -->
 <footer>
-  <div class="wrap">
-    <a href="/" aria-label="Oh La La Salon and Studios home"><img class="foot-logo" src="images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
-    <a href="/locations">Find a Pro</a> · <a href="/">Back to Oh La La</a> · <a href="tel:+18434209965">(843) 420-9965</a> · 4498 Ladson Rd, Summerville, SC
-    <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
+  <div class="wrap foot-grid">
+    <div>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
+      <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
+      <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
+    </div>
+    <div>
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="/suites">Suites</a></li>
+        <li><a href="/earnings">Earnings</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/locations/">Locations</a></li>
+        <li><a href="/locations/summerville">Summerville studio</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Visit</h2>
+      <ul>
+        <li>4498 Ladson Rd</li>
+        <li>Summerville, SC 29485</li>
+        <li><a href="tel:+18434209965">(843) 420-9965</a></li>
+        <li><a href="mailto:info@ohlalasalonstudio.com">info@ohlalasalonstudio.com</a></li>
+      </ul>
+    </div>
   </div>
+  <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
+<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find your suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>
+<!-- /site-footer -->
 </body>
 </html>
