@@ -71,8 +71,8 @@
 <style>
 :root{
   --burgundy:#5D1A3A; --deep:#3D0F26; --blush:#EFD9CE; --cream:#FDFAF8; --ink:#3A2F32;
-  --rg1:#C47169; --rg2:#E2A892;
-  --rosegold:linear-gradient(135deg,#C47169,#E2A892);
+  --rg1:#7A3040; --rg2:#8E3D4A;
+  --rosegold:linear-gradient(135deg,#5D1A3A,#7A3040);
   --serif:'Playfair Display',serif; --script:'Great Vibes',cursive; --sans:'Montserrat',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -119,9 +119,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(253,250,248,.92);backdrop-
 /* hero */
 .hero{position:relative;overflow:hidden;padding:72px 0 90px}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-.hero h1{font-size:clamp(2.4rem,4.6vw,4rem)}
-.hero h1 .script{font-size:1.15em}
-.hero p.lead{margin:22px 0 30px;font-size:1.05rem;max-width:34rem;color:var(--ink)}
+.hero h1{font-size:clamp(2rem,3.6vw,3.15rem);text-wrap:balance}
+.hero h1 .script{font-size:1.05em}
+.hero p.lead{margin:18px 0 18px;font-size:1.05rem;max-width:38rem;color:var(--ink)}
+.hero-pack{margin:0 0 26px;font-family:var(--serif);font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.35;color:var(--burgundy)}
+.hero-pack b{color:#5C3A42}
+.reviews-link{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.badge.reviews-link,.hstat.reviews-link{text-decoration:none}
+.hstat.reviews-link:hover{text-decoration:underline}
 .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
 .hero-note{margin-top:16px;font-size:.8rem;color:#8a7178}
 .arch{position:relative;border-radius:220px 220px 24px 24px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 24px 60px rgba(61,15,38,.18);border:6px solid #fff;outline:1px solid rgba(196,113,105,.4)}
@@ -183,10 +188,10 @@ section{padding:88px 0}
 .stack{list-style:none;margin-top:22px}
 .stack li{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:13px 0;border-bottom:1px dashed rgba(196,113,105,.35);font-size:.95rem}
 .stack .vals{flex:0 0 auto;white-space:nowrap;text-align:right}
-.stack s{color:#8a7178;font-size:.84rem}
+.stack s{color:#5C3A42;font-size:.84rem}
 .stack b{display:inline-block;margin-left:12px;color:#fff;background:var(--rosegold);letter-spacing:.14em;font-size:.68rem;padding:4px 10px;border-radius:100px;font-family:var(--sans)}
 .stack-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:18px;padding:16px 0 4px;font-family:var(--serif);color:var(--burgundy);font-size:1.2rem}
-.stack-total s{color:#8a7178;font-family:var(--sans);font-size:.95rem;margin-right:8px}
+.stack-total s{color:#5C3A42;font-family:var(--sans);font-size:.95rem;margin-right:8px}
 .offer-own{text-align:center;margin-top:22px;font-style:italic;color:#6b5a60}
 .offer-also{max-width:760px;margin:32px auto 0;background:rgba(255,255,255,.55);border:1px solid rgba(196,113,105,.25);border-radius:20px;padding:28px 32px}
 .offer-also h3{font-size:1.25rem;margin-bottom:6px}
@@ -313,7 +318,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
 
 /* mobile sticky cta */
 .msticky{display:none;position:fixed;bottom:0;left:0;right:0;z-index:99;background:rgba(61,15,38,.96);backdrop-filter:blur(8px);padding:12px 16px;gap:12px}
-.msticky .btn{flex:1;padding:14px 10px;font-size:.7rem}
+.msticky .btn{flex:1;padding:14px 8px;font-size:.62rem;letter-spacing:.04em}
 
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
@@ -353,6 +358,9 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   html,body{overflow-x:clip}
   section{padding:60px 0}
   .hero{padding:40px 0 56px}
+  .hero h1{font-size:clamp(1.65rem,6.6vw,2.15rem)}
+  .offer h2{font-size:clamp(1.7rem,6.8vw,2.2rem);text-wrap:balance}
+  .offer h2 .script{display:block;font-size:1.15em}
   .announce{font-size:.66rem;letter-spacing:.1em;padding:8px 12px}
   .nav-in{height:88px}
   .nav-logo img{max-height:64px}
@@ -394,7 +402,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
 </head>
 <body>
 
-<div class="announce">Rated <b>4.9★</b> on Google · Only a few suites left — call <b>(843) 420-9965</b> to tour</div>
+<div class="announce"><a class="reviews-link" href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener">Rated <b>4.9★</b> on Google</a> · Only a few suites left — call <a href="tel:+18434209965"><b>(843) 420-9965</b></a> to tour</div>
 
 <nav>
   <div class="nav-in">
@@ -407,7 +415,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
       <a href="#faq">FAQ</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn-outline" href="#services">Book a service</a>
+      <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
       <a class="btn btn-primary" href="#tour">Find your suite</a>
     </div>
     <button class="burger" aria-label="Open menu" onclick="document.getElementById('mm').classList.toggle('open')">
@@ -420,7 +428,8 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
     <a href="#calculator" onclick="mm.classList.remove('open')">Earnings calculator</a>
     <a href="#locations" onclick="mm.classList.remove('open')">Locations</a>
     <a href="#faq" onclick="mm.classList.remove('open')">FAQ</a>
-    <a href="#services" onclick="mm.classList.remove('open')">Book a service</a>
+    <a href="tel:+18434209965" onclick="mm.classList.remove('open')">Call (843) 420-9965</a>
+    <a href="#tour" onclick="mm.classList.remove('open')">Find your suite</a>
   </div>
 </nav>
 
@@ -428,16 +437,18 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow rise rise-1">Private Studios · Summerville, SC</span>
-        <h1 class="rise rise-2">Your suite. Your brand.<br><span class="script">Your own business.</span></h1>
-        <p class="lead rise rise-3">Space to grow. Space to shine. Oh La La gives independent pros a private, fully equipped studio in Ladson Oakbrook Shopping Center — one simple rent, 24/7 access, and you keep 100% of what you earn.</p>
-        <div class="hero-ctas rise rise-4">
-          <a class="btn btn-gold" href="#tour">Tour a suite</a>
-          <a class="btn btn-outline" href="#calculator">See what you'd earn</a>
+        <span class="eyebrow">Private studios for independent pros · Summerville, SC</span>
+        <h1>For stylists, barbers, nails, lash, skin, tattoo, nutrition, personal training, massage, and wellness.</h1>
+        <p class="lead">A private studio where you keep 100% of what you earn, with 24/7 access at Ladson Oakbrook Shopping Center.</p>
+        <p class="hero-pack"><b>$4,752</b> New-Tenant Launch Package — FREE when you move in</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="#tour">Claim Your Free Launch Package</a>
+          <a class="btn btn-outline" href="tel:+18434209965">Call (843) 420-9965</a>
         </div>
-        <p class="hero-note rise rise-4">Move-in ready · Wi-Fi &amp; utilities included · Open 24 hours · 4498 Ladson Rd, Summerville</p>
+        <p class="hero-note">Move-in ready · Wi-Fi &amp; utilities included · Open 24 hours · 4498 Ladson Rd, Summerville</p>
       </div>
-      <div class="hero-visual reveal">
+      <!-- TODO: Swap this illustration for real photos of the suites and building. No real photos are in the repo; do not add stock or AI images. -->
+      <div class="hero-visual">
         <div class="arch">
           <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a private salon suite: lit vanity mirror, styling chair, and vanity counter">
             <defs>
@@ -515,7 +526,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
               </g>
             </g>
           </svg>
-          <div class="badge">4.9★ · 121+ reviews</div>
+          <a class="badge reviews-link" href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener">4.9★ · 121+ reviews</a>
         </div>
         <div class="fcard fc-earn"><b>100%</b><span>Yours to keep</span></div>
         <div class="fcard fc-review">
@@ -528,7 +539,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
     <div class="hero-stats reveal">
       <div class="hstat"><b>25</b><span>Private suites</span></div>
       <div class="hstat"><b>100%</b><span>Of earnings kept</span></div>
-      <div class="hstat"><b>4.9★</b><span>121+ Google reviews</span></div>
+      <a class="hstat reviews-link" href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener"><b>4.9★</b><span>121+ Google reviews</span></a>
       <div class="hstat"><b>24/7</b><span>Suite access</span></div>
     </div>
   </div>
@@ -573,7 +584,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
         <li><span>Marketing flyer design</span><span class="vals"><s>$150 value</s> <b>FREE</b></span></li>
         <li><span>Instagram, Facebook &amp; TikTok setup</span><span class="vals"><s>$249 value</s> <b>FREE</b></span></li>
         <li><span>Google Business Profile setup</span><span class="vals"><s>$249 value</s> <b>FREE</b></span></li>
-        <li><span>First month of marketing (8 posts + 4 Google updates)</span><span class="vals"><s>$750 value</s> <b>FREE</b></span></li>
+        <li><span>First month of marketing (8 posts + 4 Google updates, no paid ads)</span><span class="vals"><s>$750 value</s> <b>FREE</b></span></li>
         <li><span>Booking software setup</span><span class="vals"><s>$80 value</s> <b>FREE</b></span></li>
         <li><span>12 months of business coaching</span><span class="vals"><s>$597 value</s> <b>FREE</b></span></li>
       </ul>
@@ -597,14 +608,8 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
 </section>
 
 <section class="blush-band">
-  <div class="wrap split">
-    <div class="arch reveal" style="aspect-ratio:4/5">
-      <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Illustration of a private salon suite">
-        <use href="#vanityScene" xlink:href="#vanityScene"/>
-      </svg>
-      <div class="badge">Inside your suite</div>
-    </div>
-    <div class="reveal">
+  <div class="wrap">
+    <div class="reveal" style="max-width:760px;margin:0 auto">
       <span class="eyebrow">It all starts here</span>
       <h2 style="font-size:clamp(1.8rem,3vw,2.6rem);margin-top:10px">A private studio, <span class="script">move-in ready</span></h2>
       <ul class="amen">
@@ -715,30 +720,6 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   </div>
 </section>
 
-<section class="blush-band" id="services">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">For clients</span>
-      <h2>Book a service with our <span class="script">pros</span></h2>
-      <p>Every pro at Oh La La runs their own independent studio inside our Summerville location. Hair, barbering, nails, lashes, brows, skin, massage, med spa, permanent makeup, tattoo, and waxing — find yours and book directly, or call (843) 420-9965.</p>
-    </div>
-    <div class="svc">
-      <a href="tel:+18434209965" class="reveal"><i>💈</i>Barbers</a>
-      <a href="tel:+18434209965" class="reveal"><i>🖌</i>Brow Tech</a>
-      <a href="tel:+18434209965" class="reveal"><i>✨</i>Estheticians</a>
-      <a href="tel:+18434209965" class="reveal"><i>🎀</i>Hair Extensions</a>
-      <a href="tel:+18434209965" class="reveal"><i>✂</i>Hairstylists</a>
-      <a href="tel:+18434209965" class="reveal"><i>👁</i>Lash Tech</a>
-      <a href="tel:+18434209965" class="reveal"><i>💆</i>Massage</a>
-      <a href="tel:+18434209965" class="reveal"><i>⚕</i>Med Spa</a>
-      <a href="tel:+18434209965" class="reveal"><i>💅</i>Nail Techs</a>
-      <a href="tel:+18434209965" class="reveal"><i>💄</i>Permanent Makeup</a>
-      <a href="tel:+18434209965" class="reveal"><i>🖋</i>Tattoo Artists</a>
-      <a href="tel:+18434209965" class="reveal"><i>🕯</i>Waxing</a>
-    </div>
-  </div>
-</section>
-
 <section id="locations">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -760,8 +741,8 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
       <div class="loc reveal">
         <div class="map"><span>What clients say</span><div class="pin wait">4.9 ★</div></div>
         <div class="loc-body">
-          <div class="meta">121+ Google reviews</div>
-          <p>Rated 4.9 out of 5 stars by clients across Summerville, Ladson, and Goose Creek. Come see why.</p>
+          <div class="meta"><a class="reviews-link" href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener">121+ Google reviews</a></div>
+          <p><a class="reviews-link" href="https://www.google.com/maps/search/?api=1&amp;query=Oh+La+La+Salon+%26+Studios+4498+Ladson+Rd+Summerville+SC+29485" target="_blank" rel="noopener">Rated 4.9 out of 5 stars</a> by clients across Summerville, Ladson, and Goose Creek. Come see why.</p>
           <a class="btn btn-outline" href="#tour">Schedule your tour</a>
         </div>
       </div>
@@ -813,23 +794,26 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
     </div>
     <div class="form-card reveal">
       <form id="tourForm" class="form-grid" novalidate>
-        <div class="fg"><label for="fn">First name</label><input id="fn" name="fn" required autocomplete="given-name"></div>
-        <div class="fg"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name"></div>
-        <div class="fg"><label for="ph">Phone</label><input id="ph" name="ph" type="tel" autocomplete="tel"></div>
-        <div class="fg"><label for="em">Email</label><input id="em" name="em" type="email" autocomplete="email"></div>
-        <div class="fg"><label for="pr">Your profession</label>
-          <select id="pr" name="pr"><option>Hairstylist</option><option>Barber</option><option>Nail tech</option><option>Esthetician</option><option>Lash tech</option><option>Brow tech</option><option>Hair extensions specialist</option><option>Massage therapist</option><option>Med spa professional</option><option>Permanent makeup artist</option><option>Tattoo artist</option><option>Waxing specialist</option><option>Other</option></select>
+        <div class="fg full"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+        <div class="fg full"><label for="ph">Phone</label><input id="ph" name="ph" type="tel" required autocomplete="tel"></div>
+        <div class="fg full"><label for="pr">Profession</label>
+          <select id="pr" name="pr" required>
+            <option value="" selected disabled>Choose your profession</option>
+            <option>Hairstylist</option>
+            <option>Barber</option>
+            <option>Nail tech</option>
+            <option>Lash/Brow</option>
+            <option>Esthetician</option>
+            <option>Makeup artist</option>
+            <option>Massage therapist</option>
+            <option>Tattoo artist</option>
+            <option>Nutritionist/Dietitian</option>
+            <option>Personal trainer</option>
+            <option>Wellness coach</option>
+            <option>Other</option>
+          </select>
         </div>
-        <div class="fg full"><span class="loc-label" id="lo-label">Preferred location</span>
-          <div class="loc-choices" role="radiogroup" aria-labelledby="lo-label">
-            <label class="loc-choice"><input type="radio" name="lo" value="Summerville — Ladson Oakbrook (open now)" checked><span>Summerville — Ladson Oakbrook (open now)</span></label>
-            <label class="loc-choice"><input type="radio" name="lo" value="Future locations — keep me posted"><span>Future locations — keep me posted</span></label>
-          </div>
-        </div>
-        <div class="fg full"><label for="st">Suite you're interested in</label>
-          <select id="st" name="st"><option value="Not sure yet — show me around">Not sure yet — show me around</option><option value="Small">Small Studio (100 sq ft)</option><option value="Medium">Medium Studio (140 sq ft)</option><option value="Large">Large Studio (200 sq ft)</option></select>
-        </div>
-        <div class="fg full"><label for="ms">Anything we should know? (optional)</label><textarea id="ms" name="ms" rows="3"></textarea></div>
+        <div class="fg full"><label for="em">Email (optional)</label><input id="em" name="em" type="email" autocomplete="email"></div>
         <div class="fg hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" value=""></div>
         <p class="form-err" id="formErr" role="alert"></p>
         <div class="fg full"><button class="btn btn-gold" type="submit" style="width:100%">Request my tour</button></div>
@@ -869,7 +853,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
           <li><a href="#locations">Locations</a></li>
           <li><a href="#faq">FAQs</a></li>
           <li><a href="#tour">Contact us</a></li>
-          <li><a href="#services">Book a service</a></li>
+          <li><a href="/services">Book a service</a></li>
         </ul>
       </div>
       <div>
@@ -894,7 +878,7 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
 </footer>
 
 <div class="msticky">
-  <a class="btn btn-outline" style="border-color:#E2A892;color:#EFD9CE" href="#services">Book a service</a>
+  <a class="btn btn-outline" style="border-color:#E2A892;color:#EFD9CE" href="tel:+18434209965">Call (843) 420-9965</a>
   <a class="btn btn-gold" href="#tour">Find your suite</a>
 </div>
 
@@ -910,14 +894,6 @@ function calc(){
 }
 split.addEventListener('input',calc);calc();
 
-// Tier buttons pre-select the suite in the tour form
-document.querySelectorAll('[data-suite]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const st=document.getElementById('st');
-    [...st.options].forEach(o=>{if(o.value===btn.dataset.suite)st.value=o.value;});
-  });
-});
-
 // Tour form
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
 document.getElementById('tourForm').addEventListener('submit',async e=>{
@@ -928,11 +904,11 @@ document.getElementById('tourForm').addEventListener('submit',async e=>{
   const showErr=msg=>{err.innerHTML=msg;err.style.display='block';};
   err.style.display='none';
   if(!f.checkValidity()){f.reportValidity();return;}
-  const fn=f.fn.value.trim(),ln=f.ln.value.trim(),ph=f.ph.value.trim(),em=f.em.value.trim();
-  if(!fn&&!ln){showErr('Please add your name, or call us at '+PHONE_LINK+'.');return;}
-  if(!ph&&!em){showErr('Please add a phone number or email so we can reach you — or call us at '+PHONE_LINK+'.');return;}
-  if(ph&&ph.replace(/\D/g,'').length<7){showErr('That phone number doesn’t look quite right. You can also call us at '+PHONE_LINK+'.');return;}
-  const payload={fn,ln,ph,em,pr:f.pr.value,lo:f.lo.value,st:f.st.value,ms:f.ms.value.trim(),website:f.website.value};
+  const name=f.name.value.trim(),ph=f.ph.value.trim(),em=f.em.value.trim(),pr=f.pr.value;
+  if(!name){showErr('Please add your name, or call us at '+PHONE_LINK+'.');return;}
+  if(!ph||ph.replace(/\D/g,'').length<7){showErr('Please add a phone number, or call us at '+PHONE_LINK+'.');return;}
+  if(!pr){showErr('Please choose your profession, or call us at '+PHONE_LINK+'.');return;}
+  const payload={name,ph,em,pr,website:f.website.value};
   btn.disabled=true;
   const prev=btn.textContent;
   btn.textContent='Sending…';

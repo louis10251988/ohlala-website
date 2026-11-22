@@ -27,15 +27,20 @@ const PROFESSIONS = new Set([
   "Hairstylist",
   "Barber",
   "Nail tech",
-  "Esthetician",
+  "Lash/Brow",
   "Lash tech",
   "Brow tech",
+  "Esthetician",
+  "Makeup artist",
   "Hair extensions specialist",
   "Massage therapist",
   "Med spa professional",
   "Permanent makeup artist",
   "Tattoo artist",
   "Waxing specialist",
+  "Nutritionist/Dietitian",
+  "Personal trainer",
+  "Wellness coach",
   "Other",
 ]);
 
@@ -99,8 +104,10 @@ export async function onRequestPost(context) {
   const trap = clip(body.website || body.company || body.hp, 300);
   if (trap) return json({ ok: true });
 
-  const fn = clip(body.fn, 80);
-  const ln = clip(body.ln, 80);
+  const combined = clip(body.name, 120);
+  const parts = combined ? combined.split(" ") : [];
+  const fn = clip(body.fn || parts[0], 80);
+  const ln = clip(body.ln || (parts.length > 1 ? parts.slice(1).join(" ") : ""), 80);
   const ph = clip(body.ph, 40);
   const em = clip(body.em, 120);
   const pr = clip(body.pr, 80);
