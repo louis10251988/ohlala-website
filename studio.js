@@ -100,10 +100,25 @@
   if (mapEl && window.L) {
     const lat = Number(mapEl.dataset.lat);
     const lng = Number(mapEl.dataset.lng);
-    const map = L.map(mapEl, { scrollWheelZoom: false }).setView([lat, lng], 15);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap" }).addTo(map);
-    const icon = L.divIcon({ className: "store-pin", html: "<span></span>", iconSize: [32, 32], iconAnchor: [16, 30] });
+    const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: false }).setView([lat, lng], 14);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+    L.maplibreGL({
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      attributionControl: false,
+    }).addTo(map);
+    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
+    const icon = L.divIcon({
+      className: "store-pin",
+      html: '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16.5" r="6" fill="#fff"/></svg>',
+      iconSize: [36, 48],
+      iconAnchor: [18, 46],
+    });
     L.marker([lat, lng], { icon }).addTo(map);
+    mapEl.tabIndex = 0;
+    map.getContainer().addEventListener("click", () => map.scrollWheelZoom.enable());
+    map.getContainer().addEventListener("focus", () => map.scrollWheelZoom.enable());
+    map.getContainer().addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    map.getContainer().addEventListener("blur", () => map.scrollWheelZoom.disable());
     setTimeout(() => map.invalidateSize(), 80);
   }
 

@@ -12,6 +12,8 @@
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
 </head>
@@ -57,9 +59,15 @@
     </div>
     <div class="store-scroll" id="storeList"></div>
   </section>
-  <div class="store-map" id="storeMap" aria-label="Map of Oh La La studios"></div>
+  <div class="store-map-wrap">
+    <button class="search-area" id="searchArea" type="button" hidden>Search this area</button>
+    <div class="store-map" id="storeMap" aria-label="Map of Oh La La studios" tabindex="0"></div>
+  </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="/locations.js"></script>
 </body>
 </html>

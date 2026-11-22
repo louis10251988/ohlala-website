@@ -297,8 +297,8 @@ body.multi-loc .loc-card{display:none}
 body.store-page{height:100dvh;overflow:hidden}
 body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
 .store-app{display:flex;flex-direction:column;height:calc(100dvh - 68px);min-height:0}
-.store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1}
-.store-tools{padding:12px 12px 0}
+.store-panel{display:flex;flex-direction:column;min-height:0;background:var(--cream);flex:1;padding:0}
+.store-tools{position:sticky;top:0;z-index:3;background:var(--cream);padding:12px 12px 8px}
 .store-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 12px 0}
 .store-toggle button{min-height:44px;border-radius:10px;border:2px solid var(--burgundy);background:transparent;color:var(--burgundy);font:700 16px var(--sans);cursor:pointer}
 .store-toggle button[aria-pressed="true"]{background:var(--burgundy);color:#fff}
@@ -313,6 +313,7 @@ body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
 .store-card.is-on{outline:3px solid var(--burgundy)}
 .store-main{display:grid;grid-template-columns:72px 1fr;gap:12px;text-decoration:none;color:inherit}
 .store-main h2{font-size:22px}
+.store-main h2 a{text-decoration:none}
 .store-logo{width:72px;height:72px;border-radius:50%;object-fit:contain;background:var(--cream);border:1px solid rgba(93,26,58,.15)}
 .store-place{margin:2px 0 6px;font-size:14px;font-weight:700;letter-spacing:.08em;color:#7A3040}
 .store-line{display:flex;gap:8px;align-items:flex-start;font-size:16px;margin:4px 0}
@@ -323,18 +324,36 @@ body.store-page .mobile-menu.open{position:absolute;left:0;right:0;z-index:120}
 .store-actions .btn{width:100%}
 .store-away{margin-top:6px;font-weight:700;color:var(--burgundy)}
 .store-empty{font-size:16px;padding:12px 0}
-.store-map{min-height:0;background:var(--blush)}
-.store-app:not(.is-map) .store-map{display:none}
+.store-map-wrap{position:relative;min-height:0;display:none;flex:1}
+.store-app.is-map .store-map-wrap{display:flex}
 .store-app.is-map .store-panel{display:none}
-.store-app.is-map .store-map{display:block;flex:1}
+.store-map{min-height:0;background:#f4f4f4;flex:1;width:100%;outline:none}
+.search-area{position:absolute;z-index:500;top:16px;left:50%;transform:translateX(-50%);min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#fff;color:var(--burgundy);font:700 16px var(--sans);box-shadow:0 2px 10px rgba(42,23,32,.2);cursor:pointer}
+.search-area:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
 .store-pin.leaflet-div-icon{background:transparent;border:0}
-.store-pin span{display:block;width:26px;height:26px;background:#5D1A3A;border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(42,23,32,.35)}
-.store-pin.is-on span{background:#E8B4A8;border-color:#5D1A3A}
+.pin-svg{display:block;width:36px;height:48px;filter:drop-shadow(0 2px 3px rgba(42,23,32,.35));transform-origin:50% 100%}
+.store-pin.is-on .pin-svg{transform:scale(1.18);filter:drop-shadow(0 4px 6px rgba(42,23,32,.45))}
+.wine-cluster{background:#5D1A3A;color:#fff;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(42,23,32,.35);display:grid;place-items:center;font:700 16px var(--sans)}
+.leaflet-popup-content-wrapper{border-radius:16px;box-shadow:0 8px 24px rgba(42,23,32,.18)}
+.leaflet-popup-content{margin:14px 14px 12px}
+.map-pop-name{font-family:var(--serif);font-size:22px;color:var(--burgundy);line-height:1.2}
+.map-pop p{margin:4px 0;font-size:16px}
+.map-pop-actions{display:grid;gap:8px;margin-top:10px}
+.map-pop-actions .btn{width:100%}
+.leaflet-container a.btn-primary{color:#fff}
+.leaflet-container a.btn-outline{color:var(--burgundy);background:#fff}
+.leaflet-bottom.leaflet-right{margin:0 12px 12px 0}
+.leaflet-bar{border:0;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(42,23,32,.16)}
+.leaflet-bar a{width:36px;height:36px;line-height:36px;color:var(--burgundy);background:#fff;border:0}
+.leaflet-control-attribution{font-size:11px;background:rgba(255,255,255,.88)}
+.maplibregl-ctrl-logo,.maplibregl-ctrl-attrib{display:none !important}
+.maplibregl-map{font:inherit}
 @media(min-width:800px){
   .store-app{flex-direction:row;height:calc(100dvh - 96px)}
   .store-panel{width:380px;flex:0 0 380px;height:100%}
+  .store-tools{padding:0 16px 10px}
   .store-toggle{display:none}
-  .store-map{display:block !important;flex:1;height:100%}
+  .store-map-wrap{display:flex !important;flex:1;height:100%}
   .store-app.is-map .store-panel{display:flex}
 }
 @media(min-width:800px) and (max-width:1100px){

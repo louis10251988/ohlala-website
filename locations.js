@@ -15,7 +15,7 @@
     other: "Other",
   };
   const STATES = { sc: "south carolina", southcarolina: "sc" };
-  const SOUTHEAST = [[25.0, -92.0], [39.5, -75.5]];
+  const PIN = '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16.5" r="6" fill="#fff"/></svg>';
 
   const listEl = document.getElementById("storeList");
   const qEl = document.getElementById("storeQ");
@@ -25,8 +25,12 @@
   let tags = {};
   let origin = null;
   let map;
+  let cluster;
   let markers = {};
   let selected = "";
+  let areaBounds = null;
+  let ignoreMoveUntil = 0;
+  const searchAreaBtn = document.getElementById("searchArea");
 
   function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -62,14 +66,14 @@
     const away = origin ? '<p class="store-away">' + Math.max(1, Math.round(miles(origin, loc))) + " mi away</p>" : "";
     const on = loc.id === selected ? " is-on" : "";
     return '<article class="store-card' + on + '" data-id="' + esc(loc.id) + '">' +
-      '<a class="store-main" href="' + esc(loc.page) + '">' +
+      '<div class="store-main">' +
       '<img class="store-logo" src="/images/logo.png" alt="" width="72" height="72">' +
-      "<div><h2>" + esc(loc.name) + "</h2>" +
+      "<div><h2><a href=\"" + esc(loc.page) + "\">" + esc(loc.name) + "</a></h2>" +
       '<p class="store-place">' + esc(place) + "</p>" +
       '<p class="store-line">' + phoneIcon() + "<span>" + esc(loc.phone) + "</span></p>" +
       '<p class="store-line">' + pinIcon() + "<span>" + esc(loc.address) + "</span></p>" +
       (pills ? '<p class="store-tags">' + pills + "</p>" : "") +
-      away + "</div></a>" +
+      away + "</div></div>" +
       '<div class="store-actions">' +
       '<a class="btn btn-primary" href="' + esc(loc.page) + '">View pros</a>' +
       '<a class="btn btn-outline" href="' + esc(loc.directionsUrl) + '" target="_blank" rel="noopener">Directions</a>' +
@@ -77,7 +81,7 @@
   }
   function visible() {
     const query = qEl.value.trim();
-    let rows = locations.filter((loc) => matches(loc, query));
+    let rows = locations.filter((loc) => matches(loc, query) && (!areaBounds || areaBounds.contains([loc.lat, loc.lng])));
     if (origin) rows = rows.slice().sort((a, b) => miles(origin, a) - miles(origin, b));
     return rows;
   }
@@ -85,49 +89,88 @@
     const rows = visible();
     listEl.innerHTML = rows.length
       ? rows.map(card).join("")
-      : '<p class="store-empty">No studios match that search.</p>';
+      : '<p class="store-empty">' + (areaBounds ? "No studios in this map area." : "No studios match that search.") + "</p>";
+  }
+  function popupHtml(loc) {
+    return '<div class="map-pop"><p class="map-pop-name">' + esc(loc.name) + "</p>" +
+      "<p>" + esc(loc.address) + "</p><p>" + esc(loc.phone) + "</p>" +
+      '<div class="map-pop-actions"><a class="btn btn-primary" href="' + esc(loc.page) + '">View pros</a>' +
+      '<a class="btn btn-outline" href="' + esc(loc.directionsUrl) + '" target="_blank" rel="noopener">Directions</a></div></div>';
+  }
+  function paint(id) {
+    document.querySelectorAll(".store-card").forEach((el) => el.classList.toggle("is-on", el.dataset.id === id));
+    Object.entries(markers).forEach(([key, marker]) => marker.getElement()?.classList.toggle("is-on", key === id));
+  }
+  function holdMoves(ms) {
+    ignoreMoveUntil = Date.now() + ms;
   }
   function select(id, opts) {
     selected = id;
-    document.querySelectorAll(".store-card").forEach((el) => el.classList.toggle("is-on", el.dataset.id === id));
+    paint(id);
     const marker = markers[id];
     if (!marker || !map) return;
-    Object.entries(markers).forEach(([key, item]) => item.getElement()?.classList.toggle("is-on", key === id));
-    if (opts.pan) map.flyTo(marker.getLatLng(), Math.max(map.getZoom(), 11), { duration: 0.5 });
-    if (opts.popup) marker.openPopup();
+    const show = () => {
+      paint(id);
+      if (opts.popup) marker.openPopup();
+    };
+    if (opts.pan) {
+      holdMoves(900);
+      const zoom = Math.max(map.getZoom(), 12);
+      if (cluster && !marker.getElement()) cluster.zoomToShowLayer(marker, () => { map.flyTo(marker.getLatLng(), zoom, { duration: 0.45 }); show(); });
+      else { map.flyTo(marker.getLatLng(), zoom, { duration: 0.45 }); show(); }
+    } else show();
     document.querySelector('.store-card[data-id="' + id + '"]')?.scrollIntoView({ block: "nearest" });
   }
   function mountMap() {
     if (!window.L || map) return;
-    map = L.map("storeMap", { scrollWheelZoom: true });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "&copy; OpenStreetMap",
+    map = L.map("storeMap", { scrollWheelZoom: false, zoomControl: false, maxZoom: 18 });
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+    L.maplibreGL({
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      attributionControl: false,
     }).addTo(map);
-    const icon = L.divIcon({
-      className: "store-pin",
-      html: "<span></span>",
-      iconSize: [32, 32],
-      iconAnchor: [16, 30],
-      popupAnchor: [0, -28],
+    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
+    const icon = L.divIcon({ className: "store-pin", html: PIN, iconSize: [36, 48], iconAnchor: [18, 46], popupAnchor: [0, -42] });
+    cluster = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      maxClusterRadius: 48,
+      spiderfyOnMaxZoom: true,
+      iconCreateFunction(group) {
+        return L.divIcon({
+          className: "wine-cluster",
+          html: "<span>" + group.getChildCount() + "</span>",
+          iconSize: [44, 44],
+        });
+      },
     });
     locations.forEach((loc) => {
-      const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
-      marker.bindPopup(
-        "<strong>" + esc(loc.name) + "</strong><br>" + esc(loc.city) + ", " + esc(loc.state) +
-        '<br><a href="' + esc(loc.page) + '">View pros</a>'
-      );
-      marker.on("click", () => select(loc.id, { pan: true, popup: true }));
+      const marker = L.marker([loc.lat, loc.lng], { icon });
+      marker.bindPopup(popupHtml(loc), { minWidth: 220, maxWidth: 260, autoPanPadding: [24, 24] });
+      marker.on("click", () => select(loc.id, { pan: false, popup: true }));
+      marker.on("mouseover", () => paint(loc.id));
+      marker.on("mouseout", () => paint(selected));
       markers[loc.id] = marker;
+      cluster.addLayer(marker);
+    });
+    map.addLayer(cluster);
+    const box = map.getContainer();
+    box.addEventListener("click", () => map.scrollWheelZoom.enable());
+    box.addEventListener("focus", () => map.scrollWheelZoom.enable());
+    box.addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    box.addEventListener("blur", () => map.scrollWheelZoom.disable());
+    map.on("moveend", () => {
+      if (Date.now() < ignoreMoveUntil) return;
+      searchAreaBtn.hidden = false;
     });
     fitMap();
     setTimeout(fitMap, 80);
   }
   function fitMap() {
     if (!map) return;
+    holdMoves(800);
     map.invalidateSize();
-    if (locations.length === 1) map.fitBounds(SOUTHEAST, { padding: [12, 12] });
-    else if (locations.length) map.fitBounds(L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng])), { padding: [40, 40] });
+    if (locations.length === 1) map.setView([locations[0].lat, locations[0].lng], 12);
+    else if (locations.length) map.fitBounds(L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng])), { padding: [48, 48] });
   }
   function showMap(on) {
     app.classList.toggle("is-map", on);
@@ -136,7 +179,13 @@
     setTimeout(fitMap, 40);
   }
 
-  qEl.addEventListener("input", render);
+  qEl.addEventListener("input", () => { areaBounds = null; render(); });
+  searchAreaBtn.addEventListener("click", () => {
+    areaBounds = map.getBounds();
+    searchAreaBtn.hidden = true;
+    msgEl.textContent = "Showing studios in this map area.";
+    render();
+  });
   document.getElementById("storeSearch").addEventListener("submit", (event) => event.preventDefault());
   document.getElementById("useLoc").addEventListener("click", () => {
     if (!navigator.geolocation) {
@@ -155,10 +204,20 @@
   });
   document.getElementById("tabList").addEventListener("click", () => showMap(false));
   document.getElementById("tabMap").addEventListener("click", () => showMap(true));
-  listEl.addEventListener("click", (event) => {
+  listEl.addEventListener("mouseover", (event) => {
     const cardEl = event.target.closest(".store-card");
-    if (!cardEl || event.target.closest('a[target="_blank"]')) return;
-    select(cardEl.dataset.id, { pan: true, popup: false });
+    if (cardEl) paint(cardEl.dataset.id);
+  });
+  listEl.addEventListener("mouseout", (event) => {
+    const cardEl = event.target.closest(".store-card");
+    if (!cardEl || cardEl.contains(event.relatedTarget)) return;
+    paint(selected);
+  });
+  listEl.addEventListener("click", (event) => {
+    if (event.target.closest("a")) return;
+    const cardEl = event.target.closest(".store-card");
+    if (!cardEl) return;
+    select(cardEl.dataset.id, { pan: true, popup: true });
   });
 
   Promise.all([
@@ -177,7 +236,8 @@
     });
     render();
     mountMap();
-  }).catch(() => {
+  }).catch((err) => {
+    console.error(err);
     listEl.innerHTML = '<p class="store-empty">The studio list did not load. Call (843) 420-9965.</p>';
   });
 })();
