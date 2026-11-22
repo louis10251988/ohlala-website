@@ -175,6 +175,26 @@ section{padding:88px 0}
 .pillar h3{font-size:1.2rem;margin-bottom:10px}
 .pillar p{font-size:.9rem;color:#6b5a60}
 
+/* launch package */
+.offer{background:linear-gradient(180deg,var(--cream) 0%,#fff 40%,var(--blush) 100%)}
+.offer-card{max-width:760px;margin:0 auto;background:#fff;border:1px solid rgba(196,113,105,.35);border-radius:24px;padding:42px 40px 34px;box-shadow:0 24px 60px rgba(93,26,58,.1)}
+.offer-card h3{text-align:center;font-size:1.55rem}
+.stack{list-style:none;margin-top:22px}
+.stack li{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:13px 0;border-bottom:1px dashed rgba(196,113,105,.35);font-size:.95rem}
+.stack .vals{flex:0 0 auto;white-space:nowrap;text-align:right}
+.stack s{color:#8a7178;font-size:.84rem}
+.stack b{display:inline-block;margin-left:12px;color:#fff;background:var(--rosegold);letter-spacing:.14em;font-size:.68rem;padding:4px 10px;border-radius:100px;font-family:var(--sans)}
+.stack-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:18px;padding:16px 0 4px;font-family:var(--serif);color:var(--burgundy);font-size:1.2rem}
+.stack-total s{color:#8a7178;font-family:var(--sans);font-size:.95rem;margin-right:8px}
+.offer-own{text-align:center;margin-top:22px;font-style:italic;color:#6b5a60}
+.offer-also{max-width:760px;margin:32px auto 0;background:rgba(255,255,255,.55);border:1px solid rgba(196,113,105,.25);border-radius:20px;padding:28px 32px}
+.offer-also h3{font-size:1.25rem;margin-bottom:6px}
+.offer-also ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:14px}
+.offer-also li{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.offer-also li::before{content:"✦";color:var(--rg1);flex-shrink:0}
+.offer-close{text-align:center;margin-top:36px}
+.offer-scarcity{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--rg1);margin-bottom:14px}
+
 /* suite / amenities */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .amen{list-style:none;margin-top:26px}
@@ -347,6 +367,12 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
   .msticky{display:flex}
   body{padding-bottom:66px}
   .form-card{padding:32px 22px}
+  .offer-card{padding:28px 18px}
+  .stack li{flex-direction:column;align-items:flex-start;gap:6px}
+  .stack .vals{white-space:normal}
+  .stack-total{flex-direction:column;align-items:flex-start;gap:6px}
+  .offer-also{padding:22px 18px}
+  .offer-also ul{grid-template-columns:1fr}
   .calc{padding:28px 20px}
   .arch{max-width:340px;margin:0 auto}
   .hero-visual{max-width:340px}
@@ -526,6 +552,45 @@ footer{background:var(--deep);color:#d9b7c2;padding:70px 0 34px}
       <div class="pillar reveal"><div class="ic">✦</div><h3>Support</h3><p>Free business coaching, booking software setup, and marketing help from day one. We win when you win.</p></div>
       <div class="pillar reveal"><div class="ic">✦</div><h3>Community</h3><p>Work beside stylists, nail artists, estheticians, and lash pros who send each other clients every week.</p></div>
       <div class="pillar reveal"><div class="ic">✦</div><h3>Simplicity</h3><p>One flat weekly rent covers Wi-Fi, utilities, laundry, and security. No surprise bills. No fine print.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="offer" id="launch">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The move-in offer</span>
+      <h2>Open your own salon brand — <span class="script">we help you launch it</span></h2>
+      <p>Keep 100% of what you earn, and start getting clients faster. The launch work is done with you, in your name.</p>
+    </div>
+    <div class="offer-card reveal">
+      <h3>Your New-Tenant Launch Package</h3>
+      <ul class="stack">
+        <li><span>Custom logo design</span><span class="vals"><s>$350 value</s> <b>FREE</b></span></li>
+        <li><span>Your own website or booking page</span><span class="vals"><s>$899 value</s> <b>FREE</b></span></li>
+        <li><span>Website care for 12 months</span><span class="vals"><s>$1,428 value</s> <b>FREE</b></span></li>
+        <li><span>Marketing flyer design</span><span class="vals"><s>$150 value</s> <b>FREE</b></span></li>
+        <li><span>Instagram, Facebook &amp; TikTok setup</span><span class="vals"><s>$249 value</s> <b>FREE</b></span></li>
+        <li><span>Google Business Profile setup</span><span class="vals"><s>$249 value</s> <b>FREE</b></span></li>
+        <li><span>First month of marketing (8 posts + 4 Google updates)</span><span class="vals"><s>$750 value</s> <b>FREE</b></span></li>
+        <li><span>Booking software setup</span><span class="vals"><s>$80 value</s> <b>FREE</b></span></li>
+        <li><span>12 months of business coaching</span><span class="vals"><s>$597 value</s> <b>FREE</b></span></li>
+      </ul>
+      <div class="stack-total"><span>Total</span><span><s>$4,752 value</s> — Yours FREE when you move in</span></div>
+      <p class="offer-own">Built for YOUR brand, not ours. You own every account.</p>
+    </div>
+    <div class="offer-also reveal">
+      <h3>Also included with every suite</h3>
+      <ul>
+        <li>Utilities &amp; Wi-Fi included</li>
+        <li>24-hour access</li>
+        <li>Laundry and a break room in the building</li>
+        <li>We handle rent, keys, and repairs</li>
+      </ul>
+    </div>
+    <div class="offer-close reveal">
+      <p class="offer-scarcity">Limited suites available</p>
+      <a class="btn btn-gold" href="#tour">Claim Your Free Launch Package</a>
     </div>
   </div>
 </section>
