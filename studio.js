@@ -65,18 +65,37 @@
       ? '<p class="studio-stars">★ ' + esc(pro.rating.toFixed(1)) + (pro.ratingCount ? " (" + esc(pro.ratingCount) + ")" : "") + "</p>"
       : "";
     const pills = (pro.categories || []).map((slug) => '<span class="pill">' + esc(FULL[slug] || slug) + "</span>").join("");
-    const sample = pro.isSample ? '<span class="sample-quiet">Sample</span>' : "";
     return '<a class="studio-card" href="/pros/' + esc(pro.slug) + '">' +
       '<div class="studio-card-photo">' + photo + featured + "</div>" +
       '<div class="studio-card-body">' + stars +
       "<h3>" + esc(pro.name) + "</h3>" +
       '<p class="studio-biz">' + esc(pro.businessName || "") + "</p>" +
       '<p class="studio-where">' + esc(pro.suite) + " at Oh La La " + esc(city) + "</p>" +
-      '<p class="pills">' + pills + "</p>" + sample +
+      '<p class="pills">' + pills + "</p>" +
       "</div></a>";
   }
+  function soon() {
+    return '<h2>Real pros coming soon</h2>' +
+      '<p>These sample names are not bookable. When Oh La La pros join, they will show up here.</p>' +
+      '<p><a class="btn btn-primary" href="tel:+18434209965">Call (843) 420-9965</a> <a class="btn btn-outline" href="sms:+18434209965">Text (843) 420-9965</a></p>' +
+      '<p class="dir-empty-note">Call or text (843) 420-9965 to book.</p>' +
+      '<p><a class="join-link" href="/pros/join">Are you an Oh La La pro? Join the directory</a></p>';
+  }
   function render() {
-    const rows = pros.filter((pro) => pro.active && (pro.consentApproved || pro.isSample) && pro.locationId === locationId && matches(pro));
+    const real = pros.filter((pro) => pro.active && pro.consentApproved && !pro.isSample && pro.locationId === locationId);
+    const soonEl = document.getElementById("studioSoon");
+    const filters = document.getElementById("studioFilters");
+    if (!real.length) {
+      if (filters) filters.hidden = true;
+      if (soonEl) { soonEl.hidden = false; soonEl.innerHTML = soon(); }
+      grid.innerHTML = "";
+      empty.hidden = true;
+      count.textContent = "";
+      return;
+    }
+    if (filters) filters.hidden = false;
+    if (soonEl) soonEl.hidden = true;
+    const rows = real.filter(matches);
     grid.innerHTML = rows.map(card).join("");
     empty.hidden = rows.length > 0;
     count.textContent = rows.length + (rows.length === 1 ? " pro" : " pros");
@@ -96,17 +115,34 @@
   serviceEl.addEventListener("input", render);
   document.getElementById("studioFilters").addEventListener("submit", (event) => event.preventDefault());
 
-  const mapEl = document.getElementById("studioMap");
-  if (mapEl && window.L) {
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector('script[src="' + src + '"]')) return resolve();
+      const el = document.createElement("script");
+      el.src = src;
+      el.onload = () => resolve();
+      el.onerror = reject;
+      document.body.appendChild(el);
+    });
+  }
+  function mountStudioMap() {
+    const mapEl = document.getElementById("studioMap");
+    if (!mapEl || mapEl.dataset.ready || !window.L) return;
+    mapEl.dataset.ready = "1";
+    if (!document.querySelector('link[href*="leaflet.css"]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+    }
     const lat = Number(mapEl.dataset.lat);
     const lng = Number(mapEl.dataset.lng);
     const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: false }).setView([lat, lng], 14);
     L.control.zoom({ position: "bottomright" }).addTo(map);
-    L.maplibreGL({
-      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-      attributionControl: false,
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>');
     const icon = L.divIcon({
       className: "store-pin",
       html: '<svg class="pin-svg" viewBox="0 0 36 48" aria-hidden="true"><path d="M18 1C9.2 1 2 8.1 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.1 26.8 1 18 1z" fill="#5D1A3A"/><circle cx="18" cy="16.5" r="6" fill="#fff"/></svg>',
@@ -115,11 +151,21 @@
     });
     L.marker([lat, lng], { icon }).addTo(map);
     mapEl.tabIndex = 0;
-    map.getContainer().addEventListener("click", () => map.scrollWheelZoom.enable());
-    map.getContainer().addEventListener("focus", () => map.scrollWheelZoom.enable());
-    map.getContainer().addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
-    map.getContainer().addEventListener("blur", () => map.scrollWheelZoom.disable());
+    const box = map.getContainer();
+    box.addEventListener("click", () => map.scrollWheelZoom.enable());
+    box.addEventListener("focus", () => map.scrollWheelZoom.enable());
+    box.addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    box.addEventListener("blur", () => map.scrollWheelZoom.disable());
     setTimeout(() => map.invalidateSize(), 80);
+  }
+  const mapEl = document.getElementById("studioMap");
+  if (mapEl && "IntersectionObserver" in window) {
+    const watch = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      watch.disconnect();
+      loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js").then(mountStudioMap);
+    }, { rootMargin: "200px" });
+    watch.observe(mapEl);
   }
 
   fetch("/data/pros.json").then((res) => res.json()).then((rows) => {

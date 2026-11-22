@@ -48,13 +48,19 @@ const SHORT = {
 function serviceItems(list) {
   return (list || []).map((item) => typeof item === "string" ? { name: item, duration: "", price: "" } : item);
 }
+function realUrl(url) {
+  if (!url || /example\.com/i.test(url)) return "";
+  return url;
+}
 function bookLink(pro) {
   const first = esc(pro.name.split(" ")[0]);
-  if (pro.vagaroUrl) {
-    return { kind: "link", href: esc(pro.vagaroUrl), extra: ' target="_blank" rel="noopener"', label: "Book on Vagaro", note: "Pick a time online" };
+  const vagaro = realUrl(pro.vagaroUrl);
+  const booking = realUrl(pro.bookingUrl);
+  if (vagaro) {
+    return { kind: "link", href: esc(vagaro), extra: ' target="_blank" rel="noopener"', label: "Book on Vagaro", note: "Pick a time online" };
   }
-  if (pro.bookingUrl) {
-    return { kind: "link", href: esc(pro.bookingUrl), extra: ' target="_blank" rel="noopener"', label: `Book with ${first}`, note: "" };
+  if (booking) {
+    return { kind: "link", href: esc(booking), extra: ' target="_blank" rel="noopener"', label: `Book with ${first}`, note: "" };
   }
   const phone = pro.phone || "";
   const tel = telHref(phone || STUDIO_PHONE);
@@ -92,7 +98,7 @@ function socials(pro) {
     ["tiktok", "TikTok"],
     ["facebook", "Facebook"],
     ["website", "Website"],
-  ].filter(([key]) => pro.socials && pro.socials[key]);
+  ].filter(([key]) => pro.socials && realUrl(pro.socials[key]));
   if (!items.length) return "";
   return `<p class="socials">${items.map(([key, label]) => `<a class="social-link" href="${esc(pro.socials[key])}" target="_blank" rel="noopener">${icons[key]}<span>${label}</span></a>`).join("")}</p>`;
 }
@@ -277,7 +283,6 @@ for (const loc of locations) {
 <meta property="og:url" content="https://ohlalasalonstudio.com${loc.page}">
 <link rel="stylesheet" href="${cssHref}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <link rel="stylesheet" href="${fontHref}">
 <script type="application/ld+json">
 ${JSON.stringify({
@@ -300,6 +305,7 @@ ${JSON.stringify({
 </head>
 <body>
 ${header("locations")}
+<main id="main">
 <header class="studio-hero">
   <div class="studio-hero-copy">
     <h1>${esc(loc.name)}</h1>
@@ -309,7 +315,7 @@ ${header("locations")}
   </div>
   <div class="studio-photos">${photoHtml}</div>
 </header>
-<main id="main" class="studio-page" data-location="${esc(loc.id)}" data-city="${esc(loc.city)}">
+<div class="studio-page" data-location="${esc(loc.id)}" data-city="${esc(loc.city)}">
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/locations">Locations</a> / ${esc(loc.city)}</p>
     <div class="studio-bar">
@@ -333,7 +339,7 @@ ${header("locations")}
         <button class="chip-btn" type="button" data-pay="Cash" aria-pressed="false">Cash</button>
       </div>
     </form>
-    <p class="sample-line">Sample profiles shown — real pros coming soon.</p>
+    <div id="studioSoon" class="dir-empty" hidden></div>
     <p id="studioCount">Loading pros…</p>
     <div class="studio-grid" id="studioGrid"></div>
     <p id="studioEmpty" hidden>No pros match that search.</p>
@@ -352,11 +358,9 @@ ${header("locations")}
       </div>
     </section>
   </div>
+</div>
 </main>
 ${footer()}
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
 <script src="/studio.js?v=${ASSET}"></script>
 </body>
 </html>`;

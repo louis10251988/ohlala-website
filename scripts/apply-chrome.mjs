@@ -46,6 +46,9 @@ function swap(html, path) {
   next = next.replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?family=[^"]+"[^>]*>/g, `<link rel="stylesheet" href="${fontHref}">`);
   next = next.replace(/<noscript><link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?family=[^"]+"><\/noscript>\n?/g, "");
   next = next.replace(/src="\/(earnings-calc|locations|studio|find-a-pro)\.js(?:\?[^"]*)?"/g, (m, name) => `src="/${name}.js?v=${cssHref.split("v=")[1]}"`);
+  next = next.replace(/<link rel="icon"[^>]*>\n?/g, "");
+  next = next.replace(/<link rel="apple-touch-icon"[^>]*>\n?/g, "");
+  next = next.replace("</head>", '<link rel="icon" href="/favicon.ico" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n</head>');
   return next;
 }
 

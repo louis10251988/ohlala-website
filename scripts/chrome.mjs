@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122f";
+export const ASSET = "20261122g";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -21,7 +21,7 @@ export function header(active = "") {
 <a class="skip" href="#main">Skip to content</a>
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+    <a class="nav-logo" href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
     <div class="nav-links">
       ${links}
     </div>
@@ -33,6 +33,7 @@ export function header(active = "") {
   </div>
   <div class="mobile-menu" id="mm">
     ${NAV.map(([, href, label]) => `<a href="${href}">${label}</a>`).join("")}
+    <a href="/locations/">Book a service</a>
     <a href="/#tour">Find your suite</a>
     <a href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
@@ -46,7 +47,7 @@ export function footer(options = {}) {
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <a href="/" aria-label="Oh La La Salon and Studios home"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></a>
+      <a href="/" aria-label="Oh La La Salon and Studios home"><picture><source srcset="/images/logo.webp" type="image/webp"><img class="foot-logo" src="/images/logo.png" width="1146" height="282" alt="Oh La La Salon and Studios"></picture></a>
       <p>Private studios for independent pros who serve clients one-on-one in the Charleston Lowcountry.</p>
       <p><a href="/pros/join">Oh La La tenant? Join the directory</a></p>
     </div>
@@ -72,6 +73,6 @@ export function footer(options = {}) {
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
-${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/#tour">Find your suite</a><a class="btn btn-primary" href="tel:+18434209965">Call</a></div>` : ""}
+${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find your suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>` : ""}
 <!-- /site-footer -->`;
 }
