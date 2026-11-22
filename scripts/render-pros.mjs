@@ -51,6 +51,12 @@ function bookLink(pro) {
 }
 
 function socials(pro) {
+  const icons = {
+    instagram: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 4v9.2a3.2 3.2 0 1 1-2.2-3V7.2A6.8 6.8 0 0 0 16 9.5V6.2A5 5 0 0 1 14 4z"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1z"/></svg>',
+    website: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+  };
   const items = [
     ["instagram", "Instagram"],
     ["tiktok", "TikTok"],
@@ -58,7 +64,7 @@ function socials(pro) {
     ["website", "Website"],
   ].filter(([key]) => pro.socials && pro.socials[key]);
   if (!items.length) return "";
-  return `<p class="pro-actions">${items.map(([key, label]) => `<a class="btn btn-outline" href="${esc(pro.socials[key])}" target="_blank" rel="noopener">${label}</a>`).join("")}</p>`;
+  return `<p class="socials">${items.map(([key, label]) => `<a class="social-link" href="${esc(pro.socials[key])}" target="_blank" rel="noopener">${icons[key]}<span>${label}</span></a>`).join("")}</p>`;
 }
 
 mkdirSync("pros", { recursive: true });

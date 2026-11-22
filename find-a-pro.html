@@ -75,10 +75,11 @@
       <div class="search-row">
         <input id="q" name="q" type="search" placeholder="Name, business, or service" aria-label="Search by name, business, or service" autocomplete="off">
       </div>
-      <div class="chip-row" id="catChips" role="group" aria-label="Category"></div>
+      <div class="chip-row" id="catChips" role="group" aria-label="Category">
+        <button class="chip-btn more-toggle" id="moreBtn" type="button" aria-expanded="false" aria-controls="morePop">More filters</button>
+      </div>
       <select id="category" hidden aria-hidden="true"><option value="">All</option></select>
       <select id="location" hidden aria-hidden="true"><option value="">All locations</option></select>
-      <button class="btn btn-outline" id="moreBtn" type="button" aria-expanded="false" aria-controls="morePop">More filters</button>
       <div id="morePop" class="more-panel">
         <button class="chip-btn" id="accepting" type="button" aria-pressed="false">Accepting new clients</button>
         <button class="chip-btn" type="button" data-lang="English" aria-pressed="false">English</button>

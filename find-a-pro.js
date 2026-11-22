@@ -162,9 +162,9 @@
     setTimeout(() => map.invalidateSize(), 60);
   }
 
-  document.getElementById("catChips").innerHTML = CATS.map((cat) =>
+  document.getElementById("moreBtn").insertAdjacentHTML("beforebegin", CATS.map((cat) =>
     '<button class="chip-btn" type="button" data-cat="' + cat.slug + '" aria-pressed="' + (cat.slug === "" ? "true" : "false") + '">' + cat.label + "</button>"
-  ).join("");
+  ).join(""));
 
   els.form.addEventListener("submit", (event) => event.preventDefault());
   els.q.addEventListener("input", () => {
