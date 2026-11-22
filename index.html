@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="images/real/suite-1.webp" fetchpriority="high">
-<link rel="stylesheet" href="/styles.css?v=20261122s">
+<link rel="stylesheet" href="/styles.css?v=20261122v">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <script type="application/ld+json">
 {
@@ -47,7 +47,7 @@
       <a href="/faq">FAQ</a>
     </div>
     <div class="nav-cta">
-      <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
+      <a class="nav-book" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
       <a class="nav-call" href="tel:+18434209965">Call (843) 420-9965</a>
     </div>
@@ -66,17 +66,18 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-    <div>
       <p class="eyebrow">Summerville, SC</p>
       <h1>A private studio for independent pros</h1>
-      <p class="lead">For stylists, barbers, nail, lash, skin, massage &amp; wellness pros.</p>
-      <p class="hero-offer"><b>$4,752</b> New-Tenant Launch Package — free when you move in</p>
+      <p class="lead">Serve clients one-on-one, and keep the business you build.</p>
+      <ul class="hero-proof">
+        <li>Keep 100% of your money</li>
+        <li>Open 24/7</li>
+        <li>$4,752 launch package free</li>
+      </ul>
       <div class="hero-ctas">
-        <a class="pill-cta pill-cta-outline hero-cta-book" href="/locations/">Book a service</a>
-        <a class="pill-cta pill-cta-solid" href="#launch-package">Claim your package</a>
+        <a class="btn btn-primary" href="/launch-package">Claim your package</a>
+        <a class="btn btn-outline" href="/locations/">Book a service</a>
       </div>
-      <p class="hero-note">4498 Ladson Rd · Open 24 hours</p>
-    </div>
     </div>
     <div class="hero-photo">
       <picture>
@@ -99,30 +100,14 @@
   </div>
 </section>
 
-<section>
+<section class="pkg-band">
   <div class="wrap">
-    <div class="offer-card" id="launch-package">
-      <h2>Your New-Tenant Launch Package</h2>
-      <ul class="stack">
-        <li><div class="stack-name">Your Website &amp; Booking<ul class="stack-points"><li>Your own website with your name</li><li>Clients book online 24/7</li><li>You own it</li></ul></div><span class="vals"><s>$979 value</s> <b>FREE</b></span></li>
-        <li><div class="stack-name">30-Day Launch Marketing<ul class="stack-points"><li>8 social posts</li><li>4 Google updates</li><li>$150 in ads</li></ul></div><span class="vals"><s>$750 value</s> <b>FREE</b></span></li>
-        <li><div class="stack-name">Google &amp; Social Setup<ul class="stack-points"><li>Google Business Profile</li><li>Instagram and Facebook</li><li>TikTok</li></ul></div><span class="vals"><s>$498 value</s> <b>FREE</b></span></li>
-        <li><div class="stack-name">Logo, Flyer &amp; Website Care<ul class="stack-points"><li>Custom logo</li><li>Marketing flyer</li><li>12 months of website care</li></ul></div><span class="vals"><s>$1,928 value</s> <b>FREE</b></span></li>
-        <li><div class="stack-name">1-Year Business Coaching<ul class="stack-points"><li>12 months of coaching</li><li>Help with pricing and getting clients</li><li>Grow your business</li></ul></div><span class="vals"><s>$597 value</s> <b>FREE</b></span></li>
-      </ul>
-      <div class="stack-total"><span>Total</span><span><s>$4,752 value</s> — Yours FREE when you move in</span></div>
-      <p class="offer-own">Built for YOUR brand, not ours. You own every account.</p>
-      <div class="offer-also">
-        <p><strong>Also included with every suite</strong></p>
-        <ul>
-          <li>Utilities &amp; Wi-Fi included</li>
-          <li>24-hour access</li>
-          <li>Laundry and a break room in the building</li>
-          <li>We handle rent, keys, and repairs</li>
-        </ul>
+    <div class="pkg-teaser">
+      <div>
+        <h2>$4,752 New-Tenant Launch Package, free when you move in</h2>
+        <p>Website &amp; booking, marketing, Google &amp; social, logo, and 1-year coaching.</p>
       </div>
-      <p class="scarcity">Limited suites available</p>
-      <a class="btn btn-primary offer-cta" href="#tour">Claim your package</a>
+      <a class="btn btn-primary" href="/launch-package">See what's included</a>
     </div>
   </div>
 </section>
@@ -309,7 +294,7 @@
 </script>
 <!-- /site-footer -->
 
-<script src="/earnings-calc.js?v=20261122s"></script>
+<script src="/earnings-calc.js?v=20261122v"></script>
 <script>
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
 document.getElementById('tourForm').addEventListener('submit',async e=>{

@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261122s";
+export const ASSET = "20261122v";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -27,7 +27,7 @@ export function header(active = "") {
       ${links}
     </div>
     <div class="nav-cta">
-      <a class="pill-cta pill-cta-outline" href="/locations/">Book a service</a>
+      <a class="nav-book" href="/locations/">Book a service</a>
       <a class="pill-cta pill-cta-solid" href="/#tour">Find your suite</a>
       <a class="nav-call" href="tel:+18434209965">Call (843) 420-9965</a>
     </div>
