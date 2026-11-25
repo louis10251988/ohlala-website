@@ -222,11 +222,12 @@
 
   Promise.all([
     fetch("/data/locations.json").then((res) => res.json()),
-    fetch("/data/pros.json").then((res) => res.json()),
+    fetch("/api/directory").then((res) => (res.ok ? res.json() : [])).catch(() => []),
   ]).then(([places, pros]) => {
     locations = places;
     tags = {};
-    pros.filter((pro) => pro.active && pro.consentApproved && !pro.isSample).forEach((pro) => {
+    const rows = Array.isArray(pros) ? pros : [];
+    rows.filter((pro) => pro.active && pro.consentApproved && !pro.isSample).forEach((pro) => {
       const bag = tags[pro.locationId] || [];
       (pro.categories || []).forEach((slug) => {
         const label = SHORT[slug] || slug;

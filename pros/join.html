@@ -6,7 +6,7 @@
 <title>Join the directory | Oh La La Salon &amp; Studios</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Oh La La tenants can submit a directory profile. It stays pending until we review it.">
-<link rel="stylesheet" href="/styles.css?v=20261122v">
+<link rel="stylesheet" href="/styles.css?v=20261125a">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -45,6 +45,13 @@
     <p>This form is for Oh La La tenants. Your profile stays pending until we review it. Nothing is published automatically.</p>
     <form id="joinForm" class="form-card" novalidate>
       <div class="form-grid">
+        <div class="fg" id="locationWrap">
+          <label for="location">Location</label>
+          <select id="location" name="location" required>
+            <option value="summerville">Summerville</option>
+          </select>
+          <p class="join-note" id="locationNote" hidden></p>
+        </div>
         <div class="fg"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
         <div class="fg"><label for="business">Business name</label><input id="business" name="business" required></div>
         <div class="fg"><label for="suite">Suite #</label><input id="suite" name="suite" inputmode="text"></div>
@@ -113,6 +120,24 @@
 </main>
 <script>
 const PHONE_LINK='<a href="tel:+18434209965">(843) 420-9965</a>';
+const LOCATIONS={summerville:'Summerville'};
+const asked=(new URLSearchParams(location.search).get('location')||'').trim().toLowerCase();
+const locationNote=document.getElementById('locationNote');
+if(LOCATIONS[asked]){
+  const locked=document.createElement('input');
+  locked.id='location';
+  locked.value=LOCATIONS[asked];
+  locked.readOnly=true;
+  locked.setAttribute('aria-readonly','true');
+  locked.dataset.slug=asked;
+  document.getElementById('location').replaceWith(locked);
+  locationNote.hidden=false;
+  locationNote.textContent='This location is set by the sign you scanned.';
+}else if(asked){
+  document.getElementById('location').disabled=true;
+  locationNote.hidden=false;
+  locationNote.textContent='That location is not open on the website yet. Call (843) 420-9965.';
+}
 const bio=document.getElementById('bio');
 const bioCount=document.getElementById('bioCount');
 bio.addEventListener('input',()=>{bioCount.textContent=bio.value.length+' / 600';});
@@ -126,7 +151,11 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
   const vals=name=>[...f.querySelectorAll('[name="'+name+'"]:checked')].map(el=>el.value);
   const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   const hours=days.map(day=>day+': '+(f[day].value.trim()||'—')).join('\n');
+  const locEl=document.getElementById('location');
+  const locationSlug=locEl.dataset.slug||locEl.value;
+  if(!locationSlug||locEl.disabled){showErr('Please choose a location, or call us at '+PHONE_LINK+'.');return;}
   const payload={
+    location:locationSlug,
     name:f.name.value.trim(),
     business:f.business.value.trim(),
     suite:f.suite.value.trim(),
