@@ -46,35 +46,35 @@ export function renderProfile(pro, others) {
     : "";
   const photo = pro.photo
     ? `<img src="${esc(pro.photo)}" alt="" width="320" height="320">`
-    : `<span class="pro-initials" aria-hidden="true">${esc(initials(pro.name))}</span>`;
-  const accepting = pro.acceptingNewClients ? `<p class="pro-accept">Accepting new clients</p>` : "";
+    : `<span class="tenant-initials" aria-hidden="true">${esc(initials(pro.name))}</span>`;
+  const accepting = pro.acceptingNewClients ? `<p class="tenant-accept">Accepting new clients</p>` : "";
   const sampleNote = pro.isPreviewSample
-    ? `<p class="pro-sample">Preview sample. This is not a live tenant.</p>`
+    ? `<p class="tenant-sample">Preview sample. This is not a live tenant.</p>`
     : "";
   const socialHtml = links.length
-    ? `<p class="pro-socials">${links.map(([label, href]) => `<a class="pro-social" href="${esc(href)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</p>`
+    ? `<p class="tenant-socials">${links.map(([label, href]) => `<a class="tenant-social" href="${esc(href)}" target="_blank" rel="noopener">${esc(label)}</a>`).join("")}</p>`
     : "";
   const contact = [
     pro.phone && pro.bookHref !== phoneTel(pro.phone) ? `<a href="${esc(phoneTel(pro.phone))}">${esc(pro.phone)}</a>` : "",
     pro.email ? `<a href="mailto:${esc(pro.email)}">${esc(pro.email)}</a>` : "",
   ].filter(Boolean);
-  const contactHtml = contact.length ? `<p class="pro-contact">${contact.join(" · ")}</p>` : "";
+  const contactHtml = contact.length ? `<p class="tenant-contact">${contact.join(" · ")}</p>` : "";
   const services = pills.length
-    ? `<section class="pro-block"><h2>Services</h2><p class="pills">${pills.map((label) => `<span class="pill">${esc(label)}</span>`).join("")}</p>${serviceLines(pro)}</section>`
+    ? `<section class="tenant-block"><h2>Services</h2><p class="pills">${pills.map((label) => `<span class="pill">${esc(label)}</span>`).join("")}</p>${serviceLines(pro)}</section>`
     : "";
-  const bio = pro.bio ? `<section class="pro-block pro-bio"><p>${esc(pro.bio)}</p></section>` : "";
+  const bio = pro.bio ? `<section class="tenant-block tenant-bio"><p>${esc(pro.bio)}</p></section>` : "";
   const hours = pro.hours && pro.hours.length
-    ? `<section class="pro-block"><h2>Hours</h2><ul class="pro-hours">${pro.hours.map((line) => `<li>${esc(line)}</li>`).join("")}</ul></section>`
+    ? `<section class="tenant-block"><h2>Hours</h2><ul class="tenant-hours">${pro.hours.map((line) => `<li>${esc(line)}</li>`).join("")}</ul></section>`
     : "";
   const gallery = pro.photos && pro.photos.length
-    ? `<section class="pro-block"><h2>Portfolio</h2><div class="pro-gallery">${pro.photos.map((src) => `<img src="${esc(src)}" alt="${esc(pro.isPreviewSample ? "Private suite at Oh La La " + city : "Work by " + pro.name)}" width="640" height="640" loading="lazy">`).join("")}</div></section>`
+    ? `<section class="tenant-block"><h2>Portfolio</h2><div class="tenant-gallery">${pro.photos.map((src) => `<img src="${esc(src)}" alt="${esc(pro.isPreviewSample ? "Private suite at Oh La La " + city : "Work by " + pro.name)}" width="640" height="640" loading="lazy">`).join("")}</div></section>`
     : "";
   const facts = [];
   if (pro.languages && pro.languages.length) facts.push(`<p><strong>Languages</strong> ${esc(pro.languages.join(", "))}</p>`);
   if (pro.payments && pro.payments.length) facts.push(`<p><strong>Payments</strong> ${esc(pro.payments.join(", "))}</p>`);
-  const factsHtml = facts.length ? `<section class="pro-block pro-facts">${facts.join("")}</section>` : "";
+  const factsHtml = facts.length ? `<section class="tenant-block tenant-facts">${facts.join("")}</section>` : "";
   const othersHtml = others && others.length
-    ? `<section class="pro-block"><h2>More pros</h2><ul class="pro-others">${others.map((item) => `<li><a href="${esc(item.profilePath)}">${esc(item.name)}${item.suite ? " (" + esc(item.suite) + ")" : ""}</a></li>`).join("")}</ul></section>`
+    ? `<section class="tenant-block"><h2>More pros</h2><ul class="tenant-others">${others.map((item) => `<li><a href="${esc(item.profilePath)}">${esc(item.name)}${item.suite ? " (" + esc(item.suite) + ")" : ""}</a></li>`).join("")}</ul></section>`
     : "";
   const graph = {
     "@context": "https://schema.org",
@@ -127,28 +127,28 @@ ${JSON.stringify(graph).replace(/</g, "\\u003c")}
 </head>
 <body>
 ${header("locations")}
-<main id="main" class="pro-page">
-  <header class="pro-hero">
-    <div class="wrap pro-hero-in">
-      <div class="pro-photo">${photo}</div>
-      <div class="pro-id">
+<main id="main" class="tenant-page">
+  <header class="tenant-hero">
+    <div class="wrap tenant-hero-in">
+      <div class="tenant-photo">${photo}</div>
+      <div class="tenant-id">
         ${sampleNote}
-        <h1>${esc(pro.name)} <span class="pro-suite">(${esc(suite)})</span></h1>
-        <p class="pro-kicker">${esc([business, city + ", " + (studio.region || "")].filter(Boolean).join(" | "))}</p>
+        <h1>${esc(pro.name)} <span class="tenant-suite">(${esc(suite)})</span></h1>
+        <p class="tenant-kicker">${esc([business, city + ", " + (studio.region || "")].filter(Boolean).join(" | "))}</p>
         ${accepting}
-        <p class="pro-where"><a href="${esc(studio.page)}">View location</a><br>${esc(studio.address)}</p>
-        <div class="pro-actions">${book}${socialHtml}${contactHtml}</div>
+        <p class="tenant-where"><a href="${esc(studio.page)}">View location</a><br>${esc(studio.address)}</p>
+        <div class="tenant-actions">${book}${socialHtml}${contactHtml}</div>
       </div>
     </div>
   </header>
-  <div class="wrap pro-body">
+  <div class="wrap tenant-body">
     ${services}
     ${bio}
-    <div class="pro-actions pro-again">${book}<a class="btn btn-outline" href="${esc(studio.page)}">More pros</a></div>
+    <div class="tenant-actions tenant-again">${book}<a class="btn btn-outline" href="${esc(studio.page)}">More pros</a></div>
     ${hours}
     ${gallery}
     ${factsHtml}
-    <section class="pro-block">
+    <section class="tenant-block">
       <h2>Location</h2>
       <p>${esc(studio.address)}</p>
       <div id="proMap" class="mini-map" data-lat="${studio.lat}" data-lng="${studio.lng}" aria-label="Map of Oh La La ${esc(city)}"></div>
@@ -204,7 +204,7 @@ function phoneTel(value) {
 function serviceLines(pro) {
   const detailed = (pro.services || []).filter((item) => item.duration || item.price);
   if (!detailed.length) return "";
-  return `<ul class="pro-services">${detailed.map((item) => `<li><span>${esc(item.name)}</span> <span>${esc([item.duration, item.price].filter(Boolean).join(" · "))}</span></li>`).join("")}</ul>`;
+  return `<ul class="tenant-services">${detailed.map((item) => `<li><span>${esc(item.name)}</span> <span>${esc([item.duration, item.price].filter(Boolean).join(" · "))}</span></li>`).join("")}</ul>`;
 }
 
 export function renderMissing() {
@@ -222,7 +222,7 @@ export function renderMissing() {
 </head>
 <body>
 ${header("locations")}
-<main id="main" class="wrap pro-missing">
+<main id="main" class="wrap tenant-missing">
   <h1>This profile is not on the site</h1>
   <p>It may still be in review, or the pro is no longer listed.</p>
   <p><a class="btn btn-primary" href="/locations/summerville">See Summerville pros</a></p>
