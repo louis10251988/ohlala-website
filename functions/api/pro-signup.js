@@ -255,6 +255,28 @@ export async function onRequestPost(context) {
   if (payments.length) properties.Payments = { multi_select: payments.map((name) => ({ name })) };
   if (photo) properties["Photo URL"] = { url: photo };
 
+  async function ensureLocation() {
+    const res = await fetch("https://api.notion.com/v1/databases/" + databaseId, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Notion-Version": NOTION_VERSION,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        properties: {
+          Location: { select: { options: [{ name: "Summerville", color: "purple" }] } },
+        },
+      }),
+    });
+    if (!res.ok) {
+      const detail = await res.text();
+      console.error("Could not add Location", res.status, detail.slice(0, 200));
+      return false;
+    }
+    return true;
+  }
+
   async function createPage(props) {
     return fetch("https://api.notion.com/v1/pages", {
       method: "POST",
@@ -272,14 +294,18 @@ export async function onRequestPost(context) {
     notionRes = await createPage(properties);
     if (!notionRes.ok) {
       const detail = await notionRes.text();
-      const optional = ["Vagaro link", "Portfolio photos"].filter((name) => properties[name] && detail.includes(name));
-      if (optional.length) {
-        console.error("Notion is missing properties; retrying without them", optional.join(", "));
-        for (const name of optional) delete properties[name];
+      if (/property with name or id: Location/i.test(detail) && await ensureLocation()) {
         notionRes = await createPage(properties);
       } else {
-        console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
-        return json({ ok: false, error: "Could not save your request." }, 502);
+        const optional = ["Vagaro link", "Portfolio photos"].filter((name) => properties[name] && detail.includes(name));
+        if (optional.length) {
+          console.error("Notion is missing properties; retrying without them", optional.join(", "));
+          for (const name of optional) delete properties[name];
+          notionRes = await createPage(properties);
+        } else {
+          console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
+          return json({ ok: false, error: "Could not save your request." }, 502);
+        }
       }
     }
   } catch (err) {
