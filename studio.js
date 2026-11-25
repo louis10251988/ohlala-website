@@ -76,6 +76,8 @@
       '<p class="studio-where">' + where + "</p>" +
       '<p class="pills">' + pills + "</p>" +
       "</div>";
+    const profile = pro.profilePath || (pro.slug ? "/pros/" + pro.slug : "");
+    if (profile) return '<a class="studio-card" href="' + esc(profile) + '">' + body + "</a>";
     if (!pro.href) return '<article class="studio-card">' + body + "</article>";
     const external = /^https?:/i.test(pro.href);
     return '<a class="studio-card" href="' + esc(pro.href) + '"' + (external ? ' target="_blank" rel="noopener"' : "") + ">" + body + "</a>";
