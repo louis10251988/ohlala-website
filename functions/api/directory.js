@@ -15,33 +15,12 @@ import { studioFromInput } from "./locations.js";
 
 const NOTION_VERSION = "2022-06-28";
 
-function notionHint(detail) {
-  let code = "";
-  let message = "";
-  try {
-    const parsed = JSON.parse(detail);
-    code = String(parsed.code || "");
-    message = String(parsed.message || "");
-  } catch {
-    message = String(detail || "");
-  }
-  message = message
-    .replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, "[id]")
-    .replace(/secret_[A-Za-z0-9]+/g, "[redacted]")
-    .replace(/ntn_[A-Za-z0-9]+/g, "[redacted]")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 180);
-  return { code: code.slice(0, 40), message };
-}
-
-function json(data, status, cache, extra) {
+function json(data, status, cache) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": cache,
-      ...(extra || {}),
     },
   });
 }
@@ -172,10 +151,7 @@ async function queryApproved(token, databaseId, locationName) {
     if (!res.ok) {
       const detail = await res.text();
       console.error("Notion directory query failed", res.status, detail.slice(0, 300));
-      const error = new Error("notion");
-      error.hint = notionHint(detail);
-      error.statusCode = res.status;
-      throw error;
+      return null;
     }
     const data = await res.json();
     pages.push(...(data.results || []));
@@ -207,9 +183,7 @@ export async function onRequestGet(context) {
     pages = await queryApproved(token, databaseId, locationName);
   } catch (err) {
     console.error("Notion directory request failed", err && err.message);
-    const hint = err && err.hint;
-    const headers = hint ? { "X-Notion-Status": String(err.statusCode || ""), "X-Notion-Code": hint.code || "", "X-Notion-Hint": hint.message || "" } : {};
-    return json({ ok: false, error: "The directory is not available." }, 502, "no-store", headers);
+    return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
   }
   if (!pages) return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
 
