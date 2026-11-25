@@ -541,11 +541,7 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .tenant-icon{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--burgundy);color:var(--burgundy);background:#fff;display:grid;place-items:center;text-decoration:none}
 .tenant-icon svg{width:22px;height:22px}
 .tenant-icon:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
-.tenant-share{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-top:12px}
-.tenant-qr{font-size:16px}
-.tenant-qr summary{min-height:44px;display:inline-flex;align-items:center;color:var(--burgundy);font-weight:700;cursor:pointer}
-.tenant-qr-img{width:168px;background:#fff;border-radius:12px;padding:8px}
-.tenant-qr-img svg{width:100%;height:auto;display:block}
+.tenant-share-btn{min-height:48px}
 .tenant-open,.tenant-closed{display:inline-flex;align-items:center;min-height:32px;margin-left:8px;padding:0 12px;border-radius:999px;font-family:var(--sans);font-size:16px;font-weight:700;vertical-align:middle}
 .tenant-open{background:#e5f4e8;color:#1d6b32}
 .tenant-closed{background:#fdecef;color:var(--burgundy)}

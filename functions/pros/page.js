@@ -1,6 +1,5 @@
 import { header, footer, cssHref, fontHref } from "../../scripts/chrome.mjs";
 import { CATEGORIES } from "../api/pros-data.js";
-import { renderSVG } from "./qr.mjs";
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -126,6 +125,7 @@ export function renderProfile(pro, others) {
   const book = bookHref
     ? `<a class="btn btn-primary" href="${esc(bookHref)}"${/^https?:/i.test(bookHref) ? ' target="_blank" rel="noopener"' : ""}>Book now</a>`
     : "";
+  const shareBtn = `<button class="btn btn-outline tenant-share-btn" type="button" data-url="${esc(canonical)}" data-title="${esc(pro.name)}">Share</button>`;
   const call = tel ? `<a class="btn btn-outline" href="${esc(tel)}">Call</a>` : "";
   const text = sms ? `<a class="btn btn-outline" href="${esc(sms)}">Text</a>` : "";
   const icons = iconRow(links);
@@ -159,9 +159,6 @@ export function renderProfile(pro, others) {
     ? `<section class="tenant-block"><h2>More ${catLabel ? esc(catLabel) + " " : ""}pros</h2><ul class="tenant-others">${others.map((item) => `<li><a href="${esc(item.profilePath)}">${esc(item.name)}${item.suite ? " (" + esc(item.suite) + ")" : ""}</a></li>`).join("")}</ul></section>`
     : "";
   const maps = directionsUrl(suite);
-  const qr = renderSVG(canonical, { ecc: "M", border: 2, pixelSize: 8, blackColor: "#5D1A3A", whiteColor: "#FDFAF8" });
-  const qrHref = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(qr);
-  const qrFile = (pro.slug || "profile") + "-qr.svg";
   const placeType = (pro.categories || []).some((cat) => cat === "hair" || cat === "barber") ? "HairSalon" : "HealthAndBeautyBusiness";
   const graph = {
     "@context": "https://schema.org",
@@ -227,23 +224,15 @@ ${header("locations")}
         <h1>${esc(pro.name)}${suite ? ` <span class="tenant-suite">(${esc(suite)})</span>` : ""}</h1>
         <p class="tenant-kicker">${esc([business, city + ", " + (studio.region || "")].filter(Boolean).join(" | "))}</p>
         ${accepting}
-        <p class="tenant-where"><a href="${esc(studio.page)}">View location</a><br>${esc(studio.address)}${suite ? " · " + esc(suite) : ""}</p>
-        <div class="tenant-actions">${book}${icons}${call}${text}${email ? `<span class="tenant-contact">${email}</span>` : ""}</div>
-        <div class="tenant-share">
-          <button class="btn btn-outline" type="button" id="tenantShare" data-url="${esc(canonical)}" data-title="${esc(pro.name)}">Share</button>
-          <div class="tenant-qr">
-            <div class="tenant-qr-img">${qr}</div>
-            <p>Scan to open this profile.</p>
-            <p><a class="btn btn-outline" href="${qrHref}" download="${esc(qrFile)}">Download QR</a></p>
-          </div>
-        </div>
+        <p class="tenant-where"><a href="${esc(studio.page)}">View location</a><br>${esc(studio.address)}${suite ? " · " + esc(suite) : ""}${email ? "<br>" + email : ""}</p>
+        <div class="tenant-actions">${book}${shareBtn}${icons}</div>
       </div>
     </div>
   </header>
   <div class="wrap tenant-body">
     ${services}
     ${bio}
-    <div class="tenant-actions tenant-again">${book}${icons}<a class="btn btn-outline" href="${esc(studio.page)}">More pros</a></div>
+    <p class="tenant-again"><a class="btn btn-outline" href="${esc(studio.page)}">More pros</a></p>
     ${hours}
     ${gallery}
     ${factsHtml}
@@ -257,7 +246,7 @@ ${header("locations")}
   </div>
 </main>
 <div class="tenant-bar" role="region" aria-label="Book or contact ${esc(pro.name)}">
-  ${book}${icons}${call}${text}
+  ${book}${shareBtn}${icons}${call}${text}
 </div>
 <dialog class="tenant-light" id="tenantLight">
   <button class="tenant-light-x" type="button">Close</button>
@@ -308,19 +297,20 @@ ${footer({ sticky: false })}
   });
   if(closeBtn) closeBtn.addEventListener("click",function(){ light.close(); });
   if(light) light.addEventListener("click",function(event){ if(event.target===light) light.close(); });
-  var share=document.getElementById("tenantShare");
-  if(share) share.addEventListener("click",function(){
-    var url=share.getAttribute("data-url");
-    var title=share.getAttribute("data-title");
-    function copied(){ share.textContent="Link copied"; }
-    if(navigator.share){
-      navigator.share({title:title,url:url}).catch(function(err){
-        if(err && err.name==="AbortError") return;
-        if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
-      });
-      return;
-    }
-    if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
+  document.querySelectorAll(".tenant-share-btn").forEach(function(share){
+    share.addEventListener("click",function(){
+      var url=share.getAttribute("data-url");
+      var title=share.getAttribute("data-title");
+      function copied(){ share.textContent="Link copied"; }
+      if(navigator.share){
+        navigator.share({title:title,url:url}).catch(function(err){
+          if(err && err.name==="AbortError") return;
+          if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
+        });
+        return;
+      }
+      if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
+    });
   });
 })();
 </script>
