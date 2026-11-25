@@ -218,78 +218,7 @@ export async function onRequestGet(context) {
   return json(rows, 200, "public, max-age=300");
 }
 
-const TEST_NAME = "TEST Tenant E2E PROD";
-
-async function findTestPage(token, databaseId) {
-  const res = await fetch("https://api.notion.com/v1/databases/" + databaseId + "/query", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + token,
-      "Notion-Version": NOTION_VERSION,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      filter: { property: "Name", title: { equals: TEST_NAME } },
-      page_size: 5,
-    }),
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return (data.results || [])[0] || null;
-}
-
-async function onRequestAdmin(context) {
-  const { request, env } = context;
-  if (request.headers.get("x-listing-check") !== "1") {
-    return json({ ok: false, error: "Method not allowed. Use GET." }, 405, "no-store");
-  }
-  const token = env.NOTION_LEADS_TOKEN;
-  const databaseId = env.NOTION_PROS_DB_ID;
-  if (!token || !databaseId) return json({ ok: false }, 500, "no-store");
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ ok: false }, 400, "no-store");
-  }
-  if (!body || body.name !== TEST_NAME) return json({ ok: false }, 400, "no-store");
-  const page = await findTestPage(token, databaseId);
-  if (!page) return json({ ok: false, found: false }, 404, "no-store");
-  const headers = {
-    Authorization: "Bearer " + token,
-    "Notion-Version": "2026-03-11",
-    "Content-Type": "application/json",
-  };
-  let payload;
-  if (body.action === "archive") payload = { is_archived: true };
-  else if (body.action === "status" && ["Pending", "Approved", "Hidden"].includes(body.status)) {
-    payload = { properties: { Status: { select: { name: body.status } } } };
-  } else return json({ ok: false }, 400, "no-store");
-  const res = await fetch("https://api.notion.com/v1/pages/" + page.id, {
-    method: "PATCH",
-    headers,
-    body: JSON.stringify(payload),
-  });
-  const detail = await res.text();
-  let parsed = {};
-  try { parsed = JSON.parse(detail); } catch { parsed = {}; }
-  if (!res.ok) {
-    console.error("Test row update failed", res.status, detail.slice(0, 200));
-    return json({ ok: false }, 502, "no-store");
-  }
-  const status = parsed.properties && parsed.properties.Status && parsed.properties.Status.select
-    ? parsed.properties.Status.select.name
-    : "";
-  return json({
-    ok: true,
-    status,
-    is_archived: !!parsed.is_archived,
-    in_trash: !!parsed.in_trash,
-  }, 200, "no-store");
-}
-
 export async function onRequest(context) {
   if (context.request.method === "GET") return onRequestGet(context);
-  if (context.request.method === "POST") return onRequestAdmin(context);
   return json({ ok: false, error: "Method not allowed. Use GET." }, 405, "no-store");
 }
