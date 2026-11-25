@@ -15,12 +15,39 @@ import { studioFromInput } from "./locations.js";
 
 const NOTION_VERSION = "2022-06-28";
 
-function json(data, status, cache) {
+function notionHint(detail) {
+  let code = "";
+  let message = "";
+  try {
+    const parsed = JSON.parse(detail);
+    code = String(parsed.code || "");
+    message = String(parsed.message || "");
+  } catch {
+    message = String(detail || "");
+  }
+  message = message
+    .replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, "[id]")
+    .replace(/secret_[A-Za-z0-9]+/g, "[redacted]")
+    .replace(/ntn_[A-Za-z0-9]+/g, "[redacted]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 180);
+  return { code: code.slice(0, 40), message };
+}
+
+async function tokenMark(token) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
+  const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  return { len: String(token.length), hash: hex.slice(0, 8) };
+}
+
+function json(data, status, cache, extra) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": cache,
+      ...(extra || {}),
     },
   });
 }
@@ -151,7 +178,10 @@ async function queryApproved(token, databaseId, locationName) {
     if (!res.ok) {
       const detail = await res.text();
       console.error("Notion directory query failed", res.status, detail.slice(0, 300));
-      return null;
+      const error = new Error("notion");
+      error.statusCode = res.status;
+      error.hint = notionHint(detail);
+      throw error;
     }
     const data = await res.json();
     pages.push(...(data.results || []));
@@ -178,18 +208,39 @@ export async function onRequestGet(context) {
     locationName = studio.name;
   }
 
+  const check = request.headers.get("x-listing-check") === "1";
   let pages;
   try {
     pages = await queryApproved(token, databaseId, locationName);
   } catch (err) {
     console.error("Notion directory request failed", err && err.message);
-    return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
+    const extra = {};
+    if (check) {
+      const mark = await tokenMark(token);
+      const hint = (err && err.hint) || { code: "", message: "" };
+      extra["X-Token-Len"] = mark.len;
+      extra["X-Token-Hash"] = mark.hash;
+      extra["X-Db-Head"] = String(databaseId).replace(/-/g, "").slice(0, 4);
+      extra["X-Db-Tail"] = String(databaseId).replace(/-/g, "").slice(-4);
+      extra["X-Notion-Status"] = String((err && err.statusCode) || "");
+      extra["X-Notion-Code"] = hint.code || "";
+      extra["X-Notion-Hint"] = hint.message || "";
+    }
+    return json({ ok: false, error: "The directory is not available." }, 502, "no-store", extra);
   }
   if (!pages) return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
 
   const used = new Set();
   const rows = pages.map((page) => toPublic(page, used)).filter(Boolean);
-  return json(rows, 200, "public, max-age=300");
+  const extra = {};
+  if (check) {
+    const mark = await tokenMark(token);
+    extra["X-Token-Len"] = mark.len;
+    extra["X-Token-Hash"] = mark.hash;
+    extra["X-Db-Head"] = String(databaseId).replace(/-/g, "").slice(0, 4);
+    extra["X-Db-Tail"] = String(databaseId).replace(/-/g, "").slice(-4);
+  }
+  return json(rows, 200, "public, max-age=300", extra);
 }
 
 export async function onRequest(context) {
