@@ -17,6 +17,7 @@
   const root = document.querySelector(".studio-page");
   if (!root) return;
   const locationId = root.dataset.location;
+  const locationSlug = root.dataset.slug || "";
   const city = root.dataset.city || "";
   const nameEl = document.getElementById("studioName");
   const serviceEl = document.getElementById("studioService");
@@ -65,21 +66,27 @@
       ? '<p class="studio-stars">★ ' + esc(pro.rating.toFixed(1)) + (pro.ratingCount ? " (" + esc(pro.ratingCount) + ")" : "") + "</p>"
       : "";
     const pills = (pro.categories || []).map((slug) => '<span class="pill">' + esc(FULL[slug] || slug) + "</span>").join("");
-    return '<a class="studio-card" href="/pros/' + esc(pro.slug) + '">' +
-      '<div class="studio-card-photo">' + photo + featured + "</div>" +
+    const where = pro.suite
+      ? esc(pro.suite) + " at Oh La La " + esc(city)
+      : "Oh La La " + esc(city);
+    const body = '<div class="studio-card-photo">' + photo + featured + "</div>" +
       '<div class="studio-card-body">' + stars +
       "<h3>" + esc(pro.name) + "</h3>" +
       '<p class="studio-biz">' + esc(pro.businessName || "") + "</p>" +
-      '<p class="studio-where">' + esc(pro.suite) + " at Oh La La " + esc(city) + "</p>" +
+      '<p class="studio-where">' + where + "</p>" +
       '<p class="pills">' + pills + "</p>" +
-      "</div></a>";
+      "</div>";
+    if (!pro.href) return '<article class="studio-card">' + body + "</article>";
+    const external = /^https?:/i.test(pro.href);
+    return '<a class="studio-card" href="' + esc(pro.href) + '"' + (external ? ' target="_blank" rel="noopener"' : "") + ">" + body + "</a>";
   }
   function soon() {
+    const join = "/pros/join" + (locationSlug ? "?location=" + encodeURIComponent(locationSlug) : "");
     return '<h2>Real pros coming soon</h2>' +
       '<p>These sample names are not bookable. When Oh La La pros join, they will show up here.</p>' +
       '<p><a class="btn btn-primary" href="tel:+18434209965">Call (843) 420-9965</a> <a class="btn btn-outline" href="sms:+18434209965">Text (843) 420-9965</a></p>' +
       '<p class="dir-empty-note">Call or text (843) 420-9965 to book.</p>' +
-      '<p><a class="join-link" href="/pros/join">Are you an Oh La La pro? Join the directory</a></p>';
+      '<p><a class="join-link" href="' + join + '">Are you an Oh La La pro? Join the directory</a></p>';
   }
   function render() {
     const real = pros.filter((pro) => pro.active && pro.consentApproved && !pro.isSample && pro.locationId === locationId);
@@ -173,7 +180,12 @@
     watch.observe(mapEl);
   }
 
-  fetch("/data/pros.json").then((res) => res.json()).then((rows) => {
+  const directoryUrl = "/api/directory?location=" + encodeURIComponent(locationSlug);
+  fetch(directoryUrl).then((res) => {
+    if (!res.ok) throw new Error("directory");
+    return res.json();
+  }).then((rows) => {
+    if (!Array.isArray(rows)) throw new Error("directory");
     pros = rows;
     render();
   }).catch(() => {

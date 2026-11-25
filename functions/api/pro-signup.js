@@ -19,18 +19,21 @@
  *   Booking URL              url
  *   Vagaro link              url (optional; skipped if the database has no such property)
  *   Portfolio photos         rich_text (optional; skipped if the database has no such property)
- *   Instagram                rich_text
- *   TikTok                   rich_text
- *   Facebook                 rich_text
- *   Website                  rich_text
+ *   Instagram                url (a handle like @name is saved as an Instagram URL)
+ *   TikTok                   url
+ *   Facebook                 url
+ *   Website                  url
  *   Languages                multi_select
  *   Payments                 multi_select
  *   Accepting New Clients    checkbox
  *   Photo URL                url
  *   Consent                  checkbox
  *   Status                   select (Pending)
+ *   Location                 select (Summerville, from ?location=)
  *   Submitted                date
  */
+
+import { studioFromInput } from "./locations.js";
 
 const NOTION_VERSION = "2022-06-28";
 
@@ -95,6 +98,17 @@ function validUrl(value) {
   }
 }
 
+function profileUrl(value, kind) {
+  const raw = clip(value, 200);
+  if (!raw) return "";
+  if (validUrl(raw)) return raw;
+  const handle = raw.replace(/^@/, "");
+  if (!/^[A-Za-z0-9._]{1,60}$/.test(handle)) return "";
+  if (kind === "instagram") return "https://www.instagram.com/" + handle;
+  if (kind === "tiktok") return "https://www.tiktok.com/@" + handle;
+  return "";
+}
+
 function asList(value) {
   if (Array.isArray(value)) return value.map((item) => clip(item, 80)).filter(Boolean);
   const one = clip(value, 400);
@@ -154,8 +168,13 @@ export async function onRequestPost(context) {
   const photos = (Array.isArray(body.photos) ? body.photos : asList(body.photos)).map((item) => clip(item, 300)).filter(Boolean).slice(0, 9);
   const consent = body.consent === true || body.consent === "yes" || body.consent === "on";
   const accepting = body.accepting === true || body.accepting === "yes" || body.accepting === "on";
+  const studio = studioFromInput(body.location);
 
   if (!name) return json({ ok: false, error: "Please add your name." }, 400);
+  if (clip(body.location, 80) && !studio) {
+    return json({ ok: false, error: "Please choose a location from the list." }, 400);
+  }
+  if (!studio) return json({ ok: false, error: "Please choose a location." }, 400);
   if (!consent) {
     return json({ ok: false, error: "Please agree that Oh La La can show this info and photo on its website." }, 400);
   }
@@ -207,6 +226,7 @@ export async function onRequestPost(context) {
   const properties = {
     Name: { title: [{ type: "text", text: { content: name } }] },
     Status: { select: { name: "Pending" } },
+    Location: { select: { name: studio.name } },
     Consent: { checkbox: true },
     "Accepting New Clients": { checkbox: accepting },
     Submitted: { date: { start: new Date().toISOString() } },
@@ -223,10 +243,14 @@ export async function onRequestPost(context) {
   if (booking) properties["Booking URL"] = { url: booking };
   if (vagaro) properties["Vagaro link"] = { url: vagaro };
   if (photos.length) properties["Portfolio photos"] = richText(photos.join("\n"));
-  if (instagram) properties.Instagram = richText(instagram);
-  if (tiktok) properties.TikTok = richText(tiktok);
-  if (facebook) properties.Facebook = richText(facebook);
-  if (web) properties.Website = richText(web);
+  const instagramUrl = profileUrl(instagram, "instagram");
+  const tiktokUrl = profileUrl(tiktok, "tiktok");
+  const facebookUrl = validUrl(facebook) ? facebook : "";
+  const websiteUrl = validUrl(web) ? web : "";
+  if (instagramUrl) properties.Instagram = { url: instagramUrl };
+  if (tiktokUrl) properties.TikTok = { url: tiktokUrl };
+  if (facebookUrl) properties.Facebook = { url: facebookUrl };
+  if (websiteUrl) properties.Website = { url: websiteUrl };
   if (languages.length) properties.Languages = { multi_select: languages.map((name) => ({ name })) };
   if (payments.length) properties.Payments = { multi_select: payments.map((name) => ({ name })) };
   if (photo) properties["Photo URL"] = { url: photo };

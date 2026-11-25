@@ -316,7 +316,7 @@ ${header("locations")}
   </div>
   <div class="studio-photos">${photoHtml}</div>
 </header>
-<div class="studio-page" data-location="${esc(loc.id)}" data-city="${esc(loc.city)}">
+<div class="studio-page" data-location="${esc(loc.id)}" data-slug="${esc(loc.slug)}" data-city="${esc(loc.city)}">
   <div class="wrap">
     <p class="crumbs"><a href="/">Home</a> / <a href="/locations">Locations</a> / ${esc(loc.city)}</p>
     <div class="studio-bar">
