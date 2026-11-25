@@ -71,13 +71,43 @@ function clip(value, max) {
   return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 }
 
-function json(data, status = 200) {
+function notionHint(detail) {
+  let code = "";
+  let message = "";
+  try {
+    const parsed = JSON.parse(detail);
+    code = String(parsed.code || "");
+    message = String(parsed.message || "");
+  } catch {
+    message = String(detail || "");
+  }
+  message = message
+    .replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, "[id]")
+    .replace(/secret_[A-Za-z0-9]+/g, "[redacted]")
+    .replace(/ntn_[A-Za-z0-9]+/g, "[redacted]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 180);
+  return { code: code.slice(0, 40), message };
+}
+
+function json(data, status = 200, extra) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
+      ...(extra || {}),
     },
+  });
+}
+
+function notionError(detail, status) {
+  const hint = notionHint(detail);
+  return json({ ok: false, error: "Could not save your request." }, 502, {
+    "X-Notion-Status": String(status || ""),
+    "X-Notion-Code": hint.code,
+    "X-Notion-Hint": hint.message,
   });
 }
 
@@ -279,7 +309,7 @@ export async function onRequestPost(context) {
         notionRes = await createPage(properties);
       } else {
         console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
-        return json({ ok: false, error: "Could not save your request." }, 502);
+        return notionError(detail, notionRes.status);
       }
     }
   } catch (err) {
@@ -290,7 +320,7 @@ export async function onRequestPost(context) {
   if (!notionRes.ok) {
     const detail = await notionRes.text();
     console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
-    return json({ ok: false, error: "Could not save your request." }, 502);
+    return notionError(detail, notionRes.status);
   }
 
   return json({ ok: true });
