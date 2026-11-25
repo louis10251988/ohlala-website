@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261125f";
+export const ASSET = "20261125g";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
