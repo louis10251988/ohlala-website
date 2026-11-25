@@ -160,6 +160,8 @@ export function renderProfile(pro, others) {
     : "";
   const maps = directionsUrl(suite);
   const qr = renderSVG(canonical, { ecc: "M", border: 2, pixelSize: 8, blackColor: "#5D1A3A", whiteColor: "#FDFAF8" });
+  const qrHref = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(qr);
+  const qrFile = (pro.slug || "profile") + "-qr.svg";
   const placeType = (pro.categories || []).some((cat) => cat === "hair" || cat === "barber") ? "HairSalon" : "HealthAndBeautyBusiness";
   const graph = {
     "@context": "https://schema.org",
@@ -229,11 +231,11 @@ ${header("locations")}
         <div class="tenant-actions">${book}${icons}${call}${text}${email ? `<span class="tenant-contact">${email}</span>` : ""}</div>
         <div class="tenant-share">
           <button class="btn btn-outline" type="button" id="tenantShare" data-url="${esc(canonical)}" data-title="${esc(pro.name)}">Share</button>
-          <details class="tenant-qr">
-            <summary>QR code</summary>
+          <div class="tenant-qr">
             <div class="tenant-qr-img">${qr}</div>
             <p>Scan to open this profile.</p>
-          </details>
+            <p><a class="btn btn-outline" href="${qrHref}" download="${esc(qrFile)}">Download QR</a></p>
+          </div>
         </div>
       </div>
     </div>
@@ -310,13 +312,15 @@ ${footer({ sticky: false })}
   if(share) share.addEventListener("click",function(){
     var url=share.getAttribute("data-url");
     var title=share.getAttribute("data-title");
+    function copied(){ share.textContent="Link copied"; }
     if(navigator.share){
-      navigator.share({title:title,url:url}).catch(function(){});
+      navigator.share({title:title,url:url}).catch(function(err){
+        if(err && err.name==="AbortError") return;
+        if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
+      });
       return;
     }
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(url).then(function(){ share.textContent="Link copied"; });
-    }
+    if(navigator.clipboard) navigator.clipboard.writeText(url).then(copied);
   });
 })();
 </script>
