@@ -13,9 +13,7 @@ function html(body, status, cache) {
 
 export async function onRequest(context) {
   const slug = String((context.params && context.params.slug) || "").replace(/\/$/, "");
-  if (!slug || slug === "join") {
-    return Response.redirect(new URL("/pros/join", context.request.url), 302);
-  }
+  if (!slug) return html(renderMissing(), 404, "no-store");
 
   let profiles = [];
   try {
