@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/pros/join",
+    "/pros/avery-cole",
+    "/pros/jordan-hale",
+    "/pros/quinn-parker",
+    "/pros/riley-brooks",
+    "/pros/rowan-ellis",
+    "/pros/sage-nguyen"
+  ]
+}
