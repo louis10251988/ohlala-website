@@ -1,4 +1,4 @@
-import { loadProfiles, previewSample, previewSampleAllowed } from "../api/pros-data.js";
+import { loadProfiles, previewSampleAllowed, previewSamples } from "../api/pros-data.js";
 import { renderMissing, renderProfile } from "./page.js";
 
 function html(body, status, cache) {
@@ -23,14 +23,19 @@ export async function onRequest(context) {
     console.error("Profile lookup failed", err && err.message);
   }
 
-  const match = profiles.find((pro) => pro.slug === slug);
-  if (!match) {
-    if (previewSampleAllowed(context.env) && slug === previewSample().slug) {
-      return html(renderProfile(previewSample(), profiles.filter((pro) => pro.locationId === "summerville-ladson").slice(0, 6)), 200, "no-store");
-    }
+  const preview = previewSampleAllowed(context.env) ? previewSamples() : [];
+  const pool = profiles.concat(preview.filter((sample) => !profiles.some((pro) => pro.slug === sample.slug)));
+  const match = pool.find((pro) => pro.slug === slug);
+  if (!match || (match.isPreviewSample && !previewSampleAllowed(context.env))) {
     return html(renderMissing(), 404, "no-store");
   }
 
-  const others = profiles.filter((pro) => pro.locationId === match.locationId && pro.slug !== match.slug).slice(0, 6);
-  return html(renderProfile(match, others), 200, "public, max-age=300");
+  const mine = new Set(match.categories || []);
+  const others = pool.filter((pro) => {
+    if (pro.slug === match.slug || pro.locationId !== match.locationId) return false;
+    if (!mine.size) return true;
+    return (pro.categories || []).some((cat) => mine.has(cat));
+  }).slice(0, 4);
+  const cache = match.isPreviewSample ? "no-store" : "public, max-age=300";
+  return html(renderProfile(match, others), 200, cache);
 }

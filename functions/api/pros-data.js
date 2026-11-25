@@ -232,16 +232,37 @@ export function previewSampleAllowed(env) {
   return Boolean(branch) && branch !== "main";
 }
 
-export function previewSample() {
-  const studio = studioFromInput("summerville");
+function sampleBase(studio, fields) {
   return {
+    phone: "(843) 420-9965",
+    email: "",
+    languages: ["English"],
+    payments: ["Card", "Cash"],
+    acceptingNewClients: true,
+    bookingUrl: "https://ohlalasalonstudio.com/locations/summerville",
+    vagaroUrl: "https://www.vagaro.com/",
+    instagram: "https://www.instagram.com/",
+    facebook: "https://facebook.com/352835481242473",
+    tiktok: "https://www.tiktok.com/",
+    website: "https://ohlalasalonstudio.com",
+    locationId: studio.id,
+    studio,
+    active: true,
+    consentApproved: true,
+    isSample: true,
+    isPreviewSample: true,
+    ...fields,
+  };
+}
+
+export function previewSamples() {
+  const studio = studioFromInput("summerville");
+  const camille = sampleBase(studio, {
     name: "Camille Brooks",
     businessName: "Brooks Color Room",
     suite: "Suite 4",
-    phone: "(843) 420-9965",
-    email: "",
-    photo: "",
-    photos: ["/images/real/suite-1-desk.webp"],
+    photo: "/images/real/suite-1-desk.webp",
+    photos: ["/images/real/suite-1.webp", "/images/real/studio-photoshoot-1.webp"],
     categories: ["hair"],
     services: [
       { name: "Lived-in color", duration: "2.5 hr", price: "from $180" },
@@ -258,24 +279,29 @@ export function previewSample() {
       "Saturday: 9:00 AM – 2:00 PM",
       "Sunday: Closed",
     ],
-    languages: ["English"],
-    payments: ["Card", "Cash"],
-    acceptingNewClients: true,
-    bookingUrl: "",
-    vagaroUrl: "",
-    instagram: "",
-    facebook: "",
-    tiktok: "",
-    website: "",
-    bookHref: "tel:+18434209965",
-    href: "tel:+18434209965",
-    locationId: studio.id,
-    studio,
     slug: "camille-brooks-suite-4",
     profilePath: "/pros/camille-brooks-suite-4",
-    active: true,
-    consentApproved: true,
-    isSample: true,
-    isPreviewSample: true,
-  };
+  });
+  const lane = sampleBase(studio, {
+    name: "Avery Lane",
+    businessName: "Lane Studio",
+    suite: "Suite 8",
+    photo: "/images/real/tenant-station-1.webp",
+    photos: ["/images/real/suite-1-desk.webp"],
+    categories: ["hair"],
+    services: [{ name: "Blowout", duration: "45 min", price: "from $45" }],
+    bio: "Avery styles hair in a private suite down the hall, with time set aside for each client.",
+    hours: ["Monday: 11:00 AM – 7:00 PM", "Tuesday: 11:00 AM – 7:00 PM", "Sunday: Closed"],
+    slug: "avery-lane-suite-8",
+    profilePath: "/pros/avery-lane-suite-8",
+  });
+  for (const pro of [camille, lane]) {
+    pro.bookHref = pro.bookingUrl;
+    pro.href = pro.bookingUrl;
+  }
+  return [camille, lane];
+}
+
+export function previewSample() {
+  return previewSamples()[0];
 }

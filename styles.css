@@ -528,6 +528,31 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .tenant-others a{color:var(--burgundy);font-weight:700}
 .tenant-missing{padding:48px 0 72px}
 .tenant-missing h1{font-size:36px}
+.tenant-icons{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tenant-icon{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--burgundy);color:var(--burgundy);background:#fff;display:grid;place-items:center;text-decoration:none}
+.tenant-icon svg{width:22px;height:22px}
+.tenant-icon:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+.tenant-share{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-top:12px}
+.tenant-qr{font-size:16px}
+.tenant-qr summary{min-height:44px;display:inline-flex;align-items:center;color:var(--burgundy);font-weight:700;cursor:pointer}
+.tenant-qr-img{width:168px;background:#fff;border-radius:12px;padding:8px}
+.tenant-qr-img svg{width:100%;height:auto;display:block}
+.tenant-open,.tenant-closed{display:inline-flex;align-items:center;min-height:32px;margin-left:8px;padding:0 12px;border-radius:999px;font-family:var(--sans);font-size:16px;font-weight:700;vertical-align:middle}
+.tenant-open{background:#e5f4e8;color:#1d6b32}
+.tenant-closed{background:#fdecef;color:var(--burgundy)}
+.tenant-shot{padding:0;border:0;background:transparent;border-radius:14px;cursor:pointer}
+.tenant-shot:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+.tenant-light{border:0;padding:0;background:transparent;max-width:min(92vw,720px)}
+.tenant-light::backdrop{background:rgba(42,23,32,.72)}
+.tenant-light img{width:100%;height:auto;border-radius:12px;background:#fff}
+.tenant-light-x{min-height:44px;margin-bottom:8px;border:0;border-radius:999px;padding:0 16px;background:#fff;color:var(--burgundy);font:700 16px var(--sans)}
+.tenant-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;gap:8px;align-items:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:var(--cream);border-top:1px solid rgba(93,26,58,.16);overflow-x:auto}
+.tenant-bar .btn,.tenant-bar .tenant-icons{flex:0 0 auto}
+.tenant-page{padding-bottom:96px}
+@media(min-width:800px){
+  .tenant-bar{display:none}
+  .tenant-page{padding-bottom:0}
+}
 @media(min-width:800px){
   .tenant-hero-in{grid-template-columns:220px minmax(0,1fr);justify-items:start;text-align:left;align-items:center;gap:36px}
   .tenant-photo{width:200px;height:200px}
