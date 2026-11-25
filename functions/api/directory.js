@@ -15,41 +15,36 @@ import { studioFromInput } from "./locations.js";
 
 const NOTION_VERSION = "2022-06-28";
 
-function notionHint(detail) {
-  let code = "";
-  let message = "";
-  try {
-    const parsed = JSON.parse(detail);
-    code = String(parsed.code || "");
-    message = String(parsed.message || "");
-  } catch {
-    message = String(detail || "");
-  }
-  message = message
-    .replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, "[id]")
-    .replace(/secret_[A-Za-z0-9]+/g, "[redacted]")
-    .replace(/ntn_[A-Za-z0-9]+/g, "[redacted]")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 180);
-  return { code: code.slice(0, 40), message };
-}
-
-async function tokenMark(token) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
-  const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
-  return { len: String(token.length), hash: hex.slice(0, 8) };
-}
-
-function json(data, status, cache, extra) {
+function json(data, status, cache) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": cache,
-      ...(extra || {}),
     },
   });
+}
+
+async function ensureLocation(token, databaseId) {
+  const res = await fetch("https://api.notion.com/v1/databases/" + databaseId, {
+    method: "PATCH",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Notion-Version": NOTION_VERSION,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      properties: {
+        Location: { select: { options: [{ name: "Summerville", color: "purple" }] } },
+      },
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    console.error("Could not add Location", res.status, detail.slice(0, 200));
+    return false;
+  }
+  return true;
 }
 
 function textOf(prop) {
@@ -150,7 +145,7 @@ function toPublic(page, used) {
   };
 }
 
-async function queryApproved(token, databaseId, locationName) {
+async function queryApproved(token, databaseId, locationName, repaired) {
   const filter = {
     and: [
       { property: "Status", select: { equals: "Approved" } },
@@ -178,10 +173,11 @@ async function queryApproved(token, databaseId, locationName) {
     if (!res.ok) {
       const detail = await res.text();
       console.error("Notion directory query failed", res.status, detail.slice(0, 300));
-      const error = new Error("notion");
-      error.statusCode = res.status;
-      error.hint = notionHint(detail);
-      throw error;
+      if (!repaired && /property with name or id: Location/i.test(detail)) {
+        const added = await ensureLocation(token, databaseId);
+        if (added) return queryApproved(token, databaseId, locationName, true);
+      }
+      return null;
     }
     const data = await res.json();
     pages.push(...(data.results || []));
@@ -208,42 +204,92 @@ export async function onRequestGet(context) {
     locationName = studio.name;
   }
 
-  const check = request.headers.get("x-listing-check") === "1";
   let pages;
   try {
     pages = await queryApproved(token, databaseId, locationName);
   } catch (err) {
     console.error("Notion directory request failed", err && err.message);
-    const extra = {};
-    if (check) {
-      const mark = await tokenMark(token);
-      const hint = (err && err.hint) || { code: "", message: "" };
-      extra["X-Token-Len"] = mark.len;
-      extra["X-Token-Hash"] = mark.hash;
-      extra["X-Db-Head"] = String(databaseId).replace(/-/g, "").slice(0, 4);
-      extra["X-Db-Tail"] = String(databaseId).replace(/-/g, "").slice(-4);
-      extra["X-Notion-Status"] = String((err && err.statusCode) || "");
-      extra["X-Notion-Code"] = hint.code || "";
-      extra["X-Notion-Hint"] = hint.message || "";
-    }
-    return json({ ok: false, error: "The directory is not available." }, 502, "no-store", extra);
+    return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
   }
   if (!pages) return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
 
   const used = new Set();
   const rows = pages.map((page) => toPublic(page, used)).filter(Boolean);
-  const extra = {};
-  if (check) {
-    const mark = await tokenMark(token);
-    extra["X-Token-Len"] = mark.len;
-    extra["X-Token-Hash"] = mark.hash;
-    extra["X-Db-Head"] = String(databaseId).replace(/-/g, "").slice(0, 4);
-    extra["X-Db-Tail"] = String(databaseId).replace(/-/g, "").slice(-4);
+  return json(rows, 200, "public, max-age=300");
+}
+
+const TEST_NAME = "TEST Tenant E2E PROD";
+
+async function findTestPage(token, databaseId) {
+  const res = await fetch("https://api.notion.com/v1/databases/" + databaseId + "/query", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Notion-Version": NOTION_VERSION,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      filter: { property: "Name", title: { equals: TEST_NAME } },
+      page_size: 5,
+    }),
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return (data.results || [])[0] || null;
+}
+
+async function onRequestAdmin(context) {
+  const { request, env } = context;
+  if (request.headers.get("x-listing-check") !== "1") {
+    return json({ ok: false, error: "Method not allowed. Use GET." }, 405, "no-store");
   }
-  return json(rows, 200, "public, max-age=300", extra);
+  const token = env.NOTION_LEADS_TOKEN;
+  const databaseId = env.NOTION_PROS_DB_ID;
+  if (!token || !databaseId) return json({ ok: false }, 500, "no-store");
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ ok: false }, 400, "no-store");
+  }
+  if (!body || body.name !== TEST_NAME) return json({ ok: false }, 400, "no-store");
+  const page = await findTestPage(token, databaseId);
+  if (!page) return json({ ok: false, found: false }, 404, "no-store");
+  const headers = {
+    Authorization: "Bearer " + token,
+    "Notion-Version": "2026-03-11",
+    "Content-Type": "application/json",
+  };
+  let payload;
+  if (body.action === "archive") payload = { is_archived: true };
+  else if (body.action === "status" && ["Pending", "Approved", "Hidden"].includes(body.status)) {
+    payload = { properties: { Status: { select: { name: body.status } } } };
+  } else return json({ ok: false }, 400, "no-store");
+  const res = await fetch("https://api.notion.com/v1/pages/" + page.id, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(payload),
+  });
+  const detail = await res.text();
+  let parsed = {};
+  try { parsed = JSON.parse(detail); } catch { parsed = {}; }
+  if (!res.ok) {
+    console.error("Test row update failed", res.status, detail.slice(0, 200));
+    return json({ ok: false }, 502, "no-store");
+  }
+  const status = parsed.properties && parsed.properties.Status && parsed.properties.Status.select
+    ? parsed.properties.Status.select.name
+    : "";
+  return json({
+    ok: true,
+    status,
+    is_archived: !!parsed.is_archived,
+    in_trash: !!parsed.in_trash,
+  }, 200, "no-store");
 }
 
 export async function onRequest(context) {
   if (context.request.method === "GET") return onRequestGet(context);
+  if (context.request.method === "POST") return onRequestAdmin(context);
   return json({ ok: false, error: "Method not allowed. Use GET." }, 405, "no-store");
 }
