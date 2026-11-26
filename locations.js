@@ -86,7 +86,7 @@
   }
   function visible() {
     const query = qEl.value.trim();
-    let rows = locations.filter((loc) => matches(loc, query) && (!areaBounds || areaBounds.contains([loc.lat, loc.lng])));
+    let rows = locations.filter((loc) => matches(loc, query) && (!areaBounds || (typeof loc.lat === "number" && areaBounds.contains([loc.lat, loc.lng]))));
     if (origin) rows = rows.slice().sort((a, b) => miles(origin, a) - miles(origin, b));
     return rows;
   }

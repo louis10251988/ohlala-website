@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261126e";
+export const ASSET = "20261126f";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -28,7 +28,7 @@ export function header(active = "") {
     </div>
     <div class="nav-cta">
       <a class="nav-book" href="/locations/"><svg class="nav-book-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Book a service</a>
-      <a class="pill-cta pill-cta-solid" href="/#tour"><svg class="nav-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2 13.3 8 19 9.2 13.3 10.5 12 16.3 10.7 10.5 5 9.2 10.7 8 12 2.2z"/><path fill="currentColor" d="m18.2 13.2.7 2.6 2.6.7-2.6.7-.7 2.6-.7-2.6-2.6-.7 2.6-.7.7-2.6z"/></svg>Find your suite</a>
+      <a class="pill-cta pill-cta-solid" href="/lease"><svg class="nav-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2 13.3 8 19 9.2 13.3 10.5 12 16.3 10.7 10.5 5 9.2 10.7 8 12 2.2z"/><path fill="currentColor" d="m18.2 13.2.7 2.6 2.6.7-2.6.7-.7 2.6-.7-2.6-2.6-.7 2.6-.7.7-2.6z"/></svg>Find your suite</a>
       <a class="nav-call" href="tel:+18434209965">Call (843) 420-9965</a>
     </div>
     <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mm" onclick="var m=document.getElementById('mm');var o=m.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);if(o){var n=document.querySelector('nav');if(n)n.classList.remove('nav-up')}"><span></span><span></span><span></span></button>
@@ -36,7 +36,7 @@ export function header(active = "") {
   <div class="mobile-menu" id="mm">
     ${NAV.map(([, href, label]) => `<a href="${href}">${label}</a>`).join("")}
     <a class="nav-book" href="/locations/"><svg class="nav-book-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Book a service</a>
-    <a class="pill-cta pill-cta-solid" href="/#tour"><svg class="nav-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2 13.3 8 19 9.2 13.3 10.5 12 16.3 10.7 10.5 5 9.2 10.7 8 12 2.2z"/><path fill="currentColor" d="m18.2 13.2.7 2.6 2.6.7-2.6.7-.7 2.6-.7-2.6-2.6-.7 2.6-.7.7-2.6z"/></svg>Find your suite</a>
+    <a class="pill-cta pill-cta-solid" href="/lease"><svg class="nav-spark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2 13.3 8 19 9.2 13.3 10.5 12 16.3 10.7 10.5 5 9.2 10.7 8 12 2.2z"/><path fill="currentColor" d="m18.2 13.2.7 2.6 2.6.7-2.6.7-.7 2.6-.7-2.6-2.6-.7 2.6-.7.7-2.6z"/></svg>Find your suite</a>
     <a class="nav-call" href="tel:+18434209965">Call (843) 420-9965</a>
   </div>
 </nav>
