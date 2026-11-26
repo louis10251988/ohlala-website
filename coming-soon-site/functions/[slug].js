@@ -59,6 +59,7 @@ function page(place, origin) {
 <meta name="twitter:card" content="summary_large_image">
 <style>${theme}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"182d5244fee94c929d9917c698745875"}'></script>
 <script type="application/ld+json">${JSON.stringify(graph)}</script>
 </head>
 <body>

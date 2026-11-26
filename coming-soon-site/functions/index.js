@@ -26,6 +26,7 @@ export async function onRequest() {
 <link rel="canonical" href="https://ohlala-coming-soon.pages.dev/">
 <style>${theme}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@600&display=swap">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"182d5244fee94c929d9917c698745875"}'></script>
 </head>
 <body>
 <header class="hero"><div class="wrap top"><img class="logo" src="${esc(logoUrl)}" alt="Oh La La Salon and Studios" width="180" height="44"><a class="call" href="tel:${esc(phone.tel)}">${esc(phone.display)}</a></div>
