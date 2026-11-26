@@ -5,7 +5,7 @@
  * Writes a new row in 02 Leads (NOTION_LEADS_DB_ID). Status is New.
  * This route never updates an existing row.
  */
-import locations from "../../data/coming-soon.json" with { type: "json" };
+import { locations } from "../../data/coming-soon.js";
 import { canonicalCategories } from "./business-types.js";
 
 const NOTION_VERSION = "2022-06-28";
