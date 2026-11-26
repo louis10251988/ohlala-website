@@ -1,21 +1,10 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { ASSET, cssHref, fontHref, header, footer } from "./chrome.mjs";
+import { categoryLabel } from "../functions/api/business-types.js";
 
 const pros = JSON.parse(readFileSync("data/pros.json", "utf8"));
 const locations = JSON.parse(readFileSync("data/locations.json", "utf8"));
 const locById = Object.fromEntries(locations.map((loc) => [loc.id, loc]));
-const CATS = {
-  hair: "Hair (cuts, color, extensions, braids & locs)",
-  barber: "Barber",
-  nails: "Nails",
-  "lashes-brows": "Lashes, Brows & Hair Removal",
-  skin: "Skin Care",
-  tattoo: "Tattoo & Permanent Makeup",
-  massage: "Massage & Bodywork",
-  wellness: "Wellness (nutrition, weight loss, holistic)",
-  fitness: "Fitness (personal training, yoga, pilates)",
-  other: "Other",
-};
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const STUDIO_PHONE = "(843) 420-9965";
 const STUDIO_TEL = "+18434209965";
@@ -40,11 +29,6 @@ function initials(name) {
   return name.split(/\s+/).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase();
 }
 
-const SHORT = {
-  hair: "Hair", barber: "Barber", nails: "Nails", "lashes-brows": "Lashes & Brows",
-  skin: "Skin", tattoo: "Tattoo & PMU", massage: "Massage", wellness: "Wellness",
-  fitness: "Fitness", other: "Other",
-};
 function serviceItems(list) {
   return (list || []).map((item) => typeof item === "string" ? { name: item, duration: "", price: "" } : item);
 }
@@ -112,11 +96,10 @@ for (const pro of pros) {
   const photo = pro.photo
     ? `<img src="${esc(pro.photo)}" alt="Portrait of ${esc(pro.name)}" width="480" height="640">`
     : `<div class="mono" aria-hidden="true">${esc(initials(pro.name))}</div>`;
-  const cats = (pro.categories || []).map((slug) => `<span class="pill">${esc(CATS[slug] || slug)}</span>`).join("");
   const services = serviceItems(pro.services).map((service) => `<li><span>${esc(service.name)}</span><span>${[service.duration, service.price].filter(Boolean).map(esc).join(" · ")}</span></li>`).join("");
   const photos = (pro.photos || []).slice(0, 9).map((src, i) => `<button type="button" class="shot" data-full="${esc(src)}"><img src="${esc(src)}" alt="Sample portfolio image ${i + 1} for ${esc(pro.name)}" width="400" height="400" loading="lazy"><span class="sample-quiet">Sample</span></button>`).join("");
   const hours = DAYS.map((day) => `<tr data-day="${day}"><th scope="row">${day}</th><td>${esc(pro.hours[day] || "Closed")}</td></tr>`).join("");
-  const primaryCat = SHORT[(pro.categories || [])[0]] || "";
+  const primaryCat = categoryLabel((pro.categories || [])[0]);
   const title = `${pro.name} — ${pro.businessName} | Oh La La Salon & Studios`;
   const url = `https://ohlalasalonstudio.com/pros/${pro.slug}`;
   const jsonLd = {

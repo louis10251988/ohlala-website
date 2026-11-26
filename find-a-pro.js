@@ -3,31 +3,60 @@
  * One studio uses a compact map. More than one studio switches to the large map.
  */
 (function () {
-  const CATS = [
-    { slug: "", label: "All" },
-    { slug: "hair", label: "Hair" },
-    { slug: "barber", label: "Barber" },
-    { slug: "nails", label: "Nails" },
-    { slug: "lashes-brows", label: "Lashes & Brows" },
-    { slug: "skin", label: "Skin" },
-    { slug: "tattoo", label: "Tattoo & PMU" },
-    { slug: "massage", label: "Massage" },
-    { slug: "wellness", label: "Wellness" },
-    { slug: "fitness", label: "Fitness" },
-    { slug: "other", label: "Other" },
+  const TYPES = [
+    "Hair stylist",
+    "Hair extensions",
+    "Hair replacement / scalp care",
+    "Textured / natural hair",
+    "Braids",
+    "Locs",
+    "Barber",
+    "Nails",
+    "Lashes",
+    "Brows",
+    "Threading",
+    "Waxing",
+    "Sugaring",
+    "Laser hair removal / electrolysis",
+    "Skin care",
+    "Spa",
+    "Med spa / aesthetics",
+    "Body contouring",
+    "Beauty enhancements",
+    "Weight loss / medical",
+    "Makeup",
+    "Permanent makeup / microblading",
+    "Tattoo",
+    "Tattoo removal",
+    "Piercing & jewelry",
+    "Massage",
+    "Wellness & holistic",
+    "Physical therapy / chiropractic",
+    "Fitness",
+    "Tanning",
+    "Teeth whitening",
+    "Ultrasound",
+    "Photo studio",
+    "Pet grooming",
+    "Retail & lifestyle",
+    "Other",
   ];
+  const CATS = [{ slug: "", label: "All" }, ...TYPES.map((name) => ({ slug: name, label: name }))];
   const FULL = {
-    hair: "Hair",
+    hair: "Hair stylist",
     barber: "Barber",
     nails: "Nails",
-    "lashes-brows": "Lashes & Brows",
-    skin: "Skin",
-    tattoo: "Tattoo & PMU",
+    "lashes-brows": "Lashes",
+    skin: "Skin care",
+    tattoo: "Tattoo",
     massage: "Massage",
-    wellness: "Wellness",
+    wellness: "Wellness & holistic",
     fitness: "Fitness",
     other: "Other",
   };
+  function categoryLabel(slug) {
+    return FULL[slug] || slug;
+  }
 
   const els = {
     form: document.getElementById("filters"),
@@ -114,14 +143,14 @@
     return !!(state.q || state.category || state.location || state.accepting || state.languages.length || state.payments.length);
   }
   function proMatches(pro, state) {
-    if (state.category && !(pro.categories || []).includes(state.category)) return false;
+    if (state.category && !(pro.categories || []).some((slug) => categoryLabel(slug) === state.category)) return false;
     if (state.location && pro.locationId !== state.location) return false;
     if (state.accepting && !pro.acceptingNewClients) return false;
     if (state.languages.length && !state.languages.some((lang) => (pro.languages || []).includes(lang))) return false;
     if (state.payments.length && !state.payments.some((pay) => (pro.payments || []).includes(pay))) return false;
     if (state.q) {
       const services = (pro.services || []).map((item) => typeof item === "string" ? item : [item.name, item.duration, item.price].filter(Boolean).join(" "));
-      const hay = [pro.name, pro.businessName, ...services, ...(pro.categories || []).map((slug) => FULL[slug] || slug)].join(" ").toLowerCase();
+      const hay = [pro.name, pro.businessName, ...services, ...(pro.categories || []).map(categoryLabel)].join(" ").toLowerCase();
       if (!hay.includes(state.q.toLowerCase())) return false;
     }
     return true;
@@ -130,7 +159,7 @@
     const photo = pro.photo
       ? '<img class="avatar" src="' + esc(pro.photo) + '" alt="" width="88" height="88">'
       : '<span class="mono avatar" aria-hidden="true">' + esc(initials(pro.name)) + "</span>";
-    const cat = FULL[(pro.categories || [])[0]] || "";
+    const cat = categoryLabel((pro.categories || [])[0]);
     const sample = pro.isSample ? '<span class="sample-quiet">Sample</span>' : "";
     const external = pro.vagaroUrl || pro.bookingUrl;
     const book = external

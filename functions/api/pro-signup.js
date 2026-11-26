@@ -12,7 +12,7 @@
  *   Suite                    rich_text
  *   Phone                    phone_number
  *   Email                    email
- *   Categories               multi_select (slugs)
+ *   Categories               multi_select (Type of business names)
  *   Services                 rich_text
  *   Bio                      rich_text
  *   Hours                    rich_text
@@ -34,21 +34,9 @@
  */
 
 import { studioFromInput } from "./locations.js";
+import { canonicalCategories } from "./business-types.js";
 
 const NOTION_VERSION = "2022-06-28";
-
-const CATEGORIES = new Set([
-  "hair",
-  "barber",
-  "nails",
-  "lashes-brows",
-  "skin",
-  "tattoo",
-  "massage",
-  "wellness",
-  "fitness",
-  "other",
-]);
 
 const LANGUAGES = new Map([
   ["english", "English"],
@@ -194,8 +182,8 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Please keep the bio to 600 characters." }, 400);
   }
 
-  const categories = uniqueNames(asList(body.categories), CATEGORIES, null).filter((slug) => CATEGORIES.has(slug));
-  if (asList(body.categories).length && categories.length !== asList(body.categories).length) {
+  const categories = canonicalCategories(asList(body.categories));
+  if (!categories) {
     return json({ ok: false, error: "Please choose a category from the list." }, 400);
   }
   const languages = uniqueNames(asList(body.languages), null, LANGUAGES);

@@ -3,14 +3,14 @@
  */
 (function () {
   const FULL = {
-    hair: "Hair",
+    hair: "Hair stylist",
     barber: "Barber",
     nails: "Nails",
-    "lashes-brows": "Lashes & Brows",
-    skin: "Skin",
-    tattoo: "Tattoo & PMU",
+    "lashes-brows": "Lashes",
+    skin: "Skin care",
+    tattoo: "Tattoo",
     massage: "Massage",
-    wellness: "Wellness",
+    wellness: "Wellness & holistic",
     fitness: "Fitness",
     other: "Other",
   };
