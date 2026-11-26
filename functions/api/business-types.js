@@ -3,8 +3,10 @@
  * "Type of business" multi-select, exact spelling.
  *
  * The website does not read this list from Notion. Join submissions
- * save these names on 08 Website Pro List → Categories. Older rows
- * may still store the previous slugs; those display as the names below.
+ * save onto 08 Website Pro List → Categories. Notion rejects a second
+ * option that differs only by case, so six existing options stay
+ * lowercase: barber, nails, tattoo, massage, fitness, other.
+ * The site still shows those six capitalized.
  */
 
 export const BUSINESS_TYPES = [
@@ -48,7 +50,20 @@ export const BUSINESS_TYPES = [
 
 const BY_KEY = new Map(BUSINESS_TYPES.map((name) => [name.toLowerCase(), name]));
 
-/** Previous Website Pro List slugs, shown and saved as the current names. */
+/**
+ * Existing Categories options whose capitalized spelling would be
+ * rejected. Writes use these exact strings.
+ */
+const NOTION_CASE = {
+  barber: "barber",
+  nails: "nails",
+  tattoo: "tattoo",
+  massage: "massage",
+  fitness: "fitness",
+  other: "other",
+};
+
+/** Previous slugs that are not the same word as a current name. Shown as the current name. */
 export const LEGACY_CATEGORIES = {
   hair: "Hair stylist",
   barber: "Barber",
@@ -85,7 +100,10 @@ export function categoryLabel(value) {
 export function canonicalCategory(value) {
   const raw = String(value || "").replace(/\s+/g, " ").trim();
   if (!raw) return "";
-  return BY_KEY.get(raw.toLowerCase()) || LEGACY_CATEGORIES[raw.toLowerCase()] || "";
+  const key = raw.toLowerCase();
+  if (NOTION_CASE[key]) return NOTION_CASE[key];
+  if (BY_KEY.has(key)) return BY_KEY.get(key);
+  return LEGACY_CATEGORIES[key] || "";
 }
 
 export function canonicalCategories(values) {
