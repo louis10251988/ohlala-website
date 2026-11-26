@@ -13,6 +13,7 @@
 
 import { studioFromInput } from "./locations.js";
 import { loadProfiles, toCard } from "./pros-data.js";
+import { hostedPhoto } from "./headshot.js";
 
 function json(data, status, cache) {
   return new Response(JSON.stringify(data), {
@@ -44,7 +45,12 @@ export async function onRequestGet(context) {
   }
   if (!profiles) return json({ ok: false, error: "The directory is not available." }, 502, "no-store");
 
-  return json(profiles.map(toCard), 200, "public, max-age=300");
+  const origin = new URL(request.url).origin;
+  return json(profiles.map((profile) => {
+    const card = toCard(profile);
+    card.photo = hostedPhoto(card.photo, origin);
+    return card;
+  }), 200, "public, max-age=300");
 }
 
 export async function onRequest(context) {

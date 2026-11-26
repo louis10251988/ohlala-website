@@ -156,6 +156,8 @@ section{padding:32px 0}
 .type-option[aria-selected="true"]{background:#EFD9CE;color:#3D0F26;font-weight:700}
 .type-option .type-check{color:#5D1A3A;font-weight:700}
 .type-empty{padding:12px;color:var(--muted);font-size:16px}
+.headshot-preview{width:96px;height:96px;object-fit:cover;border-radius:16px;border:2px solid #E8B4A8;background:#EFD9CE}
+#photoClear{align-self:flex-start}
 .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .form-err{display:none;background:#fdecef;color:var(--burgundy);border-radius:12px;padding:12px;font-size:16px}
 .form-ok{display:none;text-align:center;padding:24px 8px}

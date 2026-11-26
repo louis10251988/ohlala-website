@@ -6,7 +6,7 @@
 <title>Join the directory | Oh La La Salon &amp; Studios</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Oh La La tenants can submit a directory profile. It stays pending until we review it.">
-<link rel="stylesheet" href="/styles.css?v=20261126a">
+<link rel="stylesheet" href="/styles.css?v=20261126b">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -98,8 +98,12 @@
           <label><input type="checkbox" name="payments" value="Cash"> Cash</label>
         </fieldset>
         <label class="chip"><input id="accepting" name="accepting" type="checkbox"> Accepting new clients</label>
-        <div class="fg"><label for="photo">Headshot URL</label><input id="photo" name="photo" type="url" placeholder="https://">
-          <p class="join-note">Or text your photo to <a href="sms:+18434209965">(843) 420-9965</a>.</p>
+        <div class="fg">
+          <label for="photo">Headshot</label>
+          <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif">
+          <img id="photoPreview" class="headshot-preview" alt="" hidden>
+          <button id="photoClear" class="btn btn-outline" type="button" hidden>Remove photo</button>
+          <p class="join-note">JPG, PNG, WEBP, or HEIC, up to 5 MB. Or text your photo to <a href="sms:+18434209965">(843) 420-9965</a>.</p>
         </div>
         <div class="fg"><label for="photos">Portfolio photo URLs (optional, up to 9)</label><textarea id="photos" name="photos" placeholder="One https link per line"></textarea></div>
         <label class="chip"><input id="consent" name="consent" type="checkbox" required> I agree Oh La La can show this info and photo on its website.</label>
@@ -209,6 +213,28 @@ typeTags.addEventListener('click',event=>{
   toggleType(btn.dataset.remove);
 });
 document.addEventListener('click',event=>{if(!typeField.contains(event.target)) setTypeOpen(false);});
+const photoInput=document.getElementById('photo');
+const photoPreview=document.getElementById('photoPreview');
+const photoClear=document.getElementById('photoClear');
+let photoUrl='';
+photoInput.addEventListener('change',()=>{
+  if(photoUrl) URL.revokeObjectURL(photoUrl);
+  const file=photoInput.files&&photoInput.files[0];
+  if(!file){photoPreview.hidden=true;photoPreview.removeAttribute('src');photoClear.hidden=true;photoUrl='';return;}
+  photoUrl=URL.createObjectURL(file);
+  photoPreview.src=photoUrl;
+  photoPreview.alt='Preview of your headshot';
+  photoPreview.hidden=false;
+  photoClear.hidden=false;
+});
+photoClear.addEventListener('click',()=>{
+  if(photoUrl) URL.revokeObjectURL(photoUrl);
+  photoUrl='';
+  photoInput.value='';
+  photoPreview.hidden=true;
+  photoPreview.removeAttribute('src');
+  photoClear.hidden=true;
+});
 const bio=document.getElementById('bio');
 const bioCount=document.getElementById('bioCount');
 bio.addEventListener('input',()=>{bioCount.textContent=bio.value.length+' / 600';});
@@ -248,7 +274,6 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
     languages:vals('languages'),
     payments:vals('payments'),
     accepting:f.accepting.checked,
-    photo:f.photo.value.trim(),
     photos:f.photos.value.split(/\s+/).map(s=>s.trim()).filter(Boolean).slice(0,9),
     consent:f.consent.checked,
     company:f.company.value
@@ -258,11 +283,32 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
   if(payload.ph.replace(/\D/g,'').length<7 && !payload.em){showErr('Please add a phone number or email, or call us at '+PHONE_LINK+'.');return;}
   if(!payload.consent){showErr('Please agree that Oh La La can show this info and photo on its website.');return;}
   if(payload.bio.length>600){showErr('Please keep the bio to 600 characters.');return;}
+  const photoFile=f.photo.files&&f.photo.files[0];
+  if(photoFile){
+    const photoName=(photoFile.name||'').toLowerCase();
+    const photoType=(photoFile.type||'').toLowerCase();
+    const photoOk=['image/jpeg','image/png','image/webp','image/heic','image/heif'].includes(photoType)||/\.(jpe?g|png|webp|heic|heif)$/.test(photoName);
+    if(!photoOk){showErr('Please use a JPG, PNG, WEBP, or HEIC photo.');return;}
+    if(photoFile.size>5*1024*1024){showErr('Please use a photo under 5 MB.');return;}
+  }
   btn.disabled=true;
   const prev=btn.textContent;
   btn.textContent='Sending…';
   try{
-    const res=await fetch('/api/pro-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    let res;
+    if(photoFile){
+      const fd=new FormData();
+      Object.entries(payload).forEach(([key,value])=>{
+        if(key==='services') return;
+        if(Array.isArray(value)) value.forEach(item=>fd.append(key,String(item)));
+        else fd.append(key,typeof value==='boolean'?(value?'yes':''):String(value??''));
+      });
+      fd.append('services',f.services.value);
+      fd.append('photo',photoFile,photoFile.name);
+      res=await fetch('/api/pro-signup',{method:'POST',body:fd});
+    }else{
+      res=await fetch('/api/pro-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    }
     const data=await res.json().catch(()=>({}));
     if(!res.ok||!data.ok)throw new Error(data.error||'save failed');
     f.style.display='none';

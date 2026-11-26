@@ -1,4 +1,5 @@
 import { loadProfiles, previewSampleAllowed, previewSamples } from "../api/pros-data.js";
+import { hostedPhoto } from "../api/headshot.js";
 import { renderMissing, renderProfile } from "./page.js";
 
 function html(body, status, cache) {
@@ -36,6 +37,9 @@ export async function onRequest(context) {
     if (!mine.size) return true;
     return (pro.categories || []).some((cat) => mine.has(cat));
   }).slice(0, 4);
+  const origin = new URL(context.request.url).origin;
+  match.photo = hostedPhoto(match.photo, origin);
+  others.forEach((pro) => { pro.photo = hostedPhoto(pro.photo, origin); });
   const cache = match.isPreviewSample ? "no-store" : "public, max-age=300";
   return html(renderProfile(match, others), 200, cache);
 }
