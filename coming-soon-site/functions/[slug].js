@@ -1,4 +1,4 @@
-import { locations } from "../locations.js";
+import { theme } from "./theme.js";
 import { BUSINESS_TYPES } from "./api/business-types.js";
 import { findLocation } from "./api/coming-soon.js";
 
@@ -21,7 +21,7 @@ function page(place) {
 <title>${esc(title)} | Coming soon</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="https://ohlala-coming-soon.pages.dev/${esc(place.slug)}">
-<link rel="stylesheet" href="/styles.css">
+<style>${theme}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 </head>
 <body>
