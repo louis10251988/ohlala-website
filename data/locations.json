@@ -25,6 +25,22 @@
       "Private furnished suites",
       "Wi-Fi and utilities",
       "Laundry and a break room"
-    ]
+    ],
+    "status": "Open"
+  },
+  {
+    "id": "ashley-phosphate",
+    "name": "Ashley Phosphate",
+    "label": "North Charleston, SC — coming soon",
+    "city": "North Charleston",
+    "state": "SC",
+    "zip": "29418",
+    "address": "5101 Ashley Phosphate Rd, Unit 133, North Charleston, SC 29418",
+    "phone": "(843) 420-9965",
+    "phoneTel": "+18434209965",
+    "comingSoon": true,
+    "status": "Coming soon",
+    "page": "https://ohlala-coming-soon.pages.dev/ashley-phosphate",
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=5101+Ashley+Phosphate+Rd+Unit+133+North+Charleston+SC+29418"
   }
 ]

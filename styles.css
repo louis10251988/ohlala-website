@@ -5,6 +5,10 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:78px;overflow-x:clip}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  nav{transition:none}
+}
 section{scroll-margin-top:80px}
 #launch-package{scroll-margin-top:0}
 body{font-family:var(--sans);color:var(--ink);background:var(--cream);font-size:16px;line-height:1.5;overflow-x:clip}
@@ -129,6 +133,7 @@ section{padding:32px 0}
 .quote span{display:block;font-size:16px;color:var(--burgundy)}
 
 .form-grid{display:grid;gap:14px}
+.form-grid[hidden]{display:none !important}
 .fg{display:flex;flex-direction:column;gap:6px}
 .fg label{font-size:16px;font-weight:700;color:var(--burgundy)}
 .fg input,.fg select,.fg textarea{min-height:48px;padding:12px 14px;border:1px solid rgba(93,26,58,.28);border-radius:12px;font:16px var(--sans);background:var(--cream);color:var(--ink);width:100%}
@@ -466,9 +471,12 @@ a.pill-cta,a.pill-cta:link,a.pill-cta:visited,a.pill-cta:hover{text-decoration:n
 .tier .btn{width:100%;margin-top:12px}
 @media(max-width:799px){
   .store-app{height:auto}
-  .store-toggle{display:none}
-  .store-map-wrap{display:flex !important;flex:none;order:-1;height:50vh;min-height:220px}
+  .store-toggle{display:grid}
+  .store-map-wrap{display:none !important;flex:none;order:-1;height:70vh;min-height:280px}
+  .store-app.is-map .store-map-wrap{display:flex !important}
+  .store-app.is-map .store-panel{display:none !important}
   .store-panel{display:flex !important;flex:none}
+  #storeList{min-height:560px}
   .store-scroll{overflow:visible}
   .math-band{padding:40px 16px 36px}
   .math-band h1{font-size:clamp(32px, 8vw, 40px)}
@@ -651,3 +659,12 @@ body.multi-loc .big-map{display:block}
   .math-row{flex-wrap:wrap}
   .math-row b{white-space:normal}
 }
+.hero-photo img{border-radius:18px}
+.franchise-band{padding:28px 0}
+.franchise-grid{display:grid;gap:12px}
+.loc-tile{display:block;background:#fff;border:1px solid rgba(93,26,58,.16);border-radius:16px;padding:16px;text-decoration:none}
+.loc-tile h3{margin:4px 0}
+.price-list{margin:16px 0 20px;background:#fff;border:1px solid rgba(93,26,58,.16);border-radius:16px;padding:8px 16px}
+.price-list p{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(93,26,58,.1);font-size:18px}
+.price-list p:last-child{border-bottom:0}
+@media(min-width:800px){.franchise-grid{grid-template-columns:1fr 1fr}}
