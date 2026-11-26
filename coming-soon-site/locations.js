@@ -1,4 +1,4 @@
-/** Add a location here. The page is /<slug> on this site. */
+/** Add a location here. The page is /<slug> on the ohlala-coming-soon Pages project. */
 export const locations = [
   {
     slug: "ashley-phosphate",
