@@ -38,6 +38,7 @@
     }[ch]));
   }
   function miles(a, b) {
+    if (!a || !b || typeof b.lat !== "number") return 99999;
     const R = 3958.8;
     const dLat = (b.lat - a.lat) * Math.PI / 180;
     const dLng = (b.lng - a.lng) * Math.PI / 180;
@@ -65,18 +66,22 @@
     const pills = (tags[loc.id] || []).map((label) => '<span class="store-tag">' + esc(label) + "</span>").join("");
     const away = origin ? '<p class="store-away">' + Math.max(1, Math.round(miles(origin, loc))) + " mi away</p>" : "";
     const on = loc.id === selected ? " is-on" : "";
+    const soon = loc.comingSoon;
+    const href = esc(loc.page);
+    const external = soon ? ' target="_blank" rel="noopener"' : "";
     return '<article class="store-card' + on + '" data-id="' + esc(loc.id) + '">' +
       '<div class="store-main">' +
       '<img class="store-logo" src="/images/logo.png" alt="" width="72" height="72">' +
-      "<div><h2><a href=\"" + esc(loc.page) + "\">" + esc(loc.name) + "</a></h2>" +
-      '<p class="store-place">' + esc(place) + "</p>" +
+      "<div><h2><a href=\"" + href + "\"" + external + ">" + esc(loc.name) + "</a></h2>" +
+      '<p class="store-place">' + esc(soon ? "COMING SOON · " + place : place) + "</p>" +
       '<p class="store-line">' + phoneIcon() + "<span>" + esc(loc.phone) + "</span></p>" +
       '<p class="store-line">' + pinIcon() + "<span>" + esc(loc.address) + "</span></p>" +
+      (soon ? '<p class="store-tags"><span class="store-tag">No lease signed yet</span></p>' : "") +
       (pills ? '<p class="store-tags">' + pills + "</p>" : "") +
       away + "</div></div>" +
       '<div class="store-actions">' +
-      '<a class="btn btn-primary" href="' + esc(loc.page) + '">View pros</a>' +
-      '<a class="btn btn-outline" href="' + esc(loc.directionsUrl) + '" target="_blank" rel="noopener">Directions</a>' +
+      '<a class="btn btn-primary" href="' + href + '"' + external + ">" + (soon ? "Join the list" : "View pros") + "</a>" +
+      (loc.directionsUrl ? '<a class="btn btn-outline" href="' + esc(loc.directionsUrl) + '" target="_blank" rel="noopener">' + (soon ? "See the map" : "Directions") + "</a>" : "") +
       "</div></article>";
   }
   function visible() {
@@ -143,7 +148,7 @@
         });
       },
     });
-    locations.forEach((loc) => {
+    locations.filter((loc) => typeof loc.lat === "number" && typeof loc.lng === "number").forEach((loc) => {
       const marker = L.marker([loc.lat, loc.lng], { icon });
       marker.bindPopup(popupHtml(loc), { minWidth: 220, maxWidth: 260, autoPanPadding: [24, 24] });
       marker.on("click", () => select(loc.id, { pan: false, popup: true }));
@@ -169,8 +174,9 @@
     if (!map) return;
     holdMoves(800);
     map.invalidateSize();
-    if (locations.length === 1) map.setView([locations[0].lat, locations[0].lng], 12);
-    else if (locations.length) map.fitBounds(L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng])), { padding: [48, 48] });
+    const pins = locations.filter((loc) => typeof loc.lat === "number");
+    if (pins.length === 1) map.setView([pins[0].lat, pins[0].lng], 12);
+    else if (pins.length) map.fitBounds(L.latLngBounds(pins.map((loc) => [loc.lat, loc.lng])), { padding: [48, 48] });
   }
   function showMap(on) {
     app.classList.toggle("is-map", on);

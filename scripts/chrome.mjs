@@ -2,7 +2,7 @@
  * The only header and footer for the site.
  * scripts/apply-chrome.mjs stamps every page. scripts/render-pros.mjs uses the same functions.
  */
-export const ASSET = "20261126b";
+export const ASSET = "20261126d";
 export const cssHref = `/styles.css?v=${ASSET}`;
 export const fontHref = "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -76,7 +76,7 @@ export function footer(options = {}) {
   </div>
   <div class="wrap legal">©2026 Oh La La Salon &amp; Studios. Each professional operating at an Oh La La location is an independently owned and operated business.</div>
 </footer>
-${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/locations/">Book</a><a class="btn btn-primary" href="/#tour">Find a suite</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>` : ""}
+${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/lease">Tour a suite</a><a class="btn btn-primary" href="https://ohlala-coming-soon.pages.dev/ashley-phosphate">Join the list</a><a class="btn btn-outline" href="tel:+18434209965">Call</a></div>` : ""}
 <script>
 (function(){
   var nav=document.querySelector("nav");
@@ -109,5 +109,6 @@ ${sticky ? `<div class="msticky"><a class="btn btn-outline" href="/locations/">B
   }
 })();
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"42becc176b91429d9ffe048a10d73cd3"}'></script>
 <!-- /site-footer -->`;
 }
