@@ -133,6 +133,7 @@ section{padding:32px 0}
 .quote span{display:block;font-size:16px;color:var(--burgundy)}
 
 .form-grid{display:grid;gap:14px}
+.form-grid[hidden]{display:none !important}
 .fg{display:flex;flex-direction:column;gap:6px}
 .fg label{font-size:16px;font-weight:700;color:var(--burgundy)}
 .fg input,.fg select,.fg textarea{min-height:48px;padding:12px 14px;border:1px solid rgba(93,26,58,.28);border-radius:12px;font:16px var(--sans);background:var(--cream);color:var(--ink);width:100%}
