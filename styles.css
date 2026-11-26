@@ -651,3 +651,26 @@ body.multi-loc .big-map{display:block}
   .math-row{flex-wrap:wrap}
   .math-row b{white-space:normal}
 }
+.soon-hero{background:var(--deep);color:#fff;padding:36px 0 42px}
+.soon-hero-in{max-width:720px}
+.soon-kicker{color:#E8B4A8;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:14px;margin-bottom:10px}
+.soon-hero h1{color:#fff;font-size:clamp(36px,8vw,58px);max-width:14ch;margin-bottom:12px}
+.soon-lead{font-size:18px;max-width:36ch}
+.soon-flag{display:inline-block;margin-top:16px;background:#E8B4A8;color:#3D0F26;font-weight:700;border-radius:999px;padding:8px 14px}
+.soon-address{margin-top:10px;font-size:18px}
+.soon-need{margin-top:22px;font-size:18px}
+.soon-count{font-family:var(--serif);font-size:clamp(42px,11vw,68px);line-height:1;margin:8px 0}
+.soon-count span{color:#E8B4A8}
+.soon-bar{height:14px;max-width:440px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.soon-bar i{display:block;height:100%;width:0;background:#E8B4A8}
+.soon-left{margin-top:8px}
+.soon-perks{list-style:none;display:grid;gap:8px;margin:18px 0}
+.soon-perks li{background:rgba(255,255,255,.08);border:1px solid rgba(232,180,168,.5);border-radius:14px;padding:12px 14px}
+.soon-rent{font-size:20px;font-weight:700;margin-top:8px}
+.soon-sizes{margin:8px 0 18px 18px;font-size:16px}
+.soon-call{display:inline-flex;align-items:center;min-height:48px;margin-left:8px;color:#E8B4A8;font-weight:700;text-decoration:none}
+.soon-hero .btn-gold{background:#E8B4A8;color:#3D0F26;border-color:#E8B4A8}
+.soon-form{padding:28px 0 56px}
+.soon-card{max-width:720px;background:#fff;border:1px solid rgba(93,26,58,.16);border-radius:20px;padding:20px}
+.soon-card h2{margin-bottom:8px}
+.soon-card>p{margin-bottom:14px}
