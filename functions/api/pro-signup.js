@@ -17,7 +17,7 @@
  *   Bio                      rich_text
  *   Hours                    rich_text
  *   Booking URL              url
- *   Vagaro link              url (optional; skipped if the database has no such property)
+ *   Vagaro link              url (optional; the join form no longer asks. Still saved when an older request includes it. Skipped if the database has no such property)
  *   Portfolio photos         rich_text (optional; skipped if the database has no such property)
  *   Instagram                url (a handle like @name is saved as an Instagram URL)
  *   TikTok                   url

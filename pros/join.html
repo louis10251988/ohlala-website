@@ -6,7 +6,7 @@
 <title>Join the directory | Oh La La Salon &amp; Studios</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Oh La La tenants can submit a directory profile. It stays pending until we review it.">
-<link rel="stylesheet" href="/styles.css?v=20261125h">
+<link rel="stylesheet" href="/styles.css?v=20261126a">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -57,45 +57,16 @@
         <div class="fg"><label for="suite">Suite #</label><input id="suite" name="suite" inputmode="text"></div>
         <div class="fg"><label for="ph">Phone</label><input id="ph" name="ph" type="tel" autocomplete="tel"></div>
         <div class="fg"><label for="em">Email</label><input id="em" name="em" type="email" autocomplete="email"></div>
-        <fieldset class="checks">
-          <legend>Type of business</legend>
-          <label><input type="checkbox" name="categories" value="Hair stylist"> Hair stylist</label>
-          <label><input type="checkbox" name="categories" value="Hair extensions"> Hair extensions</label>
-          <label><input type="checkbox" name="categories" value="Hair replacement / scalp care"> Hair replacement / scalp care</label>
-          <label><input type="checkbox" name="categories" value="Textured / natural hair"> Textured / natural hair</label>
-          <label><input type="checkbox" name="categories" value="Braids"> Braids</label>
-          <label><input type="checkbox" name="categories" value="Locs"> Locs</label>
-          <label><input type="checkbox" name="categories" value="Barber"> Barber</label>
-          <label><input type="checkbox" name="categories" value="Nails"> Nails</label>
-          <label><input type="checkbox" name="categories" value="Lashes"> Lashes</label>
-          <label><input type="checkbox" name="categories" value="Brows"> Brows</label>
-          <label><input type="checkbox" name="categories" value="Threading"> Threading</label>
-          <label><input type="checkbox" name="categories" value="Waxing"> Waxing</label>
-          <label><input type="checkbox" name="categories" value="Sugaring"> Sugaring</label>
-          <label><input type="checkbox" name="categories" value="Laser hair removal / electrolysis"> Laser hair removal / electrolysis</label>
-          <label><input type="checkbox" name="categories" value="Skin care"> Skin care</label>
-          <label><input type="checkbox" name="categories" value="Spa"> Spa</label>
-          <label><input type="checkbox" name="categories" value="Med spa / aesthetics"> Med spa / aesthetics</label>
-          <label><input type="checkbox" name="categories" value="Body contouring"> Body contouring</label>
-          <label><input type="checkbox" name="categories" value="Beauty enhancements"> Beauty enhancements</label>
-          <label><input type="checkbox" name="categories" value="Weight loss / medical"> Weight loss / medical</label>
-          <label><input type="checkbox" name="categories" value="Makeup"> Makeup</label>
-          <label><input type="checkbox" name="categories" value="Permanent makeup / microblading"> Permanent makeup / microblading</label>
-          <label><input type="checkbox" name="categories" value="Tattoo"> Tattoo</label>
-          <label><input type="checkbox" name="categories" value="Tattoo removal"> Tattoo removal</label>
-          <label><input type="checkbox" name="categories" value="Piercing &amp; jewelry"> Piercing &amp; jewelry</label>
-          <label><input type="checkbox" name="categories" value="Massage"> Massage</label>
-          <label><input type="checkbox" name="categories" value="Wellness &amp; holistic"> Wellness &amp; holistic</label>
-          <label><input type="checkbox" name="categories" value="Physical therapy / chiropractic"> Physical therapy / chiropractic</label>
-          <label><input type="checkbox" name="categories" value="Fitness"> Fitness</label>
-          <label><input type="checkbox" name="categories" value="Tanning"> Tanning</label>
-          <label><input type="checkbox" name="categories" value="Teeth whitening"> Teeth whitening</label>
-          <label><input type="checkbox" name="categories" value="Ultrasound"> Ultrasound</label>
-          <label><input type="checkbox" name="categories" value="Photo studio"> Photo studio</label>
-          <label><input type="checkbox" name="categories" value="Pet grooming"> Pet grooming</label>
-          <label><input type="checkbox" name="categories" value="Retail &amp; lifestyle"> Retail &amp; lifestyle</label>
-          <label><input type="checkbox" name="categories" value="Other"> Other</label>
-        </fieldset>
+        <div class="fg type-field">
+          <label id="typeLabel" for="typeSearch">Type of business</label>
+          <div class="type-control" id="typeControl">
+            <div class="type-tags" id="typeTags"></div>
+            <input id="typeSearch" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="typeMenu" aria-labelledby="typeLabel" aria-describedby="typeHint" placeholder="Search services" autocomplete="off" enterkeyhint="done">
+            <button class="type-toggle" id="typeToggle" type="button" aria-label="Show types of business" aria-expanded="false" aria-controls="typeMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          </div>
+          <ul class="type-menu" id="typeMenu" role="listbox" aria-multiselectable="true" hidden></ul>
+          <p class="join-note" id="typeHint">You can choose more than one.</p>
+        </div>
         <div class="fg"><label for="services">Services (optional)</label><textarea id="services" name="services" placeholder="One per line: Name · duration · price&#10;Balayage · 2.5 hr · from $180"></textarea></div>
         <div class="fg"><label for="bio">Bio <span id="bioCount">0 / 600</span></label><textarea id="bio" name="bio" maxlength="600"></textarea></div>
         <fieldset class="hours-grid">
@@ -108,8 +79,7 @@
           <label class="fg">Saturday<input name="Saturday" placeholder="9:00 AM – 5:00 PM or Closed"></label>
           <label class="fg">Sunday<input name="Sunday" placeholder="Closed"></label>
         </fieldset>
-        <div class="fg"><label for="vagaro">Vagaro link (optional)</label><input id="vagaro" name="vagaro" type="url" placeholder="https://www.vagaro.com/yourname"></div>
-        <div class="fg"><label for="booking">Other booking link (optional)</label><input id="booking" name="booking" type="url" placeholder="https://"></div>
+        <div class="fg"><label for="booking">Booking link (optional)</label><input id="booking" name="booking" type="url" placeholder="https://"></div>
         <div class="fg"><label for="instagram">Instagram</label><input id="instagram" name="instagram" placeholder="https:// or @handle"></div>
         <div class="fg"><label for="tiktok">TikTok</label><input id="tiktok" name="tiktok"></div>
         <div class="fg"><label for="facebook">Facebook</label><input id="facebook" name="facebook"></div>
@@ -164,6 +134,81 @@ if(LOCATIONS[asked]){
   locationNote.hidden=false;
   locationNote.textContent='That location is not open on the website yet. Call (843) 420-9965.';
 }
+const TYPES=['Hair stylist','Hair extensions','Hair replacement / scalp care','Textured / natural hair','Braids','Locs','Barber','Nails','Lashes','Brows','Threading','Waxing','Sugaring','Laser hair removal / electrolysis','Skin care','Spa','Med spa / aesthetics','Body contouring','Beauty enhancements','Weight loss / medical','Makeup','Permanent makeup / microblading','Tattoo','Tattoo removal','Piercing & jewelry','Massage','Wellness & holistic','Physical therapy / chiropractic','Fitness','Tanning','Teeth whitening','Ultrasound','Photo studio','Pet grooming','Retail & lifestyle','Other'];
+const chosen=[];
+const typeSearch=document.getElementById('typeSearch');
+const typeMenu=document.getElementById('typeMenu');
+const typeTags=document.getElementById('typeTags');
+const typeToggle=document.getElementById('typeToggle');
+const typeField=document.querySelector('.type-field');
+let typeOpen=false;
+let typeActive=0;
+function escType(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function typeMatches(){
+  const q=typeSearch.value.trim().toLowerCase();
+  return TYPES.filter(name=>!q||name.toLowerCase().includes(q));
+}
+function paintTags(){
+  typeTags.innerHTML=chosen.map(name=>'<span class="type-tag"><span>'+escType(name)+'</span><button type="button" data-remove="'+escType(name)+'" aria-label="Remove '+escType(name)+'">×</button></span>').join('');
+  typeSearch.placeholder=chosen.length?'Add another':'Search services';
+}
+function paintMenu(){
+  const rows=typeMatches();
+  if(typeActive>=rows.length) typeActive=0;
+  if(!rows.length){
+    typeMenu.innerHTML='<li class="type-empty">No matching service</li>';
+    typeSearch.removeAttribute('aria-activedescendant');
+    return;
+  }
+  typeMenu.innerHTML=rows.map((name,i)=>{
+    const on=chosen.includes(name);
+    return '<li id="typeOpt'+i+'" role="option" class="type-option'+(i===typeActive?' is-active':'')+'" aria-selected="'+(on?'true':'false')+'" data-name="'+escType(name)+'"><span>'+escType(name)+'</span>'+(on?'<span class="type-check" aria-hidden="true">✓</span>':'')+'</li>';
+  }).join('');
+  typeSearch.setAttribute('aria-activedescendant','typeOpt'+typeActive);
+  typeMenu.querySelector('.is-active')?.scrollIntoView({block:'nearest'});
+}
+function setTypeOpen(next){
+  typeOpen=next;
+  typeMenu.hidden=!next;
+  typeSearch.setAttribute('aria-expanded',next?'true':'false');
+  typeToggle.setAttribute('aria-expanded',next?'true':'false');
+  if(next){
+    paintMenu();
+    if(window.matchMedia('(max-width: 799px)').matches) typeField.scrollIntoView({block:'start'});
+  }
+}
+function toggleType(name){
+  const at=chosen.indexOf(name);
+  if(at>=0) chosen.splice(at,1);
+  else chosen.push(name);
+  paintTags();
+  if(typeOpen) paintMenu();
+}
+typeSearch.addEventListener('focus',()=>setTypeOpen(true));
+typeSearch.addEventListener('input',()=>{typeActive=0;setTypeOpen(true);});
+typeSearch.addEventListener('keydown',event=>{
+  const rows=typeMatches();
+  if(event.key==='ArrowDown'){event.preventDefault();if(!typeOpen){typeActive=0;setTypeOpen(true);return;}if(!rows.length)return;typeActive=Math.min(rows.length-1,typeActive+1);paintMenu();return;}
+  if(event.key==='ArrowUp'){event.preventDefault();typeActive=Math.max(0,typeActive-1);if(typeOpen)paintMenu();return;}
+  if(event.key==='Enter'&&typeOpen){event.preventDefault();if(rows[typeActive])toggleType(rows[typeActive]);return;}
+  if(event.key==='Escape'){setTypeOpen(false);return;}
+  if(event.key==='Backspace'&&!typeSearch.value&&chosen.length){chosen.pop();paintTags();if(typeOpen)paintMenu();}
+});
+typeToggle.addEventListener('mousedown',event=>event.preventDefault());
+typeToggle.addEventListener('click',()=>{const next=!typeOpen;typeSearch.focus();setTypeOpen(next);});
+typeMenu.addEventListener('mousedown',event=>event.preventDefault());
+typeMenu.addEventListener('click',event=>{
+  const option=event.target.closest('[data-name]');
+  if(!option) return;
+  toggleType(option.dataset.name);
+  typeSearch.focus();
+});
+typeTags.addEventListener('click',event=>{
+  const btn=event.target.closest('[data-remove]');
+  if(!btn) return;
+  toggleType(btn.dataset.remove);
+});
+document.addEventListener('click',event=>{if(!typeField.contains(event.target)) setTypeOpen(false);});
 const bio=document.getElementById('bio');
 const bioCount=document.getElementById('bioCount');
 bio.addEventListener('input',()=>{bioCount.textContent=bio.value.length+' / 600';});
@@ -187,7 +232,7 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
     suite:f.suite.value.trim(),
     ph:f.ph.value.trim(),
     em:f.em.value.trim(),
-    categories:vals('categories'),
+    categories:chosen.slice(),
     services:f.services.value.split('\n').map(line=>{
       const parts=line.split('·').map(s=>s.trim());
       if(!parts[0]) return null;
@@ -196,7 +241,6 @@ document.getElementById('joinForm').addEventListener('submit',async e=>{
     bio:f.bio.value.trim(),
     hours,
     booking:f.booking.value.trim(),
-    vagaro:f.vagaro.value.trim(),
     instagram:f.instagram.value.trim(),
     tiktok:f.tiktok.value.trim(),
     facebook:f.facebook.value.trim(),
