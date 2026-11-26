@@ -230,9 +230,9 @@ export async function onRequestGet(context) {
   if (!place) return json({ ok: false, error: "That studio is not on the list." }, 404);
   const token = context.env.NOTION_LEADS_TOKEN;
   const databaseId = context.env.NOTION_LEADS_DB_ID;
-  if (!token || !databaseId) return json({ ok: false, error: "The list is not available." }, 502);
+  if (!token || !databaseId) return json({ ok: false, error: "Notion settings are missing on this deployment." }, 502);
   const tally = await countSignups(token, databaseId, place);
-  if (!tally) return json({ ok: false, error: "The list is not available." }, 502);
+  if (!tally) return json({ ok: false, error: "Notion did not answer." }, 502);
   return json({ ok: true, slug: place.slug, ...tally });
 }
 
@@ -281,7 +281,7 @@ export async function onRequestPost(context) {
 
   const token = env.NOTION_LEADS_TOKEN;
   const databaseId = env.NOTION_LEADS_DB_ID;
-  if (!token || !databaseId) return json({ ok: false, error: "Could not save your request." }, 500);
+  if (!token || !databaseId) return json({ ok: false, error: "Notion settings are missing on this deployment." }, 500);
 
   let existing = null;
   try {
