@@ -17,7 +17,7 @@
  *   Bio                      rich_text
  *   Hours                    rich_text
  *   Booking URL              url
- *   Vagaro link              url (optional; skipped if the database has no such property)
+ *   Vagaro link              url (optional; the join form no longer asks. Still saved when an older request includes it. Skipped if the database has no such property)
  *   Portfolio photos         rich_text (optional; skipped if the database has no such property)
  *   Instagram                url (a handle like @name is saved as an Instagram URL)
  *   TikTok                   url
@@ -26,7 +26,7 @@
  *   Languages                multi_select
  *   Payments                 multi_select
  *   Accepting New Clients    checkbox
- *   Photo URL                url
+ *   Photo URL                url (a pasted link, or the stable /headshots address after a file upload)
  *   Consent                  checkbox
  *   Status                   select (Pending)
  *   Location                 select (Summerville, from ?location=)
@@ -35,6 +35,7 @@
 
 import { studioFromInput } from "./locations.js";
 import { canonicalCategories } from "./business-types.js";
+import { HEADSHOT_MAX, inspectHeadshot, storeHeadshot } from "./headshot.js";
 
 const NOTION_VERSION = "2022-06-28";
 
@@ -119,8 +120,31 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   let body;
+  let headshot = null;
   try {
-    body = await request.json();
+    const contentType = request.headers.get("content-type") || "";
+    if (contentType.includes("multipart/form-data")) {
+      const form = await request.formData();
+      body = {};
+      for (const [key, value] of form.entries()) {
+        if (typeof value !== "string") continue;
+        if (body[key] === undefined) body[key] = value;
+        else if (Array.isArray(body[key])) body[key].push(value);
+        else body[key] = [body[key], value];
+      }
+      const file = form.get("photo");
+      if (file && typeof file.arrayBuffer === "function" && file.size) {
+        if (file.size > HEADSHOT_MAX) {
+          return json({ ok: false, error: "Please use a photo under 5 MB." }, 400);
+        }
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const kind = inspectHeadshot(bytes);
+        if (!kind) return json({ ok: false, error: "Please use a JPG, PNG, WEBP, or HEIC photo." }, 400);
+        headshot = { bytes, kind };
+      }
+    } else {
+      body = await request.json();
+    }
   } catch {
     return json({ ok: false, error: "Please check the form and try again." }, 400);
   }
@@ -195,7 +219,7 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Please choose a payment option from the list." }, 400);
   }
 
-  for (const [label, value] of [["Booking link", booking], ["Vagaro link", vagaro], ["Photo URL", photo]]) {
+  for (const [label, value] of [["Booking link", booking], ["Vagaro link", vagaro], ["Photo URL", headshot ? "" : photo]]) {
     if (value && !validUrl(value)) {
       return json({ ok: false, error: `That ${label} needs to start with http:// or https://.` }, 400);
     }
@@ -241,7 +265,7 @@ export async function onRequestPost(context) {
   if (websiteUrl) properties.Website = { url: websiteUrl };
   if (languages.length) properties.Languages = { multi_select: languages.map((name) => ({ name })) };
   if (payments.length) properties.Payments = { multi_select: payments.map((name) => ({ name })) };
-  if (photo) properties["Photo URL"] = { url: photo };
+  if (!headshot && photo) properties["Photo URL"] = { url: photo };
 
   async function ensureLocation() {
     const res = await fetch("https://api.notion.com/v1/databases/" + databaseId, {
@@ -305,6 +329,14 @@ export async function onRequestPost(context) {
     const detail = await notionRes.text();
     console.error("Notion pro signup failed", notionRes.status, detail.slice(0, 500));
     return json({ ok: false, error: "Could not save your request." }, 502);
+  }
+
+  if (headshot) {
+    const saved = await notionRes.json();
+    const stored = saved && saved.id && await storeHeadshot(token, saved.id, headshot.bytes, headshot.kind);
+    if (!stored) {
+      return json({ ok: false, error: "Your details were saved, but the photo did not upload. Please call us and we’ll add it." }, 502);
+    }
   }
 
   return json({ ok: true });
