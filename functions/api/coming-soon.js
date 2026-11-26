@@ -83,31 +83,36 @@ async function notion(token, path, body) {
   });
 }
 
-export async function countSignups(token, databaseId, place) {
-  const filter = {
-    or: [
-      { property: "Source", select: { equals: place.source } },
-      { property: "Notes", rich_text: { contains: place.noteTag } },
-    ],
-  };
-  let raw = 0;
+async function queryLeads(token, databaseId, filter) {
+  const pages = [];
   let cursor = "";
   do {
     const body = { filter, page_size: 100 };
     if (cursor) body.start_cursor = cursor;
     const res = await notion(token, "/databases/" + databaseId + "/query", body);
     if (!res.ok) {
-      console.error("Coming soon count failed", res.status);
+      const detail = await res.text();
+      console.error("Coming soon count failed", res.status, detail.slice(0, 180));
       return null;
     }
     const data = await res.json();
-    for (const page of data.results || []) {
-      const title = ((page.properties || {}).Name || {}).title || [];
-      const name = title.map((part) => part.plain_text || "").join("");
-      if (countableName(name)) raw += 1;
-    }
+    pages.push(...(data.results || []));
     cursor = data.has_more ? data.next_cursor : "";
   } while (cursor);
+  return pages;
+}
+
+export async function countSignups(token, databaseId, place) {
+  const notes = { property: "Notes", rich_text: { contains: place.noteTag } };
+  const both = { or: [{ property: "Source", select: { equals: place.source } }, notes] };
+  const pages = await queryLeads(token, databaseId, both) || await queryLeads(token, databaseId, notes);
+  if (!pages) return null;
+  let raw = 0;
+  for (const page of pages) {
+    const title = ((page.properties || {}).Name || {}).title || [];
+    const name = title.map((part) => part.plain_text || "").join("");
+    if (countableName(name)) raw += 1;
+  }
   return capCount(raw, place.goal);
 }
 
