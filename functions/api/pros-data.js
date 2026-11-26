@@ -4,21 +4,11 @@
  * are never returned.
  */
 import { studioFromInput } from "./locations.js";
+import { CATEGORIES, labelCategories } from "./business-types.js";
 
 const NOTION_VERSION = "2022-06-28";
 
-export const CATEGORIES = {
-  hair: "Hair",
-  barber: "Barber",
-  nails: "Nails",
-  "lashes-brows": "Lashes & Brows",
-  skin: "Skin",
-  tattoo: "Tattoo & PMU",
-  massage: "Massage",
-  wellness: "Wellness",
-  fitness: "Fitness",
-  other: "Other",
-};
+export { CATEGORIES };
 
 export function textOf(prop) {
   if (!prop) return "";
@@ -116,7 +106,7 @@ function mapPage(page, used) {
     email: textOf(props.Email).trim(),
     photo: safeUrl(textOf(props["Photo URL"])),
     photos,
-    categories: textOf(props.Categories) || [],
+    categories: labelCategories(textOf(props.Categories) || []),
     services: parseServices(textOf(props.Services)),
     bio: textOf(props.Bio).trim(),
     hours: parseLines(textOf(props.Hours)),
@@ -263,7 +253,7 @@ export function previewSamples() {
     suite: "Suite 4",
     photo: "/images/real/suite-1-desk.webp",
     photos: ["/images/real/suite-1.webp", "/images/real/studio-photoshoot-1.webp"],
-    categories: ["hair"],
+    categories: ["Hair stylist"],
     services: [
       { name: "Lived-in color", duration: "2.5 hr", price: "from $180" },
       { name: "Haircut", duration: "45 min", price: "from $55" },
@@ -288,7 +278,7 @@ export function previewSamples() {
     suite: "Suite 8",
     photo: "/images/real/tenant-station-1.webp",
     photos: ["/images/real/suite-1-desk.webp"],
-    categories: ["hair"],
+    categories: ["Hair stylist"],
     services: [{ name: "Blowout", duration: "45 min", price: "from $45" }],
     bio: "Avery styles hair in a private suite down the hall, with time set aside for each client.",
     hours: ["Monday: 11:00 AM – 7:00 PM", "Tuesday: 11:00 AM – 7:00 PM", "Sunday: Closed"],

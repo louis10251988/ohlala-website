@@ -8,7 +8,7 @@
     "suite": "Suite 101",
     "locationId": "summerville-ladson",
     "categories": [
-      "hair"
+      "Hair stylist"
     ],
     "services": [
       {
@@ -75,7 +75,7 @@
     "suite": "Suite 108",
     "locationId": "summerville-ladson",
     "categories": [
-      "barber"
+      "Barber"
     ],
     "services": [
       {
@@ -139,7 +139,7 @@
     "suite": "Suite 112",
     "locationId": "summerville-ladson",
     "categories": [
-      "tattoo"
+      "Tattoo"
     ],
     "services": [
       {
@@ -202,7 +202,7 @@
     "suite": "Suite 116",
     "locationId": "summerville-ladson",
     "categories": [
-      "wellness"
+      "Wellness & holistic"
     ],
     "services": [
       {
@@ -266,8 +266,8 @@
     "suite": "Suite 104",
     "locationId": "summerville-ladson",
     "categories": [
-      "lashes-brows",
-      "skin"
+      "Lashes",
+      "Skin care"
     ],
     "services": [
       {
@@ -335,7 +335,7 @@
     "suite": "Suite 120",
     "locationId": "summerville-ladson",
     "categories": [
-      "massage"
+      "Massage"
     ],
     "services": [
       {

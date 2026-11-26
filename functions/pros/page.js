@@ -1,5 +1,6 @@
 import { header, footer, cssHref, fontHref } from "../../scripts/chrome.mjs";
 import { CATEGORIES } from "../api/pros-data.js";
+import { isHairCategory } from "../api/business-types.js";
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -159,7 +160,7 @@ export function renderProfile(pro, others) {
     ? `<section class="tenant-block"><h2>More ${catLabel ? esc(catLabel) + " " : ""}pros</h2><ul class="tenant-others">${others.map((item) => `<li><a href="${esc(item.profilePath)}">${esc(item.name)}${item.suite ? " (" + esc(item.suite) + ")" : ""}</a></li>`).join("")}</ul></section>`
     : "";
   const maps = directionsUrl(suite);
-  const placeType = (pro.categories || []).some((cat) => cat === "hair" || cat === "barber") ? "HairSalon" : "HealthAndBeautyBusiness";
+  const placeType = (pro.categories || []).some((cat) => isHairCategory(cat)) ? "HairSalon" : "HealthAndBeautyBusiness";
   const graph = {
     "@context": "https://schema.org",
     "@graph": [
